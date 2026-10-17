@@ -1,14 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import Mascot from '../components/Mascot.astro';
+import LiveNeuron from '../components/sims/LiveNeuron.astro';
 import { coreChapters } from '../data/chapters';
 import { funFacts } from '../data/funfacts';
 import { readySims } from '../data/sims';
 import { lessonLinks } from '../lib/lessons';
 import { url } from '../lib/url';
 
-const components = import.meta.glob<{ default: (props: Record<string, unknown>) => unknown }>('../components/sims/LiveNeuron.astro', { eager: true });
-const LiveNeuron = components['../components/sims/LiveNeuron.astro']?.default;
 
 const links = await lessonLinks();
 const firstReady = links.find((l) => l.ready);
@@ -30,15 +29,7 @@ const factsJson = JSON.stringify(funFacts.map((f) => ({ text: f.text, href: f.le
       </div>
     </div>
     <div class="hero-sim">
-      {
-        LiveNeuron ? (
-          <LiveNeuron />
-        ) : (
-          <div class="hero-fallback card">
-            <Mascot size={260} />
-          </div>
-        )
-      }
+      <LiveNeuron />
     </div>
   </section>
 
@@ -152,11 +143,6 @@ const factsJson = JSON.stringify(funFacts.map((f) => ({ text: f.text, href: f.le
     flex-wrap: wrap;
     gap: 0.75rem;
     margin-top: 1.5rem;
-  }
-  .hero-fallback {
-    display: grid;
-    place-items: center;
-    aspect-ratio: 16 / 10;
   }
 
   .fact-row {
