@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 4322;
+const PORT = Number(process.env.PORT ?? 4322);
 const BASE = process.env.SITE_BASE ?? '/biopsychology_companion';
 
 export default defineConfig({
