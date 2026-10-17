@@ -59,11 +59,19 @@ export const sims: SimInfo[] = [
   },
   {
     slug: 'synapse',
-    title: 'Synapse up close',
-    blurb: 'Vesicles, receptors and reuptake at a single synapse, with drugs you can drop in.',
+    title: 'Synapse in motion',
+    blurb: 'Follow one spike across a synapse, step by step, then add drugs and compare with the same synapse without them.',
     lessons: ['2.5', '2.7'],
     chapter: 'neuron',
-    status: 'coming',
+    status: 'ready',
+    params: ['preset', 'transmitter', 'drug', 'speed', 'predict'],
+    youCan: [
+      'Step through transmission one event at a time, from calcium entry to recycling.',
+      'Switch between excitatory (glutamate, acetylcholine) and inhibitory (GABA) synapses.',
+      'Compare a fast ionotropic receptor with a slow metabotropic one (serotonin).',
+      'Add an agonist, a receptor blocker, a reuptake or enzyme blocker, or change release.',
+      'See every drug against a dashed control trace of the same synapse without it.',
+    ],
   },
   {
     slug: 'perceptron',

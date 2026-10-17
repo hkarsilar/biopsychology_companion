@@ -152,11 +152,13 @@ export interface DrugEffect {
   fusion: number;
   /** Multiplies the amount of transmitter in each vesicle */
   quantum: number;
+  /** Transmitter leaking into the cleft all the time, without spikes (per ms) */
+  tonic: number;
   /** False when the drug has nothing to act on at this synapse */
   hasTarget: boolean;
 }
 
-const NO_DRUG: DrugEffect = { agonist: 0, antagonist: 0, uptake: 1, enzyme: 1, fusion: 1, quantum: 1, hasTarget: true };
+const NO_DRUG: DrugEffect = { agonist: 0, antagonist: 0, uptake: 1, enzyme: 1, fusion: 1, quantum: 1, tonic: 0, hasTarget: true };
 
 export function drugEffect(drug: DrugId, type: SynapseType): DrugEffect {
   switch (drug) {
@@ -174,13 +176,72 @@ export function drugEffect(drug: DrugId, type: SynapseType): DrugEffect {
       if (type.enzymeInTerminal) return { ...NO_DRUG, quantum: 1.5 };
       return { ...NO_DRUG, hasTarget: false };
     case 'release-block':
-      return { ...NO_DRUG, fusion: 0.04 };
+      // Toxins such as botulinum stop vesicles fusing. Reserpine, the serotonin example,
+      // instead stops vesicles filling, so they fuse but release almost nothing.
+      return type.id === 'serotonin' ? { ...NO_DRUG, quantum: 0.06 } : { ...NO_DRUG, fusion: 0.04 };
     case 'release-boost':
-      return { ...NO_DRUG, fusion: 2.6 };
+      // Black widow venom makes vesicles fuse far more readily. MDMA, the serotonin
+      // example, makes the transporters run backwards: serotonin leaks out all the time
+      // and is no longer taken back up.
+      return type.id === 'serotonin' ? { ...NO_DRUG, tonic: 0.03, uptake: 0.3 } : { ...NO_DRUG, fusion: 2.6 };
     default:
       return { ...NO_DRUG };
   }
 }
+
+export interface DrugInfo {
+  id: DrugId;
+  label: string;
+  /** Where it acts, for highlighting the drawing */
+  site: 'none' | 'receptors' | 'transporters' | 'enzyme' | 'vesicles';
+  does: string;
+}
+
+export const DRUGS: DrugInfo[] = [
+  { id: 'none', label: 'No drug', site: 'none', does: 'The synapse working normally.' },
+  { id: 'agonist', label: 'Agonist', site: 'receptors', does: 'Binds to the receptors and activates them, just as the transmitter does.' },
+  { id: 'antagonist', label: 'Receptor blocker (antagonist)', site: 'receptors', does: 'Sits on the receptors without activating them, so less transmitter can bind.' },
+  { id: 'reuptake', label: 'Reuptake blocker', site: 'transporters', does: 'Blocks the transporters that carry the transmitter back out of the cleft.' },
+  { id: 'enzyme', label: 'Enzyme blocker', site: 'enzyme', does: 'Stops the enzyme that breaks the transmitter down.' },
+  { id: 'release-block', label: 'Release blocker', site: 'vesicles', does: 'Stops the terminal releasing transmitter.' },
+  { id: 'release-boost', label: 'Release booster', site: 'vesicles', does: 'Makes the terminal release more transmitter.' },
+];
+
+/** A real example of each kind of drug at each synapse in the model. */
+export const EXAMPLES: Record<TransmitterId, Record<Exclude<DrugId, 'none'>, string>> = {
+  glutamate: {
+    agonist: 'Kainic acid, from a red seaweed',
+    antagonist: 'CNQX, a laboratory drug',
+    reuptake: 'TBOA, a laboratory drug',
+    enzyme: 'Nothing to block: glutamate is not broken down in the cleft',
+    'release-block': 'Botulinum toxin, which also blocks glutamate release',
+    'release-boost': 'Black widow spider venom',
+  },
+  gaba: {
+    agonist: 'Muscimol, from the fly agaric mushroom',
+    antagonist: 'Bicuculline, a plant toxin that causes seizures',
+    reuptake: 'Tiagabine, an epilepsy medicine',
+    enzyme: 'Vigabatrin, an epilepsy medicine: it blocks the enzyme that breaks GABA down inside cells',
+    'release-block': 'Tetanus toxin, which causes lockjaw',
+    'release-boost': 'Black widow spider venom',
+  },
+  ach: {
+    agonist: 'Nicotine',
+    antagonist: 'Curare, an arrow poison',
+    reuptake: 'Nothing to block: acetylcholine itself is not taken back up',
+    enzyme: 'Nerve agents such as sarin, or donepezil, an Alzheimer’s medicine',
+    'release-block': 'Botulinum toxin (Botox)',
+    'release-boost': 'Black widow spider venom',
+  },
+  serotonin: {
+    agonist: 'Buspirone, an anxiety medicine',
+    antagonist: 'WAY-100635, a laboratory drug',
+    reuptake: 'Fluoxetine (Prozac), an SSRI antidepressant',
+    enzyme: 'MAO inhibitors, an older kind of antidepressant: MAO breaks serotonin down inside the terminal',
+    'release-block': 'Reserpine, an old blood pressure medicine: vesicles still fuse, but it stops them filling',
+    'release-boost': 'MDMA (ecstasy): it makes the transporters run backwards, pushing serotonin out',
+  },
+};
 
 /** Fixed constants of the terminal and the postsynaptic membrane. */
 export const C = {
@@ -392,16 +453,22 @@ export class Synapse {
     return (
       this.spikes.some((ts) => s.t - ts < 6) ||
       s.ca > 0.02 ||
-      s.cleft > 0.02 ||
+      s.cleft - this.steadyCleft() > 0.02 ||
       Math.abs(s.v - this.baseline()) > 0.15 ||
       Math.abs(s.gProtein) > 0.01
     );
   }
 
-  /** Where the postsynaptic voltage sits with no spikes (rest, or shifted by an agonist). */
+  /** Cleft transmitter with no spikes: zero, unless a drug makes it leak out all the time. */
+  steadyCleft(): number {
+    const T = this.type;
+    const e = this.eff;
+    return e.tonic / (T.kUptake * e.uptake + T.kEnzyme * e.enzyme + T.kDiffuse);
+  }
+
+  /** Where the postsynaptic voltage sits with no spikes (rest, or shifted by a drug). */
   baseline(): number {
-    const o = occupancy(0, this.type.kd, this.eff);
-    const g = this.type.gMax * o;
+    const g = this.type.gMax * this.restOccupancy();
     return (C.vRestPost + g * this.type.eRev) / (1 + g);
   }
 
@@ -432,7 +499,8 @@ export class Synapse {
     if (f.has('channels') && Math.sign(slope) === -this.pspSign && Math.sign(this.lastDv) === this.pspSign) mark('psp-peak');
     this.lastDv = slope;
     const sinceSpike = s.t - this.armedAt;
-    if (f.has('fusion') && this.cleftPeak > 0 && s.cleft < this.cleftPeak * 0.1 && (f.has('channels') || sinceSpike > 8)) mark('cleared');
+    const c0 = this.steadyCleft();
+    if (f.has('fusion') && this.cleftPeak > c0 && s.cleft - c0 < (this.cleftPeak - c0) * 0.1 && (f.has('channels') || sinceSpike > 8)) mark('cleared');
     if (f.has('cleared') && s.docked > C.docked - 0.5) {
       mark('recycled');
       this.armedAt = null;
@@ -441,7 +509,7 @@ export class Synapse {
   }
 
   private restOccupancy(): number {
-    return occupancy(0, this.type.kd, this.eff);
+    return occupancy(this.steadyCleft(), this.type.kd, this.eff);
   }
 
   /** Forward Euler step of every variable. */
@@ -458,7 +526,7 @@ export class Synapse {
     const rel = releaseRate(s, e);
     const docked = s.docked + (-rel + (C.docked - s.docked) / C.refillTau) * dt;
     const kOut = T.kUptake * e.uptake + T.kEnzyme * e.enzyme + T.kDiffuse;
-    const cleft = s.cleft + (rel * T.quantum * e.quantum - kOut * s.cleft) * dt;
+    const cleft = s.cleft + (rel * T.quantum * e.quantum + e.tonic - kOut * s.cleft) * dt;
     const occ = occupancy(cleft, T.kd, e);
     let open = s.open;
     let gProtein = s.gProtein;

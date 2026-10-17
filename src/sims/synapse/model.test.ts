@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { C, STAGES, Synapse, SYNAPSES, drugEffect, occupancy, singleSpike, type SynEvent } from './model';
+import { C, DRUGS, EXAMPLES, STAGES, Synapse, SYNAPSES, drugEffect, occupancy, singleSpike, type SynEvent } from './model';
 
 describe('synapse model', () => {
   it('stays at rest without a spike', () => {
@@ -81,6 +81,27 @@ describe('synapse model', () => {
     const ctrl = singleSpike('ach');
     expect(singleSpike('ach', 'release-block').released).toBeLessThan(ctrl.released * 0.1);
     expect(singleSpike('ach', 'release-boost').released).toBeGreaterThan(ctrl.released * 1.5);
+  });
+
+  it('MDMA-like release keeps serotonin in the cleft without spikes; reserpine empties the vesicles', () => {
+    const mdma = new Synapse('serotonin', 'release-boost');
+    mdma.reset();
+    expect(mdma.steadyCleft()).toBeGreaterThan(0.3);
+    expect(mdma.baseline()).toBeLessThan(C.vRestPost - 2);
+    const ctrl = singleSpike('serotonin', 'none', 400);
+    const reserpine = singleSpike('serotonin', 'release-block', 400);
+    expect(reserpine.released).toBeCloseTo(ctrl.released, 1);
+    expect(Math.abs(reserpine.peakDv)).toBeLessThan(Math.abs(ctrl.peakDv) * 0.2);
+  });
+
+  it('every drug has a real example, or says plainly that it has nothing to act on', () => {
+    for (const t of Object.keys(EXAMPLES) as (keyof typeof EXAMPLES)[]) {
+      for (const d of DRUGS.filter((x) => x.id !== 'none')) {
+        const text = EXAMPLES[t][d.id as Exclude<typeof d.id, 'none'>];
+        expect(text.length).toBeGreaterThan(5);
+        expect(text.startsWith('Nothing to block')).toBe(!drugEffect(d.id, SYNAPSES[t]).hasTarget);
+      }
+    }
   });
 
   it('an agonist shifts the resting voltage and leaves less room for the PSP', () => {
