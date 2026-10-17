@@ -1,0 +1,301 @@
+---
+import Base from '../layouts/Base.astro';
+import Mascot from '../components/Mascot.astro';
+import { coreChapters } from '../data/chapters';
+import { funFacts } from '../data/funfacts';
+import { readySims } from '../data/sims';
+import { lessonLinks } from '../lib/lessons';
+import { url } from '../lib/url';
+
+const components = import.meta.glob<{ default: (props: Record<string, unknown>) => unknown }>('../components/sims/LiveNeuron.astro', { eager: true });
+const LiveNeuron = components['../components/sims/LiveNeuron.astro']?.default;
+
+const links = await lessonLinks();
+const firstReady = links.find((l) => l.ready);
+const ready = links.filter((l) => l.ready && !l.chapter.extension).length;
+const factsJson = JSON.stringify(funFacts.map((f) => ({ text: f.text, href: f.lesson ? links.find((l) => l.n === f.lesson && l.ready)?.href ?? null : null })));
+---
+
+<Base title="NeuroCapybara">
+  <section class="hero container">
+    <div class="hero-text">
+      <p class="eyebrow">Companion to UCG1SS05 Biopsychology</p>
+      <h1>Biopsychology you can <span class="poke">poke</span>.</h1>
+      <p class="lede">
+        Free lessons and simulations for the Biopsychology course at University College Groningen. Fire a neuron, fool your retina, and watch a network learn.
+      </p>
+      <div class="cta">
+        {firstReady && <a class="button" href={firstReady.href}>Start with lesson {firstReady.n}</a>}
+        <a class="button secondary" href={url('/lab/')}>Open the lab</a>
+      </div>
+    </div>
+    <div class="hero-sim">
+      {
+        LiveNeuron ? (
+          <LiveNeuron />
+        ) : (
+          <div class="hero-fallback card">
+            <Mascot size={260} />
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="container fact-row" aria-labelledby="fact-h">
+    <div class="fact card">
+      <Mascot size={150} class="fact-capy" title="" />
+      <div>
+        <h2 id="fact-h" class="fact-h">Neurocapy's fact of the day</h2>
+        <p class="fact-text" data-facts={factsJson}>{funFacts[0].text}</p>
+        <p class="fact-more"><a class="fact-link" href="#" hidden>Learn more</a> <button type="button" class="fact-next">Another fact</button></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container doors" aria-labelledby="doors-h">
+    <h2 id="doors-h" class="visually-hidden">Three ways in</h2>
+    <div class="grid cols-3">
+      <a class="door card" href={url('/chapters/')}>
+        <span class="door-k">Learn</span>
+        <span class="door-t">Chapters</span>
+        <span class="door-b">Short lessons that follow the fifteen classes. Each starts with a puzzle and ends with a quick check. {ready} ready so far.</span>
+      </a>
+      <a class="door card" href={url('/lab/')}>
+        <span class="door-k">Explore</span>
+        <span class="door-t">Lab</span>
+        <span class="door-b">{readySims.length} simulations on their own pages, ready for the projector or your own experiments.</span>
+      </a>
+      <a class="door card" href={url('/toolbox/')}>
+        <span class="door-k">Practise</span>
+        <span class="door-t">Toolbox</span>
+        <span class="door-b">A glossary with word roots now; flashcards and practice quizzes on the way.</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="container map" aria-labelledby="map-h">
+    <h2 id="map-h">The course in nine chapters</h2>
+    <ol class="chapters">
+      {
+        coreChapters.map((c) => {
+          const n = links.filter((l) => l.chapter.slug === c.slug && l.ready).length;
+          return (
+            <li>
+              <a href={url(`/chapters/${c.slug}/`)}>
+                <span class="cn">{c.n}</span>
+                <span class="ct">{c.title}</span>
+                <span class="cc">{c.classes}</span>
+                {n > 0 && <span class="chip ready">{n} ready</span>}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ol>
+    <p class="muted">Plus extension chapters on hearing, the predictive brain and time. <a href={url('/chapters/')}>See all chapters</a>.</p>
+  </section>
+</Base>
+
+<script>
+  const el = document.querySelector<HTMLElement>('.fact-text');
+  const link = document.querySelector<HTMLAnchorElement>('.fact-link');
+  const next = document.querySelector<HTMLButtonElement>('.fact-next');
+  if (el) {
+    const facts = JSON.parse(el.dataset.facts ?? '[]') as { text: string; href: string | null }[];
+    let i = Math.floor(Date.now() / 86_400_000) % facts.length;
+    const show = () => {
+      el.textContent = facts[i].text;
+      if (link) {
+        link.hidden = !facts[i].href;
+        if (facts[i].href) link.href = facts[i].href!;
+      }
+    };
+    show();
+    next?.addEventListener('click', () => {
+      i = (i + 1) % facts.length;
+      show();
+    });
+  }
+</script>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 2.5rem;
+    align-items: center;
+    padding-top: 3.5rem;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 5vw + 0.5rem, 4.2rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+  .poke {
+    color: var(--accent);
+    display: inline-block;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-motion='reduce']) .poke {
+      animation: twitch 5s ease-in-out 1.5s infinite;
+      transform-origin: 50% 80%;
+    }
+  }
+  @keyframes twitch {
+    0%, 92%, 100% { transform: none; }
+    94% { transform: translateY(-0.06em) scale(1.04); }
+    96% { transform: translateY(0.02em); }
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .hero-fallback {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 10;
+  }
+
+  .fact-row {
+    margin-top: 4rem;
+  }
+  .fact {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-left: 4px solid var(--ion-ca);
+  }
+  .fact :global(.fact-capy) {
+    flex: none;
+    color: var(--text);
+  }
+  .fact-h {
+    font-size: var(--step-1);
+    margin: 0 0 0.4rem;
+  }
+  .fact-text {
+    font-size: var(--step-1);
+    line-height: 1.45;
+    margin-bottom: 0.6rem;
+  }
+  .fact-more {
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .fact-next {
+    font: inherit;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 0.25rem 0.8rem;
+    cursor: pointer;
+  }
+  .fact-next:hover {
+    border-color: var(--accent);
+  }
+
+  .doors {
+    margin-top: 3rem;
+  }
+  .door {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .door:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    transform: translateY(-3px);
+  }
+  .door-k {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+  .door-t {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-3);
+    line-height: 1.1;
+  }
+  .door-b {
+    color: var(--text-muted);
+  }
+
+  .map {
+    margin-top: 1rem;
+  }
+  .chapters {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+    gap: 0 2rem;
+  }
+  .chapters li {
+    margin: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .chapters a {
+    display: grid;
+    grid-template-columns: 2rem 1fr auto;
+    grid-template-areas: 'n t chip' 'n c chip';
+    align-items: center;
+    column-gap: 0.6rem;
+    padding: 0.7rem 0.25rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .chapters a:hover .ct {
+    color: var(--accent);
+  }
+  .cn {
+    grid-area: n;
+    font-family: var(--font-mono);
+    font-size: var(--step-1);
+    color: var(--accent);
+  }
+  .ct {
+    grid-area: t;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-1);
+  }
+  .cc {
+    grid-area: c;
+    font-size: 0.85rem;
+    color: var(--text-faint);
+  }
+  .chapters .chip {
+    grid-area: chip;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding-top: 2rem;
+      gap: 1.5rem;
+    }
+  }
+  @media (max-width: 560px) {
+    .fact {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .fact :global(.fact-capy) {
+      width: 110px;
+    }
+  }
+</style>

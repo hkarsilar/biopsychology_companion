@@ -1,0 +1,14 @@
+---
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
+interface Props {
+  tex: string;
+  display?: boolean;
+  label?: string;
+}
+const { tex, display = false, label } = Astro.props;
+const html = katex.renderToString(tex, { displayMode: display, throwOnError: true, output: 'htmlAndMathml' });
+---
+
+{display ? <div class="math-block" aria-label={label} set:html={html} /> : <span set:html={html} />}

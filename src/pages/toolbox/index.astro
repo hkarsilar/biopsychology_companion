@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro';
+import { glossary } from '../../data/glossary';
+import { url } from '../../lib/url';
+
+const tools = [
+  { title: 'Glossary', blurb: `${glossary.length} terms so far, each with a plain definition and where the word comes from.`, href: url('/toolbox/glossary/'), ready: true },
+  { title: 'Flashcards', blurb: 'Spaced practice of key terms and structures, saved only in your browser.', ready: false },
+  { title: 'Practice quizzes', blurb: 'New questions for every chapter, with explanations, tagged by learning objective.', ready: false },
+  { title: 'Brain atlas', blurb: 'Look up any structure: where it is, what it does, which lessons mention it.', ready: false },
+  { title: 'Exam warm-ups', blurb: 'Mixed practice before the midterm and final, written fresh for this site.', ready: false },
+  { title: 'Study guide', blurb: 'How to study this course: retrieval practice, spacing, and using the simulations well.', ready: false },
+];
+---
+
+<Base title="Toolbox" description="Glossary, practice and study tools for Biopsychology.">
+  <div class="container page">
+    <p class="eyebrow">Practise</p>
+    <h1>Toolbox</h1>
+    <p class="lede">Tools for remembering what you learned. Nothing you do here is recorded or sent anywhere.</p>
+    <ul class="grid cols-3 tools">
+      {
+        tools.map((t) => (
+          <li class:list={['card', 'tool', { soon: !t.ready }]}>
+            <h2 class="tt">{t.ready && t.href ? <a class="stretch" href={t.href}>{t.title}</a> : t.title}</h2>
+            <p class="muted">{t.blurb}</p>
+            {t.ready ? <span class="chip ready">Ready</span> : <span class="chip">Coming</span>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .tools {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+  }
+  .tool {
+    position: relative;
+    margin: 0;
+  }
+  .tool.soon {
+    background: transparent;
+    border-style: dashed;
+    box-shadow: none;
+  }
+  .tt {
+    font-size: var(--step-2);
+    margin: 0 0 0.5rem;
+  }
+  .stretch {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .stretch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .tool:not(.soon):hover {
+    border-color: var(--accent);
+  }
+</style>

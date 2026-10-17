@@ -1,0 +1,81 @@
+---
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/atkinson-hyperlegible-next';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { url } from '../lib/url';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** 'embed' hides the site chrome (used by ?embed=1 pages set at build time) */
+  bare?: boolean;
+}
+
+const { title, description = 'Interactive companion to the UCG Biopsychology course: simulations, lessons and practice.', bare = false } = Astro.props;
+const fullTitle = title === 'NeuroCapybara' ? 'NeuroCapybara · Biopsychology you can poke' : `${title} · NeuroCapybara`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en-GB" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <meta name="theme-color" content="#0e1320" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <script is:inline>
+      // Apply saved display settings before the first paint, so the page never flashes.
+      (function () {
+        var root = document.documentElement;
+        try {
+          var s = JSON.parse(localStorage.getItem('nc-settings') || '{}');
+          if (s.theme) root.dataset.theme = s.theme;
+          if (s.text && s.text !== 'normal') root.dataset.text = s.text;
+          if (s.motion && s.motion !== 'system') root.dataset.motion = s.motion;
+          root.dataset.sound = s.sound ? 'on' : 'off';
+        } catch (e) {}
+        var q = new URLSearchParams(location.search);
+        if (q.get('embed') === '1') root.dataset.embed = 'true';
+        if (q.get('present') === '1') root.dataset.present = 'true';
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {!bare && <Header />}
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    {!bare && <Footer />}
+  </body>
+</html>
+
+<style is:global>
+  html[data-embed='true'] .site-header,
+  html[data-embed='true'] .site-footer,
+  html[data-embed='true'] .lab-intro,
+  html[data-embed='true'] .lab-extra,
+  html[data-present='true'] .site-footer,
+  html[data-present='true'] .lab-extra {
+    display: none !important;
+  }
+  html[data-embed='true'] body {
+    background: var(--bg);
+  }
+  html[data-present='true'] {
+    --text-scale: 1.25;
+  }
+  main:focus {
+    outline: none;
+  }
+</style>

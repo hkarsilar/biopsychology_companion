@@ -1,0 +1,91 @@
+---
+import Base from '../../layouts/Base.astro';
+import { readySims, comingSims } from '../../data/sims';
+import { chapterBySlug } from '../../data/chapters';
+import { url } from '../../lib/url';
+---
+
+<Base title="Lab" description="Every NeuroCapybara simulation on its own page: action potentials, lateral inhibition and more.">
+  <div class="container page">
+    <p class="eyebrow">Explore</p>
+    <h1>The lab</h1>
+    <p class="lede">Every simulation, full width and on its own page. Use them to explore, to check your predictions, or on the projector in class.</p>
+
+    <ul class="grid cols-2 sims">
+      {
+        readySims.map((s) => (
+          <li class="card sim">
+            <p class="eyebrow">{chapterBySlug(s.chapter)?.title} · lesson {s.lessons.join(', ')}</p>
+            <h2 class="stitle">
+              <a class="stretch" href={url(`/lab/${s.slug}/`)}>{s.title}</a>
+            </h2>
+            <p class="muted">{s.blurb}</p>
+            <span class="go" aria-hidden="true">Open the lab →</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>On the way</h2>
+    <ul class="coming">
+      {
+        comingSims.map((s) => (
+          <li>
+            <strong>{s.title}</strong> <span class="muted">· {chapterBySlug(s.chapter)?.title}</span>
+            <br />
+            <span class="muted">{s.blurb}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .sims,
+  .coming {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+  }
+  .sim {
+    position: relative;
+    margin: 0;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .sim:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .stitle {
+    font-size: var(--step-2);
+    margin: 0 0 0.5rem;
+  }
+  .stretch {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .stretch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .go {
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .coming {
+    display: grid;
+    gap: 0.9rem;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+  .coming li {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius);
+  }
+</style>

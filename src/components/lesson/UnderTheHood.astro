@@ -1,0 +1,30 @@
+---
+interface Props {
+  title?: string;
+}
+const { title = 'Under the hood: the model' } = Astro.props;
+---
+
+<details class="hood">
+  <summary>{title}</summary>
+  <div class="hood-body"><slot /></div>
+</details>
+
+<style>
+  .hood {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    margin: 1.5rem 0;
+  }
+  summary {
+    cursor: pointer;
+    padding: 0.85rem 1.1rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-1);
+  }
+  .hood-body {
+    padding: 0 1.1rem 1rem;
+  }
+</style>

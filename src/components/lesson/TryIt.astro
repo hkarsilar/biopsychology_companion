@@ -1,0 +1,61 @@
+---
+/**
+ * A "Try this" card: one click sets up the simulation for an experiment and scrolls to it.
+ */
+interface Props {
+  sim: string;
+  preset: string;
+  title: string;
+}
+const { sim, preset, title } = Astro.props;
+---
+
+<div class="try">
+  <div class="try-text">
+    <p class="try-title">{title}</p>
+    <slot />
+  </div>
+  <button type="button" class="button secondary try-btn" data-sim={sim} data-preset={preset}>Set it up ↓</button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.try-btn').forEach((b) =>
+    b.addEventListener('click', () => {
+      const el = document.getElementById(b.dataset.sim ?? '') as (HTMLElement & { applyPreset?: (p: string) => void }) | null;
+      if (!el) return;
+      el.applyPreset?.(b.dataset.preset ?? '');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.focus({ preventScroll: true });
+    }),
+  );
+</script>
+
+<style>
+  .try {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    margin: 0.75rem 0;
+  }
+  .try-title {
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+  }
+  .try-text :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .try-btn {
+    flex: none;
+  }
+  @media (max-width: 560px) {
+    .try {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

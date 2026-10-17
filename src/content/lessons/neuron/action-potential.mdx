@@ -1,0 +1,269 @@
+---
+title: The action potential
+number: '2.3'
+chapter: neuron
+slug: action-potential
+summary: How a neuron turns a small nudge into a spike that is always the same size, and how a pufferfish toxin can stop it.
+objectives: [2]
+minutes: 30
+sims: [action-potential]
+readings:
+  - book: Introduction to Biological Psychology (Hall, ed.)
+    section: Neuronal communication
+    url: https://openpress.sussex.ac.uk/introductiontobiologicalpsychology/
+  - book: Introduction to Neuroscience (Hedges)
+    section: Cells of the Nervous System, the section on action potentials
+    url: https://openbooks.lib.msu.edu/introneuroscience1/
+updated: 2026-10-17
+---
+
+import Hook from '../../../components/lesson/Hook.astro';
+import Notice from '../../../components/lesson/Notice.astro';
+import FinePrint from '../../../components/lesson/FinePrint.astro';
+import UnderTheHood from '../../../components/lesson/UnderTheHood.astro';
+import Faq from '../../../components/lesson/Faq.astro';
+import Math from '../../../components/lesson/Math.astro';
+import Term from '../../../components/lesson/Term.astro';
+import Predict from '../../../components/lesson/Predict.astro';
+import CheckYourself from '../../../components/lesson/CheckYourself.astro';
+import TryIt from '../../../components/lesson/TryIt.astro';
+import ActionPotential from '../../../components/sims/ActionPotential.astro';
+
+<Hook title="A dangerous dinner">
+In Japan, chefs train for years before they are licensed to serve fugu, the pufferfish. Parts of the fish contain tetrodotoxin, and a dose of a milligram or two can kill an adult. Victims can stay fully awake while their muscles, including the ones they breathe with, stop working. How can one small molecule switch off every nerve in the body? By the end of this lesson you will have done it to a neuron yourself.
+</Hook>
+
+## The problem a neuron has to solve
+
+A motor neuron in your spinal cord has to tell a muscle in your foot to contract. Its axon is about a metre long. If the neuron simply let electric charge spread along the axon like current in a leaky garden hose, the signal would fade to nothing within a few millimetres.
+
+Neurons solve this with a signal that rebuilds itself as it goes: the <Term id="action-potential">action potential</Term>, or spike. For about a millisecond, the voltage across a small patch of membrane flips from negative to positive and back. That flip triggers the next patch, and the next, all the way to the end of the axon. This lesson zooms in on one patch to see how the flip works. Lesson 2.4 follows it along the axon.
+
+Remember from lesson 2.2 that a neuron at rest is about 65 to 70 millivolts more negative inside than outside. Two ions matter most today:
+
+- **Sodium (Na⁺)** is concentrated outside the cell. Both its concentration gradient and the negative inside pull it in. It only needs an open door.
+- **Potassium (K⁺)** is concentrated inside. It tends to leak out, and that leak is a big part of why the inside is negative.
+
+## Meet the doors: voltage-gated channels
+
+The doors are <Term id="voltage-gated-channel">voltage-gated channels</Term>: proteins that open or close depending on the voltage across the membrane.
+
+- The **sodium channel** has two gates. Its *activation gate* swings open within a fraction of a millisecond when the membrane becomes less negative. Its *inactivation gate*, a ball on a chain, plugs the channel shortly afterwards. The plug stays in until the membrane is back near rest.
+- The **potassium channel** has one gate. It also opens when the membrane becomes less negative, but more slowly, and it is slow to close again.
+
+In the simulation below, the sodium channels are orange and the potassium channels blue. Sodium ions are orange circles and potassium ions blue squares, so you can tell them apart by shape as well as colour.
+
+<Predict
+  question="You zap the membrane with a current of strength 20 and get a spike. Then you zap it twice as hard. How tall will the new spike be?"
+  options={['About twice as tall.', 'About the same height.', 'A little smaller, because the channels get tired.']}
+  answer={1}
+  explain="A spike is all-or-none. Once the stimulus pushes the membrane past threshold, the channels take over and the spike always peaks near +40 millivolts. A stronger zap only makes the spike start a little sooner."
+  sim="ap-sim"
+/>
+
+## Try it: fire a spike
+
+Press **Play**, then **Zap**. The left panel shows a patch of membrane with its channels and ions. The right panel plots the voltage over the last 30 milliseconds, with the sodium and potassium conductances (how open each type of channel is) underneath. *Predict, then watch* is switched on, so the simulation will pause and ask you what happens next at a few key moments.
+
+<ActionPotential id="ap-sim" predict />
+
+<Notice>
+
+1. **Small zaps fizzle.** A weak zap makes a small bump that dies away. These *graded* changes are proportional to the stimulus.
+2. **Past a <Term id="threshold">threshold</Term>, the spike takes off.** If the zap pushes the voltage past roughly −58 millivolts in this model, the voltage shoots up to about +40 millivolts. That is <Term id="depolarisation">depolarisation</Term> gone wild.
+3. **The spike is <Term id="all-or-none">all-or-none</Term>.** Bigger zaps make the spike start sooner, not taller.
+4. **Sodium goes first, potassium second.** Watch the conductance plot: sodium conductance (solid orange) rises and falls fast; potassium conductance (dashed blue) rises later and lingers.
+5. **The voltage dips below rest afterwards.** This <Term id="undershoot">undershoot</Term> lasts a few milliseconds.
+
+</Notice>
+
+## Why the spike takes off: a feedback loop
+
+The rising phase is a positive feedback loop. A small depolarisation opens a few sodium channels. Na⁺ flows in, carrying positive charge, which depolarises the membrane further. That opens more sodium channels, which lets in more Na⁺, and so on. Below threshold, the outward leak of K⁺ wins and the voltage slides back. Above threshold, sodium wins and the loop runs away.
+
+The loop cannot run forever, for three reasons:
+
+1. **Sodium has a target voltage.** As the inside becomes positive, it starts to repel Na⁺. At about +50 millivolts, the push from the concentration gradient and the push back from the voltage cancel out. That is sodium's <Term id="equilibrium-potential">equilibrium potential</Term>, the dashed line labelled E<sub>Na</sub> on the plot. The spike gets close but never quite reaches it.
+2. **Sodium channels plug themselves.** Within a millisecond, the inactivation gates close and Na⁺ stops flowing in.
+3. **Potassium channels open.** K⁺ flows out and carries positive charge with it. This is the <Term id="repolarisation">repolarisation</Term> that brings the voltage back down.
+
+Potassium channels close slowly, so for a few milliseconds more K⁺ leaves than at rest. The voltage overshoots below rest towards potassium's equilibrium potential, E<sub>K</sub>, at −77 millivolts. That is the undershoot, also called <Term id="hyperpolarisation">hyperpolarisation</Term>.
+
+## Five experiments
+
+Each card sets up the simulation for you and scrolls to it. Try to predict the result before you press Play.
+
+<TryIt sim="ap-sim" preset="threshold-hunt" title="1. Find the threshold">
+The zap starts too weak. Raise the strength a little at a time and zap after each change. What is the weakest zap that still makes a full spike? (In this model it is about 13.)
+</TryIt>
+
+<TryIt sim="ap-sim" preset="pair" title="2. Two zaps, close together">
+Two zaps 6 milliseconds apart make only one spike. Widen the gap until the second zap works. Then make the zaps stronger: does the second spike come back sooner? You have just measured the <Term id="refractory-period">refractory period</Term>.
+</TryIt>
+
+<TryIt sim="ap-sim" preset="train" title="3. Keep stimulating">
+A steady current makes the neuron fire again and again. Raise the steady current and count the spikes. A stronger stimulus does not make bigger spikes; it makes more of them.
+</TryIt>
+
+<TryIt sim="ap-sim" preset="block" title="4. Too much of a good thing">
+A very strong steady current makes one spike, and then nothing. Watch the inactivation gates to see why.
+</TryIt>
+
+<TryIt sim="ap-sim" preset="ttx" title="5. The pufferfish toxin">
+TTX is in. Zap as hard as you like.
+</TryIt>
+
+## Refractory periods: why spikes do not collide
+
+Right after a spike, most sodium channels are inactivated. They cannot open again until the membrane has repolarised and the plugs have come out. During this *absolute refractory period*, no stimulus can start a second spike. As channels recover, a second spike becomes possible again, but only with a stronger push than usual, because some channels are still plugged and the potassium channels are still open. That is the *relative refractory period*.
+
+Experiment 2 shows both. With zaps of strength 20, the second spike only appears when the gap is about 15 milliseconds. With the strongest zap the lab allows, it appears after about 9 milliseconds. A squid axon at 6 °C is slow; in your own neurons, both periods are a few times shorter.
+
+The refractory period has two big consequences:
+
+- **Spikes travel one way.** The patch behind a travelling spike is refractory, so the spike cannot turn around (lesson 2.4).
+- **There is a speed limit.** A neuron cannot fire faster than its refractory period allows, a few hundred spikes per second at most.
+
+## Spikes are all the same, so how does a neuron say "more"?
+
+Experiment 3 gives the answer. When the steady current gets stronger, the spikes stay the same size, but they come more often. Neurons mostly code the strength of a signal in their *firing rate*: a gentle touch might produce a few spikes per second, a firm press many more.
+
+Push the current too far, as in experiment 4, and the membrane stays so depolarised that the sodium channels never get their plugs out. The neuron falls silent while being stimulated as hard as possible. This *depolarisation block* is how too much excitation, for example from very high potassium levels outside the cell, can silence neurons instead of driving them.
+
+## Break it to understand it: toxins and drugs
+
+Neuroscientists learned a lot about channels by blocking them one at a time. You can do the same: tick a drug in the simulation, predict, then zap.
+
+<div class="table-scroll">
+
+| Drug | Where it comes from | What it does to the channels | What happens to the spike |
+| --- | --- | --- | --- |
+| <Term id="tetrodotoxin">TTX</Term> | Pufferfish (made by bacteria living in them) | Plugs voltage-gated sodium channels from the outside | No spike at all, only a small bump |
+| <Term id="tetraethylammonium">TEA</Term> | A laboratory chemical | Blocks voltage-gated potassium channels | Wider spike, smaller undershoot |
+| Sea anemone toxin | Sea anemones | Slows sodium channel inactivation | A long plateau before the voltage comes down |
+
+</div>
+
+The same logic explains the dentist's local anaesthetic. Lidocaine slips into sodium channels from the inside and blocks them, so pain signals from your tooth never fire. Asking "which channel does this substance target, and what must that do to the spike?" is exactly the reasoning you need for the neurophysiology case study.
+
+## How many ions does one spike take?
+
+Look at the readout labelled *Na⁺ in, last spike*. One spike lets in roughly 90,000 extra sodium ions through every square micrometre of membrane. That sounds like a lot, but a squid giant axon already holds so much sodium that this changes its internal concentration by only about 0.002 percent, around one part in 40,000.
+
+So a neuron never runs out of sodium in the middle of a spike train. The sodium-potassium pump works quietly in the background to undo these tiny changes over many spikes. The pump is not what ends each spike, and it is not what makes the undershoot: those are the channels' jobs.
+
+<UnderTheHood title="Under the hood: the Hodgkin–Huxley model">
+
+The simulation runs the model that Alan Hodgkin and Andrew Huxley published in 1952, based on their recordings from the squid giant axon. It earned them a share of the 1963 Nobel Prize in Physiology or Medicine. The membrane is a capacitor, and each type of channel is a conductance in parallel with it:
+
+<Math display label="Membrane equation" tex="C\,\frac{dV}{dt} = I_{\text{stim}} - \bar g_{\text{Na}}\, m^3 h\,(V - E_{\text{Na}}) - \bar g_{\text{K}}\, n^4\,(V - E_{\text{K}}) - g_{\text{L}}\,(V - E_{\text{L}})" />
+
+The letters *m*, *h* and *n* are gating variables between 0 and 1. You can read *m* as the activation gate of the sodium channel, *h* as its inactivation gate (1 = unplugged), and *n* as the potassium gate. Each one relaxes towards a voltage-dependent target, at a voltage-dependent speed:
+
+<Math display label="Gating equation" tex="\frac{dx}{dt} = \alpha_x(V)\,(1 - x) - \beta_x(V)\,x \qquad x \in \{m, h, n\}" />
+
+The values used here are the classic ones: C = 1 µF/cm², ḡ<sub>Na</sub> = 120, ḡ<sub>K</sub> = 36 and g<sub>L</sub> = 0.3 mS/cm², E<sub>Na</sub> = +50 mV, E<sub>K</sub> = −77 mV and E<sub>L</sub> = −54.4 mV. The equations are solved with the fourth-order Runge–Kutta method in steps of 0.01 milliseconds, many times per animation frame.
+
+Why *m* cubed and *n* to the fourth? Hodgkin and Huxley found that these powers fit their data. Decades later, the structures of the channels showed that each one is built from four similar parts, each with its own voltage sensor, which fits the idea of several gates that all have to move. Huxley did most of the calculations by hand on a mechanical calculator.
+
+</UnderTheHood>
+
+<FinePrint>
+
+- **This is a squid axon at 6.3 °C.** Mammalian neurons are warmer and faster: their spikes last about a millisecond, and they use many more types of channels. Their resting potential is often closer to −70 millivolts.
+- **The patch has no length.** The whole patch has the same voltage at every moment, which is what Hodgkin and Huxley arranged in their experiments with a wire along the axon. How spikes travel is lesson 2.4.
+- **TEA is simplified.** In the model, TEA blocks 90 percent of the potassium conductance that opens during a spike, but not the small part that is open at rest.
+- **Real channels are random.** Each real channel flickers open and shut by chance. With thousands of channels, their average behaves like the smooth curves here. The animation shows three channels of each type and a few dozen ions to stand for many thousands.
+
+</FinePrint>
+
+## Check yourself
+
+<CheckYourself
+  questions={[
+    {
+      q: 'A small zap depolarises the membrane from −65 to −61 millivolts, and the voltage then drifts back to rest. Why was there no spike?',
+      options: [
+        'Too few sodium channels opened to outweigh the potassium leak, so the feedback loop never started.',
+        'The neuron had run out of sodium ions.',
+        'The potassium channels were blocked.',
+      ],
+      answer: 0,
+      explain: 'Below threshold, outward K⁺ current beats the small inward Na⁺ current, so the voltage returns to rest. A spike needs enough sodium channels to open for the positive feedback loop to win.',
+      objective: 2,
+    },
+    {
+      q: 'What drives the rising phase of the action potential?',
+      options: [
+        'Potassium ions flowing into the cell.',
+        'Sodium ions flowing in through voltage-gated channels, which opens even more of those channels.',
+        'The sodium-potassium pump moving sodium into the cell.',
+      ],
+      answer: 1,
+      explain: 'Na⁺ entering depolarises the membrane, which opens more voltage-gated sodium channels: a positive feedback loop. The pump moves sodium out, not in, and works far too slowly to make a spike.',
+      objective: 2,
+    },
+    {
+      q: 'Why can no stimulus, however strong, start a second spike one millisecond after the first?',
+      options: [
+        'The cell has used up its sodium.',
+        'Most sodium channels are inactivated and cannot open until the membrane repolarises.',
+        'The membrane is above sodium’s equilibrium potential.',
+      ],
+      answer: 1,
+      explain: 'This is the absolute refractory period. The inactivation gates stay closed until the voltage returns towards rest. One spike changes the sodium concentration by only a tiny fraction.',
+      objective: 2,
+    },
+    {
+      q: 'What causes the undershoot after a spike?',
+      options: [
+        'Potassium channels close slowly, so extra K⁺ keeps leaving for a few milliseconds.',
+        'The sodium-potassium pump overshoots.',
+        'Chloride ions rush in after the spike.',
+      ],
+      answer: 0,
+      explain: 'While the slow potassium channels are still open, the membrane is pulled towards potassium’s equilibrium potential, about −77 millivolts in this model, which is below rest.',
+      objective: 2,
+    },
+    {
+      q: 'A newly discovered spider venom makes a nerve fire very long spikes with a flat plateau at the top. Which effect on channels fits best?',
+      options: [
+        'It blocks voltage-gated sodium channels.',
+        'It makes potassium channels open faster.',
+        'It slows the inactivation of sodium channels.',
+      ],
+      answer: 2,
+      explain: 'If sodium channels stay open longer, Na⁺ keeps flowing in and holds the voltage up. Blocking sodium channels would prevent the spike, and faster potassium channels would shorten it.',
+      objective: 2,
+    },
+    {
+      q: 'Spikes are all-or-none. How, then, can a neuron signal that a touch has become firmer?',
+      options: ['By firing taller spikes.', 'By firing more spikes per second.', 'By making each spike last longer.'],
+      answer: 1,
+      explain: 'Stimulus strength is mostly coded in firing rate. Experiment 3 shows it: more current, same spikes, more of them.',
+      objective: 2,
+    },
+  ]}
+/>
+
+## Common questions
+
+<Faq q="Does the neuron run out of sodium if it fires a lot?">
+No. Each spike changes the sodium concentration inside by a tiny fraction (see the ion count above). The sodium-potassium pump slowly restores the balance in the background. Even with its pumps poisoned, a large axon can fire thousands of spikes before the difference shows.
+</Faq>
+
+<Faq q="Why doesn't a stronger stimulus make a bigger spike?">
+Once threshold is crossed, the size of the spike is set by the channels and the ion gradients, not by the stimulus. The stimulus is like the match, the spike is the fire. A bigger match lights the fire sooner but does not make it hotter.
+</Faq>
+
+<Faq q="Is the undershoot caused by the sodium-potassium pump?">
+No, although many students think so. The undershoot is caused by potassium channels that are slow to close. The pump is far too slow to shape a single spike, and it still works when the undershoot is gone, for example with TEA.
+</Faq>
+
+<Faq q="Is the threshold always the same voltage?">
+No. Threshold is the point where inward sodium current starts to outweigh the outward currents, and that depends on how many channels are ready to open. Right after a spike, some sodium channels are still inactivated, so the threshold is higher. That is the relative refractory period. Textbooks often quote about −55 millivolts for mammalian neurons as a rule of thumb.
+</Faq>
+
+<Faq q="Why did Hodgkin and Huxley use a squid?">
+The squid's giant axon, which controls its escape jet, can be up to about a millimetre across. That made it wide enough to thread a wire electrode inside, decades before scientists could record from the much thinner axons of mammals.
+</Faq>

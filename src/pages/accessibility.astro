@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Accessibility" description="How NeuroCapybara works with keyboards, screen readers, reduced motion and colour vision differences.">
+  <div class="container page prose">
+    <p class="eyebrow">Accessibility</p>
+    <h1>Everyone should be able to poke a neuron</h1>
+    <p class="lede">This site aims to meet WCAG 2.2 level AA. Here is what that means in practice, and where it still falls short.</p>
+
+    <h2>Settings you can change</h2>
+    <p>The <strong>Display</strong> button at the top of every page lets you choose:</p>
+    <ul>
+      <li><strong>Theme:</strong> Night (the default) or Paper, a light theme that also prints well.</li>
+      <li><strong>Text size:</strong> normal, large or larger. Browser zoom works too.</li>
+      <li><strong>Motion:</strong> follow your device's setting, reduce, or full. With reduced motion, simulations jump between states instead of animating, and nothing moves on its own.</li>
+      <li><strong>Sound:</strong> off by default. When on, simulations click with each spike, like the audio monitor in a real lab.</li>
+    </ul>
+    <p>Your choices are saved in your browser only.</p>
+
+    <h2>Simulations</h2>
+    <ul>
+      <li>Every control is a real button, slider or checkbox, reachable with the keyboard. Each simulation lists its shortcut keys.</li>
+      <li>Each picture has a text description, and the important numbers are shown as text next to it.</li>
+      <li>Screen readers hear short announcements when something important happens, such as a spike.</li>
+      <li>Simulations pause when you scroll away or switch tabs.</li>
+      <li>Colours are chosen to stay distinguishable with common colour vision differences, and colour is never the only cue: sodium ions are circles, potassium ions are squares, and lines differ in style as well as colour.</li>
+    </ul>
+
+    <h2>Known gaps</h2>
+    <p>
+      Some simulations are visual at heart. Their text descriptions and readouts tell you what is happening, but they cannot replace the picture completely. If something does not work for you, please tell Hakan: it will be fixed.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+interface Props {
+  title?: string;
+}
+const { title = 'The fine print' } = Astro.props;
+---
+
+<aside class="callout fine-print" aria-label={title}>
+  <p class="callout-title">{title}</p>
+  <slot />
+</aside>

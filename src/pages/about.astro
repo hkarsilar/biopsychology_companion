@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import Mascot from '../components/Mascot.astro';
+import { url } from '../lib/url';
+---
+
+<Base title="About" description="Who made NeuroCapybara, why, and how it is built.">
+  <div class="container page prose">
+    <p class="eyebrow">About</p>
+    <h1>About NeuroCapybara</h1>
+    <div class="intro">
+      <Mascot size={200} />
+      <p class="lede">NeuroCapybara is a free companion website for <strong>UCG1SS05 Biopsychology</strong> at University College Groningen, made by Dr. Hakan Karsilar.</p>
+    </div>
+
+    <h2>Why it exists</h2>
+    <p>
+      Biopsychology is full of processes that are hard to see on a slide: a spike racing down an axon, a retina sharpening an edge, a network adjusting its weights. Here you can run them yourself, slow them down, break them, and see what happens.
+    </p>
+    <p>
+      The course has no textbook. It uses free, open textbooks, and this site follows the same spirit: everything here is free to use and free to reuse.
+    </p>
+
+    <h2>How the lessons work</h2>
+    <ul>
+      <li><strong>Hook.</strong> Every lesson opens with a puzzle or a surprising fact.</li>
+      <li><strong>Predict.</strong> Before a simulation runs, you commit to a guess. Wrong guesses are where learning happens.</li>
+      <li><strong>Explore.</strong> The simulation lets you test the idea. "Try this" cards set up the interesting experiments in one click.</li>
+      <li><strong>Check yourself.</strong> A few questions at the end, with explanations. Nothing is recorded.</li>
+      <li><strong>Go further.</strong> Links to the course's open textbooks for the full story.</li>
+    </ul>
+
+    <h2>Neurocapy</h2>
+    <p>
+      The capybara is the largest rodent in the world, famous for staying calm while other animals sit on its head. Neurocapy is the calm guide through a subject that can feel overwhelming at first. It is the younger sibling of the capybara on <a href="https://statscapybara.com">StatsCapybara</a>, Hakan's companion site for statistics.
+    </p>
+
+    <h2>How it is built</h2>
+    <p>
+      The site is static: plain pages and small, self-contained simulations written for this site, with no tracking and no accounts. The simulations run on real models where they can, for example the Hodgkin–Huxley equations for the action potential. The source code is <a href="https://github.com/hkarsilar/biopsychology_companion">on GitHub</a>.
+    </p>
+    <p>See also: <a href={url('/teachers/')}>for teachers</a>, <a href={url('/accessibility/')}>accessibility</a>, <a href={url('/licence/')}>licence</a>.</p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .intro {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .intro :global(svg) {
+    flex: none;
+    color: var(--text);
+  }
+  @media (max-width: 560px) {
+    .intro {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,109 @@
+/*
+  NeuroCapybara design tokens.
+  Dark ("night lab") is the default, as on StatsCapybara; light ("paper") is one click away.
+  Simulations read these variables through their shadow roots, so changing a token here
+  restyles every simulation too.
+*/
+
+:root {
+  color-scheme: dark;
+
+  /* Type */
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible Next Variable', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --text-scale: 1;
+  --step--1: calc(0.875rem * var(--text-scale));
+  --step-0: calc(1.0625rem * var(--text-scale));
+  --step-1: calc(1.25rem * var(--text-scale));
+  --step-2: calc(1.5625rem * var(--text-scale));
+  --step-3: calc(2rem * var(--text-scale));
+  --step-4: calc(2.75rem * var(--text-scale));
+
+  /* Surfaces and text (night) */
+  --bg: #0e1320;
+  --bg-glow: #151d33;
+  --surface: #151c2c;
+  --surface-2: #1c2538;
+  --surface-3: #243049;
+  --border: #2c3854;
+  --border-strong: #3f4d6e;
+  --text: #e9edf5;
+  --text-muted: #a9b3c7;
+  --text-faint: #7d889f;
+
+  /* Interface accent: violet, kept apart from the ion colours */
+  --accent: #b69cff;
+  --accent-strong: #cbb8ff;
+  --accent-ink: #160b3a;
+  --accent-soft: rgba(182, 156, 255, 0.14);
+  --focus: #ffd166;
+
+  /* Status */
+  --good: #5fd3a2;
+  --warn: #ffd166;
+  --bad: #ff8a80;
+
+  /*
+    One colour language (Okabe-Ito based, colour-blind safe).
+    Always paired with a shape or label: Na+ round, K+ square, Cl- triangle, Ca2+ diamond.
+  */
+  --ion-na: #e69f00;
+  --ion-k: #56b4e9;
+  --ion-cl: #19b38a;
+  --ion-ca: #f0e442;
+  --excite: #ff7a3d;
+  --inhibit: #4aa3e8;
+  --membrane: #c9b38f;
+  --membrane-edge: #8a7552;
+  --trace: #f4f6fb;
+  --grid: rgba(169, 179, 199, 0.16);
+
+  /* Shape and depth */
+  --radius-s: 6px;
+  --radius: 12px;
+  --radius-l: 20px;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 30px rgba(0, 0, 0, 0.35);
+  --content-width: 46rem;
+  --wide-width: 72rem;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #faf8f3;
+  --bg-glow: #f1ece2;
+  --surface: #ffffff;
+  --surface-2: #f3f0e9;
+  --surface-3: #e9e4d9;
+  --border: #ddd6c8;
+  --border-strong: #c3baa7;
+  --text: #1b2233;
+  --text-muted: #4f5a70;
+  --text-faint: #6c768a;
+  --accent: #6b46d9;
+  --accent-strong: #5233b8;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(107, 70, 217, 0.1);
+  --focus: #b35c00;
+  --good: #137a52;
+  --warn: #8a5a00;
+  --bad: #b3261e;
+  --ion-na: #c77f00;
+  --ion-k: #2b8fc9;
+  --ion-cl: #00845f;
+  --ion-ca: #a89a00;
+  --excite: #d55e00;
+  --inhibit: #0072b2;
+  --membrane: #d9c6a3;
+  --membrane-edge: #a58a5c;
+  --trace: #1b2233;
+  --grid: rgba(27, 34, 51, 0.1);
+  --shadow: 0 1px 2px rgba(27, 34, 51, 0.06), 0 8px 24px rgba(27, 34, 51, 0.08);
+}
+
+:root[data-text='large'] {
+  --text-scale: 1.15;
+}
+:root[data-text='larger'] {
+  --text-scale: 1.3;
+}

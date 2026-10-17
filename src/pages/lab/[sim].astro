@@ -1,0 +1,136 @@
+---
+import Base from '../../layouts/Base.astro';
+import { readySims, type SimInfo } from '../../data/sims';
+import { chapterBySlug } from '../../data/chapters';
+import { lessonLinks } from '../../lib/lessons';
+import { url } from '../../lib/url';
+
+export function getStaticPaths() {
+  return readySims.map((sim) => ({ params: { sim: sim.slug }, props: { sim } }));
+}
+
+const { sim } = Astro.props as { sim: SimInfo };
+const components = import.meta.glob<{ default: (props: Record<string, unknown>) => unknown }>('../../components/sims/*.astro', { eager: true });
+const pascal = sim.slug.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase());
+const Sim = components[`../../components/sims/${pascal}.astro`]?.default;
+const id = `${sim.slug}-lab`;
+const params = sim.params ?? [];
+const chapter = chapterBySlug(sim.chapter);
+const lessons = (await lessonLinks()).filter((l) => sim.lessons.includes(l.n));
+const pageUrl = new URL(url(`/lab/${sim.slug}/`), Astro.site).toString();
+const embed = `<iframe src="${pageUrl}?embed=1" title="${sim.title}, NeuroCapybara" width="100%" height="900" style="border:0" loading="lazy" allow="clipboard-write"></iframe>`;
+---
+
+<Base title={sim.title} description={sim.blurb}>
+  <div class="container page">
+    <header class="lab-intro">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href={url('/lab/')}>Lab</a></nav>
+      <p class="eyebrow">Simulation · {chapter?.title}</p>
+      <h1>{sim.title}</h1>
+      <p class="lede">{sim.blurb}</p>
+    </header>
+
+    <div class="stage">
+      {Sim ? <Sim id={id} /> : <p class="callout">This simulation is being built.</p>}
+    </div>
+    <script is:inline define:vars={{ id, params }}>
+      // Pass settings from a shared link (?strength=30&drugs=ttx) to the simulation before it starts.
+      const el = document.getElementById(id);
+      const q = new URLSearchParams(location.search);
+      if (el) {
+        for (const p of params) {
+          const v = q.get(p);
+          if (v === null || (p === 'predict' && v === '0')) continue;
+          el.setAttribute(p, v);
+        }
+        if (q.get('present') === '1') el.setAttribute('present', '');
+      }
+    </script>
+
+    <div class="lab-extra grid cols-2">
+      {
+        sim.youCan && (
+          <section class="card">
+            <h2 class="h">Things to try</h2>
+            <ul>
+              {sim.youCan.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+            {lessons.length > 0 && (
+              <p>
+                Explained step by step in{' '}
+                {lessons.map((l, i) => (
+                  <>
+                    {i > 0 && ', '}
+                    {l.ready ? <a href={l.href}>lesson {l.n}, {l.title}</a> : <span>lesson {l.n}, {l.title} (coming)</span>}
+                  </>
+                ))}
+                .
+              </p>
+            )}
+          </section>
+        )
+      }
+      <section class="card">
+        <h2 class="h">Use it in class</h2>
+        <p>
+          <a class="button secondary" href="?present=1">Presenter mode</a>
+        </p>
+        <p class="muted">Presenter mode hides the menus and makes everything bigger for a projector. Press <kbd>Esc</kbd> or remove <code>?present=1</code> to leave.</p>
+        <details>
+          <summary>Embed this simulation on another page</summary>
+          <p>Copy this into Brightspace or any web page:</p>
+          <pre class="embed"><code>{embed}</code></pre>
+        </details>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<script>
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.documentElement.dataset.present === 'true') {
+      location.search = '';
+    }
+  });
+</script>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .crumbs {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+  .crumbs a {
+    color: var(--text-muted);
+  }
+  .stage {
+    margin: 2rem 0 2.5rem;
+  }
+  .h {
+    font-size: var(--step-2);
+    margin: 0 0 0.75rem;
+  }
+  .embed {
+    white-space: pre-wrap;
+    word-break: break-all;
+    background: var(--surface-2);
+    border-radius: var(--radius-s);
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+  details summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  :global(html[data-embed='true']) .page,
+  :global(html[data-present='true']) .page {
+    padding-top: 0.75rem;
+  }
+  :global(html[data-embed='true']) .stage {
+    margin: 0;
+  }
+</style>

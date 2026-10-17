@@ -1,0 +1,64 @@
+---
+import { url } from '../lib/url';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container cols">
+    <div>
+      <p class="name">NeuroCapybara</p>
+      <p class="muted">
+        A free companion to UCG1SS05 Biopsychology at University College Groningen, by Dr. Hakan Karsilar. A sibling of <a href="https://statscapybara.com">StatsCapybara</a>.
+      </p>
+    </div>
+    <nav aria-label="Site information">
+      <ul>
+        <li><a href={url('/teachers/')}>For teachers</a></li>
+        <li><a href={url('/accessibility/')}>Accessibility</a></li>
+        <li><a href={url('/privacy/')}>Privacy</a></li>
+        <li><a href={url('/licence/')}>Licence</a></li>
+        <li><a href="https://github.com/hkarsilar/biopsychology_companion">Source code</a></li>
+      </ul>
+    </nav>
+    <p class="muted small">
+      Text and figures © {year} Hakan Karsilar, <a href={url('/licence/')}>CC BY 4.0</a>. Code under the MIT licence. No accounts, no cookies, no tracking of individuals.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 5rem;
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0 3rem;
+    font-size: 0.95rem;
+  }
+  .cols {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 2fr 1fr;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li + li {
+    margin-top: 0.3rem;
+  }
+  .small {
+    grid-column: 1 / -1;
+    font-size: 0.85rem;
+  }
+  @media (max-width: 640px) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

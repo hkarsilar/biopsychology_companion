@@ -1,0 +1,131 @@
+---
+import Base from '../../layouts/Base.astro';
+import { coreChapters, extensionChapters, totalCoreLessons } from '../../data/chapters';
+import { lessonLinks } from '../../lib/lessons';
+import { url } from '../../lib/url';
+
+const links = await lessonLinks();
+const readyIn = (slug: string) => links.filter((l) => l.chapter.slug === slug && l.ready).length;
+const readyTotal = links.filter((l) => l.ready && !l.chapter.extension).length;
+---
+
+<Base title="Chapters" description="All nine chapters of the Biopsychology course, plus extension chapters on hearing, prediction and time.">
+  <div class="container page">
+    <p class="eyebrow">Learn</p>
+    <h1>Chapters</h1>
+    <p class="lede">Nine chapters follow the fifteen classes of the course. Each lesson is short, starts with a question, and lets you test the idea yourself.</p>
+    <p class="progress muted">{readyTotal} of {totalCoreLessons} lessons are ready. New ones appear as the course approaches.</p>
+
+    <ol class="grid cols-3 chapters">
+      {
+        coreChapters.map((c) => (
+          <li class="card chapter">
+            <a class="stretch" href={url(`/chapters/${c.slug}/`)}>
+              <span class="cnum" aria-hidden="true">{c.n}</span>
+              <span class="ctitle">{c.title}</span>
+            </a>
+            <p class="cclasses">{c.classes}</p>
+            <p class="cblurb">{c.blurb}</p>
+            <p class="cready">
+              {readyIn(c.slug) > 0 ? <span class="chip ready">{readyIn(c.slug)} ready</span> : <span class="chip">Coming</span>} <span class="muted">{c.lessons.length} lessons</span>
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <h2>Extension chapters</h2>
+    <p class="muted">Not on the exams. For when you want more.</p>
+    <ul class="grid cols-3 chapters">
+      {
+        extensionChapters.map((c) => (
+          <li class="card chapter ext">
+            <a class="stretch" href={url(`/chapters/${c.slug}/`)}>
+              <span class="ctitle">{c.title}</span>
+            </a>
+            <p class="cblurb">{c.blurb}</p>
+            <p class="cready">
+              <span class="chip">Coming</span> <span class="muted">{c.lessons.length} lessons</span>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .progress {
+    margin-bottom: 2rem;
+  }
+  .chapters {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .chapter {
+    position: relative;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .chapter:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .chapter:focus-within {
+    border-color: var(--accent);
+  }
+  .stretch {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .stretch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  .stretch:focus-visible {
+    outline: none;
+  }
+  .chapter:has(.stretch:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .cnum {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: var(--step-1);
+  }
+  .ctitle {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-2);
+    line-height: 1.2;
+  }
+  .cclasses {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    margin: 0.35rem 0 0.6rem;
+  }
+  .cblurb {
+    color: var(--text-muted);
+    flex: 1;
+  }
+  .ext .cblurb {
+    margin-top: 0.6rem;
+  }
+  .cready {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+</style>

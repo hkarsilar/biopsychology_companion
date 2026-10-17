@@ -1,0 +1,19 @@
+---
+import { url } from '../../lib/url';
+
+interface Props {
+  id?: string;
+  preset?: string;
+  predict?: boolean;
+  present?: boolean;
+}
+const { id = 'ap-sim', preset = 'single', predict = false, present = false } = Astro.props;
+---
+
+<nc-action-potential id={id} preset={preset} predict={predict ? '' : undefined} present={present ? '' : undefined} lab-href={url('/lab/action-potential/')}>
+  <noscript><p class="callout">This simulation needs JavaScript. The lesson text still explains every step.</p></noscript>
+</nc-action-potential>
+
+<script>
+  import '../../sims/action-potential/element';
+</script>

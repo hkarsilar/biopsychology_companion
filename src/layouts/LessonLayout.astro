@@ -1,0 +1,389 @@
+---
+import type { MarkdownHeading } from 'astro';
+import Base from './Base.astro';
+import { chapterBySlug } from '../data/chapters';
+import { objectives } from '../data/objectives';
+import { schedule } from '../data/schedule';
+import { neighbours, lessonLinks, type LessonEntry } from '../lib/lessons';
+import { url } from '../lib/url';
+
+interface Props {
+  entry: LessonEntry;
+  headings: MarkdownHeading[];
+}
+
+const { entry, headings } = Astro.props;
+const d = entry.data;
+const chapter = chapterBySlug(d.chapter)!;
+const classes = schedule.filter((c) => c.lessons?.includes(d.number) && c.n !== null).map((c) => c.n);
+const toc = headings.filter((h) => h.depth === 2);
+const { prev, next } = await neighbours(d.number);
+const siblings = (await lessonLinks()).filter((l) => l.chapter.slug === chapter.slug);
+const updated = d.updated.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base title={`${d.number} ${d.title}`} description={d.summary}>
+  <div class="lesson-page">
+    {
+      toc.length > 2 && (
+        <aside class="toc-rail" aria-label="On this page">
+          <nav class="toc">
+            <p class="toc-title">On this page</p>
+            <ol>
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+            <p class="toc-title">In this chapter</p>
+            <ol class="siblings">
+              {siblings.map((l) => (
+                <li>
+                  {l.n === d.number ? (
+                    <span aria-current="page">
+                      {l.n} {l.title}
+                    </span>
+                  ) : l.ready ? (
+                    <a href={l.href}>
+                      {l.n} {l.title}
+                    </a>
+                  ) : (
+                    <span class="soon">
+                      {l.n} {l.title}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </aside>
+      )
+    }
+
+    <header class="lesson-head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href={url('/chapters/')}>Chapters</a></li>
+          <li><a href={url(`/chapters/${chapter.slug}/`)}>{chapter.n ? `${chapter.n}. ` : ''}{chapter.title}</a></li>
+          <li><span aria-current="page">{d.number}</span></li>
+        </ol>
+      </nav>
+      <p class="eyebrow">
+        Lesson {d.number}{classes.length > 0 && <> · Class {classes.join(' and ')}</>}
+      </p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+      <ul class="meta" aria-label="About this lesson">
+        <li><span class="chip">About {d.minutes} minutes</span></li>
+        {
+          d.objectives.map((o) => (
+            <li>
+              <a class="chip obj" href={url('/course/#objectives')} title={objectives[o]}>
+                Objective {o}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      {
+        toc.length > 2 && (
+          <details class="toc-inline">
+            <summary>On this page</summary>
+            <ol>
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )
+      }
+    </header>
+
+    <article class="lesson-body">
+      <slot />
+
+      {
+        d.readings.length > 0 && (
+          <section class="readings" aria-labelledby="go-further">
+            <h2 id="go-further">Go further: the course readings</h2>
+            <p>These open textbooks are the course's official readings. They cover this lesson in more depth.</p>
+            <ul>
+              {d.readings.map((r) => (
+                <li>
+                  <a href={r.url} rel="noopener">{r.book}</a>: {r.section}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+      <p class="updated muted">Last updated {updated}. Spotted a mistake? Tell Hakan in class or by email.</p>
+    </article>
+
+    <nav class="prevnext" aria-label="More lessons">
+      {
+        prev ? (
+          <a class="pn prev" href={prev.href}>
+            <span class="pn-label">← Previous</span>
+            <span class="pn-title">
+              {prev.n} {prev.title}
+            </span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        next ? (
+          <a class="pn next" href={next.href}>
+            <span class="pn-label">Next →</span>
+            <span class="pn-title">
+              {next.n} {next.title}
+            </span>
+          </a>
+        ) : (
+          <a class="pn next" href={url(`/chapters/${chapter.slug}/`)}>
+            <span class="pn-label">Back to the chapter</span>
+            <span class="pn-title">{chapter.title}</span>
+          </a>
+        )
+      }
+    </nav>
+  </div>
+</Base>
+
+<style>
+  .lesson-page {
+    --bleed: min(var(--wide-width), 100cqi + 1rem);
+    container-type: inline-size;
+    position: relative;
+    padding: 2rem 1rem 0;
+  }
+  .lesson-head,
+  .lesson-body,
+  .prevnext {
+    max-width: var(--content-width);
+    margin-inline: auto;
+  }
+
+  /* Simulations and wide figures break out of the reading column. */
+  .lesson-body :global(> nc-action-potential),
+  .lesson-body :global(> nc-lateral-inhibition),
+  .lesson-body :global(> .bleed) {
+    display: block;
+    width: var(--bleed);
+    margin-inline: calc((100% - var(--bleed)) / 2);
+    margin-block: 1.75rem;
+  }
+
+  .crumbs ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .crumbs li + li {
+    margin: 0;
+  }
+  .crumbs li + li::before {
+    content: '/';
+    margin: 0 0.4rem 0 0.15rem;
+    color: var(--text-faint);
+  }
+  .crumbs a {
+    color: var(--text-muted);
+  }
+  .meta {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0;
+    margin: 1rem 0 0;
+  }
+  .meta li + li {
+    margin: 0;
+  }
+  .chip.obj {
+    text-decoration: none;
+  }
+  .chip.obj:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .toc-inline {
+    margin-top: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-s);
+    padding: 0.5rem 0.9rem;
+    background: var(--surface);
+  }
+  .toc-inline summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .toc-inline ol {
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .toc-rail {
+    display: none;
+    transition: opacity 0.2s;
+  }
+  /* Wide simulations need the margin: the side contents fade while one is on screen. */
+  .toc-rail.dim {
+    opacity: 0;
+    pointer-events: none;
+  }
+  @media (min-width: 78rem) {
+    .toc-rail {
+      display: block;
+      position: absolute;
+      top: 2rem;
+      bottom: 0;
+      left: max(1rem, calc(50% - var(--content-width) / 2 - 16.5rem));
+      width: 14rem;
+    }
+    .toc-inline {
+      display: none;
+    }
+  }
+  .toc {
+    position: sticky;
+    top: 5.5rem;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+  .toc-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    margin: 0 0 0.5rem;
+  }
+  .toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+  }
+  .toc li + li {
+    margin-top: 0.15rem;
+  }
+  .toc a,
+  .toc span {
+    display: block;
+    padding: 0.25rem 0.6rem;
+    border-left: 2px solid var(--border);
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .toc a:hover {
+    color: var(--text);
+    border-left-color: var(--accent);
+  }
+  .toc a.active,
+  .toc [aria-current='page'] {
+    color: var(--text);
+    border-left-color: var(--accent);
+    font-weight: 700;
+  }
+  .toc .soon {
+    color: var(--text-faint);
+  }
+
+  .lesson-body {
+    margin-top: 2.5rem;
+  }
+  .readings {
+    margin-top: 3rem;
+  }
+  .updated {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+  }
+
+  .prevnext {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+  .pn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .pn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .pn.next {
+    text-align: right;
+    grid-column: 2;
+  }
+  .pn-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .pn-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+  @media (max-width: 560px) {
+    .prevnext {
+      grid-template-columns: 1fr;
+    }
+    .pn.next {
+      grid-column: 1;
+    }
+  }
+</style>
+
+<script>
+  // Fade the side contents while a wide simulation overlaps it.
+  const rail = document.querySelector<HTMLElement>('.toc-rail');
+  const wide = document.querySelectorAll('.lesson-body > nc-action-potential, .lesson-body > nc-lateral-inhibition, .lesson-body > .bleed');
+  if (rail && wide.length && 'IntersectionObserver' in window) {
+    const onScreen = new Set<Element>();
+    const wio = new IntersectionObserver((entries) => {
+      for (const e of entries) e.isIntersecting ? onScreen.add(e.target) : onScreen.delete(e.target);
+      rail.classList.toggle('dim', onScreen.size > 0);
+    });
+    wide.forEach((el) => wio.observe(el));
+  }
+
+  // Highlight the section being read in the side table of contents.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a[href^="#"]')];
+  const targets = links
+    .map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
+    .filter((el): el is HTMLElement => !!el);
+  if (targets.length && 'IntersectionObserver' in window) {
+    const visible = new Set<Element>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) e.isIntersecting ? visible.add(e.target) : visible.delete(e.target);
+        const current = targets.find((t) => visible.has(t));
+        if (!current) return;
+        for (const a of links) a.classList.toggle('active', a.hash === `#${current.id}`);
+      },
+      { rootMargin: '-15% 0px -70% 0px' },
+    );
+    targets.forEach((t) => io.observe(t));
+  }
+</script>
