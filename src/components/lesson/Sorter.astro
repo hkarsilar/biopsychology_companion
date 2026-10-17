@@ -1,0 +1,49 @@
+---
+/**
+ * A sorting activity. Two modes:
+ * - "categories": students place each card in one of several boxes, then check.
+ * - "order": students put steps in the right order with up and down buttons, then check.
+ *
+ * Usage in a lesson:
+ *   <Sorter id="emergence" mode="categories" title="Emergent or not?"
+ *     bins={[{ id: 'yes', label: 'Emergent' }, { id: 'no', label: 'Not emergent' }]}
+ *     items={[{ text: 'A flock of starlings', bin: 'yes', explain: '…' }, …]} />
+ *   <Sorter id="steps" mode="order" title="Put the steps in order"
+ *     items={[{ text: 'First step', explain: '…' }, { text: 'Second step' }, …]} />
+ *
+ * In order mode, list the items in the right order; the sorter shuffles them.
+ * Fully usable with a keyboard and a screen reader; nothing is stored or sent.
+ */
+import type { SorterBin, SorterItem } from '../../sims/sorter/model';
+
+interface Props {
+  id: string;
+  mode: 'categories' | 'order';
+  title?: string;
+  prompt?: string;
+  bins?: SorterBin[];
+  items: SorterItem[];
+  /** Fixed shuffle, mainly for tests */
+  seed?: number;
+}
+const { id, mode, title, prompt, bins, items, seed } = Astro.props;
+const defaultPrompt =
+  mode === 'order'
+    ? 'Use the arrow buttons to move each step up or down, then press Check.'
+    : 'Pick a card, then press Place here on the box it belongs in. Press Check when you are done.';
+const config = JSON.stringify({ mode, title, prompt: prompt ?? defaultPrompt, bins, items });
+---
+
+<nc-sorter id={id} data-config={config} seed={seed}>
+  <noscript>
+    <div class="callout">
+      {title && <p class="callout-title">{title}</p>}
+      <p>This activity needs JavaScript. Here are the cards to think about:</p>
+      <ul>{items.map((it) => <li>{it.text}</li>)}</ul>
+    </div>
+  </noscript>
+</nc-sorter>
+
+<script>
+  import '../../sims/sorter/element';
+</script>
