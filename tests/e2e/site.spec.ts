@@ -1,23 +1,36 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { existsSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+
+/** Every lesson and lab page in the built site, so new ones are tested without editing this file. */
+function builtPages(): string[] {
+  const dist = join(process.cwd(), 'dist');
+  const found: string[] = [];
+  const sub = (dir: string) => (existsSync(join(dist, dir)) ? readdirSync(join(dist, dir), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name) : []);
+  for (const chapter of sub('chapters')) {
+    found.push(`chapters/${chapter}/`);
+    for (const lesson of sub(`chapters/${chapter}`)) found.push(`chapters/${chapter}/${lesson}/`);
+  }
+  for (const sim of sub('lab')) found.push(`lab/${sim}/`);
+  return found;
+}
 
 const pages = [
-  '',
-  'chapters/',
-  'chapters/neuron/',
-  'chapters/neuron/action-potential/',
-  'chapters/hearing/',
-  'lab/',
-  'lab/action-potential/',
-  'lab/lateral-inhibition/',
-  'course/',
-  'toolbox/',
-  'toolbox/glossary/',
-  'about/',
-  'teachers/',
-  'accessibility/',
-  'privacy/',
-  'licence/',
+  ...new Set([
+    '',
+    'chapters/',
+    'lab/',
+    'course/',
+    'toolbox/',
+    'toolbox/glossary/',
+    'about/',
+    'teachers/',
+    'accessibility/',
+    'privacy/',
+    'licence/',
+    ...builtPages(),
+  ]),
 ];
 
 function collectErrors(page: Page): string[] {
