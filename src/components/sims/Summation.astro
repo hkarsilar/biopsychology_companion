@@ -1,0 +1,26 @@
+---
+import { url } from '../../lib/url';
+
+interface Props {
+  id?: string;
+  preset?: string;
+  predict?: boolean;
+  present?: boolean;
+}
+const { id = 'summation-sim', preset = 'single', predict = false, present = false } = Astro.props;
+---
+
+<nc-summation
+  id={id}
+  class="bleed"
+  preset={preset}
+  predict={predict ? '' : undefined}
+  present={present ? '' : undefined}
+  lab-href={url('/lab/summation/')}
+>
+  <noscript><p class="callout">This simulation needs JavaScript. The lesson text still explains every step.</p></noscript>
+</nc-summation>
+
+<script>
+  import '../../sims/summation/element';
+</script>

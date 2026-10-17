@@ -74,6 +74,22 @@ export const sims: SimInfo[] = [
     ],
   },
   {
+    slug: 'summation',
+    title: 'Summation board',
+    blurb: 'Place excitatory and inhibitory synapses on a neuron and fire them. Will the axon hillock reach threshold?',
+    lessons: ['2.6'],
+    chapter: 'neuron',
+    status: 'ready',
+    params: ['preset', 'sites', 'repeats', 'gap', 'tau', 'lambda', 'speed', 'predict'],
+    youCan: [
+      'Fire several synapses at once and watch spatial summation.',
+      'Fire one synapse again and again and watch temporal summation.',
+      'Move synapses closer to the cell body or further out along a dendrite.',
+      'Place an inhibitory synapse near the cell body and veto distant excitation.',
+      'Change the membrane time constant and length constant.',
+    ],
+  },
+  {
     slug: 'perceptron',
     title: 'Perceptron playground',
     blurb: 'Wire a neuron by hand, then let it learn its own weights from examples.',

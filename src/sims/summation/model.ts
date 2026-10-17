@@ -6,7 +6,8 @@
  * hillock it shrinks with distance (attenuation e^(−x/λ), where λ is the length constant)
  * and it arrives later and more spread out in time. Inhibitory inputs open chloride
  * channels: a conductance that pulls the voltage towards E_Cl and, near the cell body,
- * shunts away the current from excitatory inputs.
+ * shunts away the current from excitatory inputs. Far out on a dendrite, inhibition has
+ * little effect at the hillock, so its effect falls off with distance twice as fast.
  *
  * The hillock voltage obeys   dV/dt = −(V − V_rest)/τ_m + I_exc(t) − g_inh(t)·(V − E_Cl),
  * and fires a spike when it reaches threshold.
@@ -44,6 +45,11 @@ export const SUM = {
   spreadPerLambda: 2.2,
   /** Travel delay per length constant of distance (ms) */
   delayPerLambda: 1.6,
+  /**
+   * Inhibition works mostly where it is: a chloride conductance far out on a dendrite
+   * barely changes the voltage at the hillock. So its effect falls off twice as fast.
+   */
+  inhLambdaFactor: 0.5,
   dt: 0.02,
 };
 
@@ -117,7 +123,7 @@ export class SummationModel {
       distance,
       t,
       arrive: t + travelDelay(distance, lambda),
-      weight: attenuation(distance, lambda),
+      weight: attenuation(distance, kind === 'exc' ? lambda : lambda * SUM.inhLambdaFactor),
       rise: (kind === 'exc' ? SUM.excRise : SUM.inhRise) + spread * 0.5,
       decay: (kind === 'exc' ? SUM.excDecay : SUM.inhDecay) + spread,
       alone: 0,

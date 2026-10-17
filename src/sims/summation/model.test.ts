@@ -72,6 +72,8 @@ describe('summation model', () => {
     const nearI = simulate(pattern([...exc, I(0, 0)], 1, 0, 5)).peak;
     const farI = simulate(pattern([...exc, I(3, 400)], 1, 0, 5)).peak;
     expect(farI - SUM.vRest).toBeGreaterThan(2 * (nearI - SUM.vRest));
+    // So the same pattern with the inhibitory synapse far out still fires the cell.
+    expect(simulate(pattern([...exc, I(3, 400)], 1, 0, 5)).spikes).toBe(1);
   });
 
   it('strong, fast input makes a train of spikes with a refractory gap', () => {
