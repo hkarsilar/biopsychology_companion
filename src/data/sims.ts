@@ -41,7 +41,7 @@ export const sims: SimInfo[] = [
     lessons: ['6.4'],
     chapter: 'vision',
     status: 'ready',
-    params: ['preset', 'mode', 'strength', 'spread', 'predict'],
+    params: ['preset', 'mode', 'pattern', 'strength', 'spread', 'feedforward', 'gaze', 'profile', 'electrode', 'predict'],
     youCan: [
       'Shine light on a row of receptors and record from any cell.',
       'Turn inhibition up and down and watch Mach bands appear at edges.',
