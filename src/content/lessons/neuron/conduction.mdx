@@ -1,0 +1,239 @@
+---
+title: Conduction and myelin
+number: '2.4'
+chapter: neuron
+slug: conduction
+summary: How an action potential travels along an axon, why thick and myelinated axons are fast, and what happens when myelin is lost.
+objectives: [2]
+minutes: 30
+sims: [conduction]
+readings:
+  - book: Introduction to Biological Psychology (Hall, ed.)
+    section: Neuronal communication, the part on how action potentials travel
+    url: https://openpress.sussex.ac.uk/introductiontobiologicalpsychology/
+  - book: Introduction to Neuroscience (Hedges)
+    section: The chapter on the action potential, the part on propagation and myelin
+    url: https://openbooks.lib.msu.edu/introneuroscience1/
+  - book: Interdisciplinary Explorations of Neuroscience (May)
+    section: The chapter on how neurons signal, the part on conduction
+    url: https://opentextbooks.rug.nl/interdisciplinaryexplorationsofneuroscience/
+updated: 2026-10-17
+---
+
+import Hook from '../../../components/lesson/Hook.astro';
+import Notice from '../../../components/lesson/Notice.astro';
+import FinePrint from '../../../components/lesson/FinePrint.astro';
+import UnderTheHood from '../../../components/lesson/UnderTheHood.astro';
+import Faq from '../../../components/lesson/Faq.astro';
+import Math from '../../../components/lesson/Math.astro';
+import Term from '../../../components/lesson/Term.astro';
+import Predict from '../../../components/lesson/Predict.astro';
+import CheckYourself from '../../../components/lesson/CheckYourself.astro';
+import TryIt from '../../../components/lesson/TryIt.astro';
+import Conduction from '../../../components/sims/Conduction.astro';
+
+<Hook title="Two pains from one stubbed toe">
+Stub your toe on a table leg and you feel pain twice. First comes a sharp, clear jolt that tells you exactly where it hurts. A moment later comes a second, dull, throbbing ache. Both start at the same moment, in the same toe. They arrive at different times because they travel along different kinds of axon: one wrapped in myelin, one bare. In this lesson you will race those axons against each other.
+</Hook>
+
+## How a spike moves
+
+Lesson 2.3 looked at an action potential in one small patch of membrane. A real axon is a long tube of membrane, and the spike has to travel all the way along it.
+
+It travels by *local currents*. When one patch fires, Na⁺ rushes in and makes the inside of that patch positive. That positive charge spreads along the inside of the axon to the patch next door and depolarises it. When the next patch reaches threshold, it fires too, and the process repeats. The spike is rebuilt at every point, so it arrives at the far end just as big as it started.
+
+Two things decide how fast this goes:
+
+- **How far the local current spreads before it fades.** The further it spreads, the further ahead the next patch can be triggered. This distance is the axon's <Term id="length-constant">length constant</Term>.
+- **How quickly the next patch charges up.** The membrane has to be charged before it reaches threshold, and more membrane takes longer to charge.
+
+The patch behind the spike is in its refractory period (lesson 2.3), so it cannot fire again straight away. That is why a spike only moves forwards.
+
+<Predict
+  question="Two axons are both 10 µm thick. One is bare, the other is wrapped in myelin. How much faster do you think the myelinated one will carry a spike?"
+  options={['About the same speed.', 'About twice as fast.', 'About ten times as fast.']}
+  answer={2}
+  explain="In the simulation, the myelinated axon is about nine times faster than the bare axon of the same thickness. Myelin is the reason your nervous system can work at the speed it does."
+  sim="conduction-sim"
+/>
+
+## Try it: the conduction race
+
+Three axons, each 1 cm long, are lined up. An electrode zaps the left end of each at the same moment. Press **Fire all three** and watch the spikes race to the finish line. The colour along each axon shows its voltage, and the line above it is the voltage profile. The time shown is in milliseconds of model time, slowed down so you can see it.
+
+<Conduction id="conduction-sim" predict />
+
+<Notice>
+
+1. **Thin and bare is slowest.** The 1 µm bare axon carries the spike at under 1 m/s, like the thin C fibres that carry slow, aching pain.
+2. **Thicker is faster, but not in proportion.** The 10 µm bare axon is ten times thicker but only about three times faster.
+3. **Myelin wins easily.** The 10 µm myelinated axon reaches about 25 m/s in this model, nine times faster than the bare axon of the same size.
+4. **The spike jumps.** In slow motion, the myelinated axon fires at its nodes one after another, while the stretches between them only follow along.
+5. **The spike never turns back.** Even when you zap the middle of an axon, the two spikes run away from each other and never come back.
+
+</Notice>
+
+## Why thicker axons are faster
+
+Think of the inside of an axon as a hose that current flows along. A wide hose has less resistance, so the current goes further before it leaks out through the membrane. The length constant grows with the square root of the diameter, and so does the speed of a bare axon: ten times thicker gives about √10 ≈ 3.2 times faster.
+
+Some animals rely on this. The squid's escape reflex runs on a *giant axon* about half a millimetre across. In the race it reaches about 19 m/s. Getting fast by getting thick is expensive, though. Your body has millions of axons, and there is simply no room for thousands of them to be half a millimetre wide.
+
+## Myelin: insulation with gaps
+
+Vertebrates found a better solution. <Term id="myelin">Myelin</Term>, made by oligodendrocytes in the brain and spinal cord and by Schwann cells in the nerves of the body (lesson 2.1), wraps the axon in many layers of fatty membrane. This does two things:
+
+- **It stops current leaking out.** The local current reaches much further along the axon.
+- **It makes the membrane much easier to charge.** Charging many layers stacked together takes far less charge than charging a single bare membrane, so the voltage under the myelin follows the current almost at once.
+
+Under the myelin there are hardly any sodium channels. They are packed instead into the short bare gaps, the <Term id="node-of-ranvier">nodes of Ranvier</Term>, about 1 mm apart in a 10 µm axon. The spike is rebuilt only at the nodes. Between them, the current simply flows along the inside. The spike seems to jump from node to node, which is called <Term id="saltatory-conduction">saltatory conduction</Term>, from the Latin *saltare*, to jump.
+
+Myelin also saves energy. Only the nodes let ions in during a spike, so the sodium-potassium pump has much less to undo afterwards.
+
+## Six experiments
+
+<TryIt sim="conduction-sim" preset="thin-vs-thick" title="1. Thin, thick and giant">
+Three bare axons: 1 µm, 10 µm and the 500 µm squid giant axon. How do their speeds compare with their diameters?
+</TryIt>
+
+<TryIt sim="conduction-sim" preset="giant-vs-myelin" title="2. The giant against myelin">
+The squid giant axon against two myelinated axons, 10 µm and 2 µm thick. How thin can a myelinated axon be and still beat the giant?
+</TryIt>
+
+<TryIt sim="conduction-sim" preset="jump" title="3. Watch it jump">
+Slow motion. In the myelinated axons, watch where the voltage rises first: only at the nodes.
+</TryIt>
+
+<TryIt sim="conduction-sim" preset="ms-mild" title="4. A patch of damaged myelin">
+The middle axon has lost 60 percent of its myelin along a 3 mm stretch. Is the spike slower, or does it stop?
+</TryIt>
+
+<TryIt sim="conduction-sim" preset="ms-severe" title="5. All the myelin gone">
+The same stretch has lost all its myelin. Try moving the damage slider down until the spike gets through again.
+</TryIt>
+
+<TryIt sim="conduction-sim" preset="middle" title="6. Zap the middle">
+Every axon is stimulated in the middle. Which way do the spikes go, and why don't they bounce back?
+</TryIt>
+
+## When myelin is lost
+
+In <Term id="multiple-sclerosis">multiple sclerosis</Term> (MS), the immune system attacks the myelin in the brain and spinal cord. Where the myelin is thin, current leaks out between the nodes. The spike slows down, and if too much leaks away, the next node never reaches threshold and the spike stops: a *conduction block*. That is what experiments 4 and 5 show.
+
+Which symptoms a person has depends on where the damaged patches are: blurred vision when the optic nerve is affected, numbness or tingling, weakness, problems with balance, and great tiredness. Symptoms often get worse when the body is warm, because heat makes the sodium channels close sooner, so a spike that only just made it through can fail.
+
+A similar disease can attack Schwann cell myelin in the nerves of the body: Guillain–Barré syndrome. Because Schwann cells can rebuild myelin, many people recover from it.
+
+## How fast is fast?
+
+<div class="table-scroll">
+
+| Axon | Diameter | Myelin | <Term id="conduction-velocity">Conduction velocity</Term> |
+| --- | --- | --- | --- |
+| C fibres (slow pain, temperature) | under 1.5 µm | no | 0.5 to 2 m/s |
+| Aδ fibres (sharp pain, cold) | 1 to 5 µm | thin | 5 to 30 m/s |
+| Motor axons to muscles | 12 to 20 µm | thick | 70 to 120 m/s |
+| Squid giant axon | about 500 µm | no | about 20 m/s |
+
+</div>
+
+Back to the stubbed toe. Your toe is about a metre from your spinal cord. The sharp first pain, carried by Aδ fibres at about 20 m/s, arrives in about a twentieth of a second. The dull second pain, carried by C fibres at about 1 m/s, takes about a second.
+
+<UnderTheHood title="Under the hood: a Hodgkin–Huxley cable">
+
+The simulation does not just animate a moving dot. Each axon is cut into hundreds of short compartments. Each compartment has the Hodgkin–Huxley channels from lesson 2.3, and current flows between neighbours through the resistance of the axon's inside. In the limit of very short compartments, this is the *cable equation*:
+
+<Math display label="Cable equation" tex="c_m \frac{\partial V}{\partial t} = \frac{d}{4R_i}\,\frac{\partial^2 V}{\partial x^2} - i_{\text{ion}}" />
+
+Here *c<sub>m</sub>* is the membrane capacitance per area (1 µF/cm²), *d* the diameter, *R<sub>i</sub>* the resistivity of the inside (35.4 Ω·cm) and *i<sub>ion</sub>* the current through the channels. For a passive membrane with resistance *R<sub>m</sub>*, the length constant is:
+
+<Math display label="Length constant" tex="\lambda = \sqrt{\frac{d\,R_m}{4\,R_i}}" />
+
+This is where the square-root rule comes from. For myelinated axons, the internodes get longer as the axon gets thicker, about 100 times the diameter, so their speed grows roughly in proportion to the diameter instead.
+
+In the myelinated axons, nodes are 1 µm long with 20 times the normal density of channels, and myelin makes the internode membrane 80 times better insulated and 80 times easier to charge. The damage slider makes the myelin thinner along the middle 3 mm, until at 100 percent that stretch is bare membrane with no extra channels.
+
+The voltages are solved with the backward Euler method, in steps of 5 µs of model time, and the gates with the exponential Euler method. As a check, the model's squid giant axon conducts at 18.9 m/s. Hodgkin and Huxley's own calculation in 1952 gave 18.8 m/s, and they measured about 21 m/s in a real axon.
+
+</UnderTheHood>
+
+<FinePrint>
+
+- **These are squid channels at 18.5 °C.** That is how the model can be checked against Hodgkin and Huxley's results. Mammalian axons are warmer and have different channels, so they are faster: a 10 µm myelinated axon in your body conducts at about 50 to 60 m/s, not 25.
+- **The track is short.** Each axon is 1 cm long, and the speed is measured between the 2.5 mm and 7.5 mm marks so that the start and finish do not distort it.
+- **Real demyelination is messier.** Damaged axons can spread sodium channels along the bare stretch and slowly recover some function, and myelin can partly regrow. The model keeps the damage simple.
+- **The thin bare axon stands in for a C fibre.** Real C fibres are 0.2 to 1.5 µm thick, and they are bundled together by Schwann cells that do not make myelin.
+
+</FinePrint>
+
+## Check yourself
+
+<CheckYourself
+  questions={[
+    {
+      q: 'What makes the next patch of an axon fire as a spike travels along it?',
+      options: [
+        'Sodium ions travel the whole length of the axon from the cell body.',
+        'Local current from the active patch spreads inside the axon and depolarises the next patch to threshold.',
+        'The myelin releases a chemical signal at each node.',
+      ],
+      answer: 1,
+      explain: 'Positive charge that enters at the active patch spreads along the inside of the axon. When the next patch reaches threshold, it fires its own action potential.',
+      objective: 2,
+    },
+    {
+      q: 'Why does an action potential normally travel in only one direction along an axon?',
+      options: [
+        'The patch it has just left is refractory and cannot fire again straight away.',
+        'Myelin only lets current flow one way.',
+        'Sodium channels point towards the terminal buttons.',
+      ],
+      answer: 0,
+      explain: 'The sodium channels behind the spike are inactivated. Zap the middle of an axon in the simulation and two spikes move away from each other, so nothing about the axon itself has a direction.',
+      objective: 2,
+    },
+    {
+      q: 'A bare axon becomes four times thicker. Roughly how much faster does it conduct?',
+      options: ['Four times faster.', 'Twice as fast.', 'Sixteen times faster.'],
+      answer: 1,
+      explain: 'In bare axons, speed grows with the square root of the diameter, and the square root of 4 is 2.',
+      objective: 2,
+    },
+    {
+      q: 'In saltatory conduction, where are action potentials actually generated?',
+      options: ['Only under the myelin.', 'Only at the nodes of Ranvier.', 'Everywhere along the axon at once.'],
+      answer: 1,
+      explain: 'Sodium channels are concentrated at the nodes. Between nodes, current flows quickly along the inside of the insulated axon.',
+      objective: 2,
+    },
+    {
+      q: 'In multiple sclerosis, a patch of myelin in the optic nerve is badly damaged. Why can vision fail completely instead of just slowing down?',
+      options: [
+        'Without myelin the axon is cut in two.',
+        'So much current leaks out that the next node never reaches threshold, so the spike stops.',
+        'The damaged myelin releases a toxin that blocks the photoreceptors.',
+      ],
+      answer: 1,
+      explain: 'Mild damage slows the spike, but heavy damage lets so much current leak away that conduction is blocked, as in experiment 5.',
+      objective: 2,
+    },
+  ]}
+/>
+
+## Common questions
+
+<Faq q="Does the action potential get weaker as it travels?">
+No. Each patch of membrane, or each node, fires a full action potential of its own, so the spike arrives at the end of a metre-long axon just as big as it started. What does fade with distance is the passive local current, which is why it has to be topped up again and again.
+</Faq>
+
+<Faq q="Does the spike physically jump over the myelin?">
+Not really. Current flows continuously along the inside of the axon. Under the myelin, the voltage rises almost at once but there are too few sodium channels to fire there. Only at the nodes is the signal rebuilt, so the *firing* jumps from node to node.
+</Faq>
+
+<Faq q="If myelin is so good, why aren't all axons myelinated?">
+Myelin takes space, energy and time to build, and some signals do not need to be fast. Many pain, temperature and gut signals travel on thin unmyelinated C fibres. Myelination also takes years to complete: parts of the human brain are still adding myelin in a person's twenties.
+</Faq>
+
+<Faq q="Is conduction velocity the same as how fast we think?">
+No. Conduction velocity is just how fast a spike travels along one axon. Thinking involves many neurons, and each synapse along the way adds a delay of about a millisecond. A simple reaction to a sound takes about 150 to 200 milliseconds, mostly because of processing, not travel time.
+</Faq>

@@ -1,0 +1,19 @@
+---
+import { url } from '../../lib/url';
+
+interface Props {
+  id?: string;
+  preset?: string;
+  predict?: boolean;
+  present?: boolean;
+}
+const { id = 'cell-explorer-sim', preset = 'overview', predict = false, present = false } = Astro.props;
+---
+
+<nc-cell-explorer id={id} class="bleed" preset={preset} predict={predict ? '' : undefined} present={present ? '' : undefined} lab-href={url('/lab/cell-explorer/')}>
+  <noscript><p class="callout">This simulation needs JavaScript. The lesson text still explains every part.</p></noscript>
+</nc-cell-explorer>
+
+<script>
+  import '../../sims/cell-explorer/element';
+</script>
