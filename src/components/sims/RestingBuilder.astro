@@ -1,0 +1,19 @@
+---
+import { url } from '../../lib/url';
+
+interface Props {
+  id?: string;
+  preset?: string;
+  predict?: boolean;
+  present?: boolean;
+}
+const { id = 'resting-builder-sim', preset = 'neuron', predict = false, present = false } = Astro.props;
+---
+
+<nc-resting-builder id={id} class="bleed" preset={preset} predict={predict ? '' : undefined} present={present ? '' : undefined} lab-href={url('/lab/resting-builder/')}>
+  <noscript><p class="callout">This simulation needs JavaScript. The lesson text still explains every step.</p></noscript>
+</nc-resting-builder>
+
+<script>
+  import '../../sims/resting-builder/element';
+</script>
