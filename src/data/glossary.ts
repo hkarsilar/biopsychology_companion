@@ -17,9 +17,15 @@ export const glossary: GlossaryEntry[] = [
   {
     id: 'action-potential',
     term: 'action potential',
-    definition:
-      'A brief, all-or-none reversal of the voltage across a neuron’s membrane that travels down the axon. Also called a spike.',
+    definition: 'A brief, all-or-none reversal of the voltage across a neuron’s membrane that travels down the axon. Also called a spike.',
     lessons: ['2.3'],
+  },
+  {
+    id: 'agonist',
+    term: 'agonist',
+    definition:
+      'A drug that boosts the action of a neurotransmitter. In the narrow sense, one that binds to a receptor and activates it, as nicotine does at nicotinic acetylcholine receptors.',
+    lessons: ['2.7'],
   },
   {
     id: 'all-or-none',
@@ -27,6 +33,13 @@ export const glossary: GlossaryEntry[] = [
     definition:
       'A stimulus that reaches threshold produces a full-sized action potential; one that falls short produces none. A stronger stimulus raises the firing rate, not the size of each spike.',
     lessons: ['2.3'],
+  },
+  {
+    id: 'antagonist',
+    term: 'antagonist',
+    definition:
+      'A drug that blocks the action of a neurotransmitter. A receptor antagonist sits on the receptor without activating it, as curare does at nicotinic receptors.',
+    lessons: ['2.7'],
   },
   {
     id: 'astrocyte',
@@ -37,6 +50,14 @@ export const glossary: GlossaryEntry[] = [
     lessons: ['2.1'],
   },
   {
+    id: 'autoreceptor',
+    term: 'autoreceptor',
+    definition:
+      'A receptor on a neuron’s own terminal that detects the transmitter it has just released and usually turns further release down.',
+    roots: 'auto- (self) + receptor',
+    lessons: ['2.5', '2.7'],
+  },
+  {
     id: 'axon',
     term: 'axon',
     definition:
@@ -44,17 +65,22 @@ export const glossary: GlossaryEntry[] = [
     lessons: ['2.1', '2.4'],
   },
   {
+    id: 'axon-hillock',
+    term: 'axon hillock',
+    definition: 'The cone-shaped region where the axon leaves the cell body; spikes usually start just beyond it.',
+    roots: 'hillock: a small hill.',
+    lessons: ['2.1', '2.6'],
+  },
+  {
     id: 'bipolar-neuron',
     term: 'bipolar neuron',
-    definition:
-      'A neuron with one dendrite and one axon on opposite sides of the cell body, such as the smell neurons in the nose.',
+    definition: 'A neuron with one dendrite and one axon on opposite sides of the cell body, such as the smell neurons in the nose.',
     lessons: ['2.1'],
   },
   {
     id: 'central-nervous-system',
     term: 'central nervous system (CNS)',
-    definition:
-      'The brain and the spinal cord: the parts of the nervous system enclosed by the skull and the spine.',
+    definition: 'The brain and the spinal cord: the parts of the nervous system enclosed by the skull and the spine.',
     lessons: ['2.1'],
   },
   {
@@ -63,6 +89,12 @@ export const glossary: GlossaryEntry[] = [
     definition:
       'A difference in how crowded a substance is between two places, such as inside and outside a cell. Diffusion pushes particles down the gradient.',
     lessons: ['2.2'],
+  },
+  {
+    id: 'conductance',
+    term: 'conductance',
+    definition: 'How easily an ion can cross the membrane, set by how many of its channels are open. The opposite of resistance.',
+    lessons: ['2.3'],
   },
   {
     id: 'conduction-velocity',
@@ -96,8 +128,7 @@ export const glossary: GlossaryEntry[] = [
   {
     id: 'diffusion',
     term: 'diffusion',
-    definition:
-      'The spreading of particles from where they are crowded to where they are scarce, driven by their random jiggling.',
+    definition: 'The spreading of particles from where they are crowded to where they are scarce, driven by their random jiggling.',
     lessons: ['2.2'],
   },
   {
@@ -106,6 +137,28 @@ export const glossary: GlossaryEntry[] = [
     definition:
       'The pull between opposite charges and the push between like charges. A negative inside attracts positive ions and repels negative ones.',
     lessons: ['2.2'],
+  },
+  {
+    id: 'epsp',
+    term: 'EPSP',
+    definition:
+      'Excitatory postsynaptic potential: a small, brief depolarisation of the postsynaptic membrane that makes the cell more likely to fire.',
+    lessons: ['2.5', '2.6'],
+  },
+  {
+    id: 'equilibrium-potential',
+    term: 'equilibrium potential',
+    definition:
+      'The voltage at which an ion’s electrical pull exactly balances its concentration push, so it has no net flow. About +50 mV for sodium and −77 mV for potassium in the squid axon model.',
+    lessons: ['2.2', '2.3'],
+  },
+  {
+    id: 'exocytosis',
+    term: 'exocytosis',
+    definition:
+      'Release of a vesicle’s contents by fusing the vesicle with the cell membrane, so that its contents spill outside the cell.',
+    roots: 'exo- (outside) + cyto- (cell)',
+    lessons: ['2.5'],
   },
   {
     id: 'glia',
@@ -123,10 +176,23 @@ export const glossary: GlossaryEntry[] = [
     lessons: ['2.2'],
   },
   {
+    id: 'hyperpolarisation',
+    term: 'hyperpolarisation',
+    definition: 'A change in membrane voltage that makes the inside more negative than at rest.',
+    roots: 'hyper- (beyond) + polarisation.',
+    lessons: ['2.3'],
+  },
+  {
+    id: 'inactivation',
+    term: 'inactivation',
+    definition:
+      'A second gate on the voltage-gated sodium channel that plugs it shortly after it opens, and stays shut until the membrane repolarises.',
+    lessons: ['2.3'],
+  },
+  {
     id: 'interneuron',
     term: 'interneuron',
-    definition:
-      'A neuron that connects other neurons within the brain or spinal cord. Most neurons are interneurons.',
+    definition: 'A neuron that connects other neurons within the brain or spinal cord. Most neurons are interneurons.',
     lessons: ['2.1'],
   },
   {
@@ -135,6 +201,27 @@ export const glossary: GlossaryEntry[] = [
     definition:
       'An atom or molecule with an electric charge. Positive ions are cations (such as Na⁺ and K⁺); negative ions are anions (such as Cl⁻).',
     lessons: ['2.2'],
+  },
+  {
+    id: 'ionotropic-receptor',
+    term: 'ionotropic receptor',
+    definition: 'A receptor that is itself an ion channel. When transmitter binds, it opens within a fraction of a millisecond.',
+    lessons: ['2.5', '2.7'],
+  },
+  {
+    id: 'ipsp',
+    term: 'IPSP',
+    definition:
+      'Inhibitory postsynaptic potential: a small change in the postsynaptic membrane, usually a hyperpolarisation, that makes the cell less likely to fire.',
+    lessons: ['2.5', '2.6'],
+  },
+  {
+    id: 'lateral-inhibition',
+    term: 'lateral inhibition',
+    definition:
+      'Neighbouring cells suppressing each other’s activity, so differences between neighbours are exaggerated and edges stand out.',
+    roots: 'lateral: sideways.',
+    lessons: ['6.4'],
   },
   {
     id: 'leak-channel',
@@ -147,15 +234,28 @@ export const glossary: GlossaryEntry[] = [
     id: 'length-constant',
     term: 'length constant',
     definition:
-      'How far a voltage change spreads passively along an axon before it fades to about a third of its size. Thicker and better-insulated axons have longer length constants.',
-    lessons: ['2.4'],
+      'The distance along an axon or dendrite over which a passive voltage change shrinks to about 37 percent (roughly a third) of its size. Thicker and better-insulated axons have longer length constants. Written λ (lambda).',
+    lessons: ['2.4', '2.6'],
+  },
+  {
+    id: 'mach-bands',
+    term: 'Mach bands',
+    definition:
+      'Light and dark stripes that we see at the edges of a brightness ramp although they are not in the image. Named after Ernst Mach, who described them in 1865.',
+    lessons: ['6.4'],
   },
   {
     id: 'membrane-potential',
     term: 'membrane potential',
-    definition:
-      'The voltage across a cell’s membrane: the inside measured relative to the outside, in millivolts.',
+    definition: 'The voltage across a cell’s membrane: the inside measured relative to the outside, in millivolts.',
     lessons: ['2.2'],
+  },
+  {
+    id: 'metabotropic-receptor',
+    term: 'metabotropic receptor',
+    definition:
+      'A receptor that is not a channel. It switches on a G protein inside the cell, which then opens or closes channels or changes the cell’s chemistry. Slower than an ionotropic receptor, and longer lasting.',
+    lessons: ['2.5', '2.7'],
   },
   {
     id: 'microglia',
@@ -167,8 +267,7 @@ export const glossary: GlossaryEntry[] = [
   {
     id: 'motor-neuron',
     term: 'motor neuron',
-    definition:
-      'A neuron that carries commands from the brain and spinal cord to muscles or glands.',
+    definition: 'A neuron that carries commands from the brain and spinal cord to muscles or glands.',
     lessons: ['2.1'],
   },
   {
@@ -181,8 +280,7 @@ export const glossary: GlossaryEntry[] = [
   {
     id: 'multipolar-neuron',
     term: 'multipolar neuron',
-    definition:
-      'A neuron with one axon and many dendrites. The most common shape, including motor neurons and most interneurons.',
+    definition: 'A neuron with one axon and many dendrites. The most common shape, including motor neurons and most interneurons.',
     lessons: ['2.1'],
   },
   {
@@ -208,6 +306,12 @@ export const glossary: GlossaryEntry[] = [
     lessons: ['2.1'],
   },
   {
+    id: 'neurotransmitter',
+    term: 'neurotransmitter',
+    definition: 'A chemical that a neuron releases at a synapse to pass a signal to another cell.',
+    lessons: ['2.5', '2.7'],
+  },
+  {
     id: 'node-of-ranvier',
     term: 'node of Ranvier',
     definition:
@@ -218,8 +322,7 @@ export const glossary: GlossaryEntry[] = [
   {
     id: 'oligodendrocyte',
     term: 'oligodendrocyte',
-    definition:
-      'A glial cell of the brain and spinal cord that makes myelin. One oligodendrocyte wraps segments of many different axons.',
+    definition: 'A glial cell of the brain and spinal cord that makes myelin. One oligodendrocyte wraps segments of many different axons.',
     roots: 'Greek oligos, few + dendron, tree + kytos, cell: a cell with a few branches.',
     lessons: ['2.1', '2.4'],
   },
@@ -233,9 +336,36 @@ export const glossary: GlossaryEntry[] = [
   {
     id: 'permeability',
     term: 'permeability',
-    definition:
-      'How easily an ion can cross a membrane. It depends on how many open channels there are for that ion.',
+    definition: 'How easily an ion can cross a membrane. It depends on how many open channels there are for that ion.',
     lessons: ['2.2'],
+  },
+  {
+    id: 'postsynaptic',
+    term: 'postsynaptic',
+    definition: 'On the receiving side of a synapse.',
+    roots: 'post- (after) + synapse',
+    lessons: ['2.5'],
+  },
+  {
+    id: 'presynaptic',
+    term: 'presynaptic',
+    definition: 'On the sending side of a synapse.',
+    roots: 'pre- (before) + synapse',
+    lessons: ['2.5'],
+  },
+  {
+    id: 'receptive-field',
+    term: 'receptive field',
+    definition: 'The region of the sensory surface (for example, a patch of retina) where a stimulus changes a neuron’s firing.',
+    lessons: ['6.4'],
+  },
+  {
+    id: 'refractory-period',
+    term: 'refractory period',
+    definition:
+      'The time after a spike when a second spike is impossible (absolute) or needs a stronger stimulus (relative), because sodium channels are still inactivated and potassium channels still open.',
+    roots: 'Latin refractarius, stubborn.',
+    lessons: ['2.3'],
   },
   {
     id: 'repolarisation',
@@ -244,18 +374,17 @@ export const glossary: GlossaryEntry[] = [
     lessons: ['2.3'],
   },
   {
-    id: 'hyperpolarisation',
-    term: 'hyperpolarisation',
-    definition: 'A change in membrane voltage that makes the inside more negative than at rest.',
-    roots: 'hyper- (beyond) + polarisation.',
-    lessons: ['2.3'],
-  },
-  {
     id: 'resting-potential',
     term: 'resting potential',
-    definition:
-      'The membrane potential of a neuron that is not being stimulated, typically about −70 millivolts (inside negative).',
+    definition: 'The membrane potential of a neuron that is not being stimulated, typically about −70 millivolts (inside negative).',
     lessons: ['2.2'],
+  },
+  {
+    id: 'reuptake',
+    term: 'reuptake',
+    definition:
+      'Clearing a neurotransmitter from the synaptic cleft by carrying it back into the terminal, or into a glial cell, through transporter proteins.',
+    lessons: ['2.5', '2.7'],
   },
   {
     id: 'saltatory-conduction',
@@ -275,8 +404,7 @@ export const glossary: GlossaryEntry[] = [
   {
     id: 'sensory-neuron',
     term: 'sensory neuron',
-    definition:
-      'A neuron that carries information from the senses into the brain and spinal cord.',
+    definition: 'A neuron that carries information from the senses into the brain and spinal cord.',
     lessons: ['2.1'],
   },
   {
@@ -295,6 +423,38 @@ export const glossary: GlossaryEntry[] = [
     lessons: ['2.1'],
   },
   {
+    id: 'spatial-summation',
+    term: 'spatial summation',
+    definition: 'Adding up postsynaptic potentials from different synapses that are active at about the same time.',
+    lessons: ['2.6'],
+  },
+  {
+    id: 'synapse',
+    term: 'synapse',
+    definition:
+      'A junction where a neuron passes a signal to another cell. At a chemical synapse, the signal crosses as a neurotransmitter.',
+    roots: 'Greek syn (together) + haptein (to fasten)',
+    lessons: ['2.5'],
+  },
+  {
+    id: 'synaptic-cleft',
+    term: 'synaptic cleft',
+    definition: 'The narrow gap, about 20 to 40 nanometres wide, between the presynaptic terminal and the postsynaptic membrane.',
+    lessons: ['2.5'],
+  },
+  {
+    id: 'synaptic-vesicle',
+    term: 'synaptic vesicle',
+    definition: 'A tiny bubble of membrane in the terminal, filled with thousands of neurotransmitter molecules.',
+    lessons: ['2.5'],
+  },
+  {
+    id: 'temporal-summation',
+    term: 'temporal summation',
+    definition: 'Adding up postsynaptic potentials that arrive in quick succession, before the earlier ones have faded.',
+    lessons: ['2.6'],
+  },
+  {
     id: 'terminal-button',
     term: 'terminal button',
     definition:
@@ -302,10 +462,37 @@ export const glossary: GlossaryEntry[] = [
     lessons: ['2.1'],
   },
   {
+    id: 'tetraethylammonium',
+    term: 'tetraethylammonium (TEA)',
+    definition: 'A laboratory chemical that blocks many voltage-gated potassium channels.',
+    lessons: ['2.3'],
+  },
+  {
+    id: 'tetrodotoxin',
+    term: 'tetrodotoxin (TTX)',
+    definition: 'A toxin from pufferfish and some other animals that blocks voltage-gated sodium channels from the outside.',
+    roots: 'Tetraodontiformes, the order of fish that includes pufferfish.',
+    lessons: ['2.3'],
+  },
+  {
     id: 'threshold',
     term: 'threshold',
     definition:
       'The membrane voltage at which enough voltage-gated sodium channels open for the depolarisation to feed itself and an action potential to follow.',
+    lessons: ['2.3'],
+  },
+  {
+    id: 'time-constant',
+    term: 'time constant',
+    definition:
+      'How quickly a membrane’s voltage settles after a change: the time it takes to get about 63 percent of the way to its new level. Written τ (tau).',
+    lessons: ['2.6'],
+  },
+  {
+    id: 'undershoot',
+    term: 'undershoot',
+    definition:
+      'The short dip below the resting potential at the end of a spike, caused by potassium channels that are slow to close. Also called the after-hyperpolarisation.',
     lessons: ['2.3'],
   },
   {
@@ -320,83 +507,6 @@ export const glossary: GlossaryEntry[] = [
     term: 'voltage-gated channel',
     definition: 'A protein pore in the membrane that opens or closes when the voltage across the membrane changes.',
     lessons: ['2.3'],
-  },
-  {
-    id: 'inactivation',
-    term: 'inactivation',
-    definition:
-      'A second gate on the voltage-gated sodium channel that plugs it shortly after it opens, and stays shut until the membrane repolarises.',
-    lessons: ['2.3'],
-  },
-  {
-    id: 'refractory-period',
-    term: 'refractory period',
-    definition:
-      'The time after a spike when a second spike is impossible (absolute) or needs a stronger stimulus (relative), because sodium channels are still inactivated and potassium channels still open.',
-    roots: 'Latin refractarius, stubborn.',
-    lessons: ['2.3'],
-  },
-  {
-    id: 'undershoot',
-    term: 'undershoot',
-    definition:
-      'The short dip below the resting potential at the end of a spike, caused by potassium channels that are slow to close. Also called the after-hyperpolarisation.',
-    lessons: ['2.3'],
-  },
-  {
-    id: 'equilibrium-potential',
-    term: 'equilibrium potential',
-    definition:
-      'The voltage at which an ion’s electrical pull exactly balances its concentration push, so it has no net flow. About +50 mV for sodium and −77 mV for potassium in the squid axon model.',
-    lessons: ['2.2', '2.3'],
-  },
-  {
-    id: 'conductance',
-    term: 'conductance',
-    definition:
-      'How easily an ion can cross the membrane, set by how many of its channels are open. The opposite of resistance.',
-    lessons: ['2.3'],
-  },
-  {
-    id: 'tetrodotoxin',
-    term: 'tetrodotoxin (TTX)',
-    definition: 'A toxin from pufferfish and some other animals that blocks voltage-gated sodium channels from the outside.',
-    roots: 'Tetraodontiformes, the order of fish that includes pufferfish.',
-    lessons: ['2.3'],
-  },
-  {
-    id: 'tetraethylammonium',
-    term: 'tetraethylammonium (TEA)',
-    definition: 'A laboratory chemical that blocks many voltage-gated potassium channels.',
-    lessons: ['2.3'],
-  },
-  {
-    id: 'axon-hillock',
-    term: 'axon hillock',
-    definition: 'The cone-shaped region where the axon leaves the cell body; spikes usually start just beyond it.',
-    roots: 'hillock: a small hill.',
-    lessons: ['2.1', '2.6'],
-  },
-  {
-    id: 'lateral-inhibition',
-    term: 'lateral inhibition',
-    definition:
-      'Neighbouring cells suppressing each other’s activity, so differences between neighbours are exaggerated and edges stand out.',
-    roots: 'lateral: sideways.',
-    lessons: ['6.4'],
-  },
-  {
-    id: 'mach-bands',
-    term: 'Mach bands',
-    definition:
-      'Light and dark stripes that we see at the edges of a brightness ramp although they are not in the image. Named after Ernst Mach, who described them in 1865.',
-    lessons: ['6.4'],
-  },
-  {
-    id: 'receptive-field',
-    term: 'receptive field',
-    definition: 'The region of the sensory surface (for example, a patch of retina) where a stimulus changes a neuron’s firing.',
-    lessons: ['6.4'],
   },
 ];
 
