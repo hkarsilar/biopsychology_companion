@@ -19,6 +19,21 @@ export interface SimInfo {
 
 export const sims: SimInfo[] = [
   {
+    slug: 'cell-explorer',
+    title: 'Meet the cells',
+    blurb: 'Click your way around a neuron and the glial cells that look after it, then follow a signal from dendrite to muscle.',
+    lessons: ['2.1'],
+    chapter: 'neuron',
+    status: 'ready',
+    params: ['preset', 'part', 'view'],
+    youCan: [
+      'Click any part of the neuron to see its job in the signal’s journey.',
+      'Meet the four kinds of glia: astrocytes, oligodendrocytes, Schwann cells and microglia.',
+      'Follow a signal from a synapse on a dendrite all the way to a muscle.',
+      'Compare multipolar, bipolar and pseudo-unipolar neurons.',
+    ],
+  },
+  {
     slug: 'action-potential',
     title: 'Action potential lab',
     blurb: 'Zap a patch of squid axon and watch sodium and potassium channels open, close and lock. Add pufferfish poison and see what breaks.',
@@ -32,6 +47,36 @@ export const sims: SimInfo[] = [
       'Hold a steady current and turn stimulus strength into firing rate.',
       'Block channels with TTX, TEA or sea anemone toxin.',
       'Slow time down to a quarter of a millisecond per second.',
+    ],
+  },
+  {
+    slug: 'resting-builder',
+    title: 'Resting potential builder',
+    blurb: 'Open and close leak channels for potassium, sodium and chloride, and watch the membrane settle where their pulls balance.',
+    lessons: ['2.2'],
+    chapter: 'neuron',
+    status: 'ready',
+    params: ['preset', 'pk', 'pna', 'pcl', 'kout', 'temp', 'pump'],
+    youCan: [
+      'Make the membrane leak only potassium, only sodium, or a mix.',
+      'Raise the potassium outside the cell and watch the neuron depolarise.',
+      'Turn the sodium-potassium pump off and fast-forward the hours.',
+      'Try the squid giant axon values that Hodgkin and Katz measured.',
+    ],
+  },
+  {
+    slug: 'conduction',
+    title: 'Conduction race',
+    blurb: 'Race spikes down thin, thick and myelinated axons, then strip the myelin off and see what multiple sclerosis does.',
+    lessons: ['2.4'],
+    chapter: 'neuron',
+    status: 'ready',
+    params: ['preset', 'lanes', 'damage', 'stim', 'speed', 'predict'],
+    youCan: [
+      'Race three axons of your choice over one centimetre.',
+      'Watch the spike jump from node to node in slow motion.',
+      'Damage the myelin on one axon and find the point where conduction fails.',
+      'Zap the middle of an axon and watch the spike travel both ways.',
     ],
   },
   {
@@ -52,10 +97,17 @@ export const sims: SimInfo[] = [
   {
     slug: 'resting-potential',
     title: 'Ion tug-of-war',
-    blurb: 'Diffusion pushes, voltage pulls. Change concentrations and watch the membrane settle at a new resting potential.',
+    blurb: 'Diffusion pushes, voltage pulls. Let potassium leak out of a cell and watch the voltage build until the two forces balance.',
     lessons: ['2.2'],
     chapter: 'neuron',
-    status: 'coming',
+    status: 'ready',
+    params: ['preset', 'ion', 'cin', 'cout', 'temp', 'predict'],
+    youCan: [
+      'Open potassium channels and watch the voltage build up, ion by ion.',
+      'See the concentration push and the electrical pull balance at the Nernst potential.',
+      'Swap potassium for sodium or chloride and predict where each one settles.',
+      'Change the concentrations and the temperature.',
+    ],
   },
   {
     slug: 'synapse',
@@ -99,7 +151,13 @@ export const sims: SimInfo[] = [
   },
 ];
 
-export const readySims = sims.filter((s) => s.status === 'ready');
+/** Lesson numbers in course order: "2.10" comes after "2.9". */
+function lessonKey(s: SimInfo): number {
+  const [c, l] = (s.lessons[0] ?? '99.99').split('.').map(Number);
+  return c * 100 + l;
+}
+
+export const readySims = sims.filter((s) => s.status === 'ready').sort((a, b) => lessonKey(a) - lessonKey(b));
 export const comingSims = sims.filter((s) => s.status === 'coming');
 
 export function simBySlug(slug: string): SimInfo | undefined {
