@@ -35,7 +35,8 @@ npm run test:e2e   # browser tests against a built site (Playwright + axe)
 
 1. Create `src/content/lessons/<chapter-slug>/<lesson-slug>.mdx`. The `number`, `chapter` and `slug` in its frontmatter must match `src/data/chapters.ts` (the build checks this).
 2. Copy the structure of `src/content/lessons/neuron/action-potential.mdx`.
-3. Run `npm run dev` and open the lesson. Chapter pages, the course page and next/previous links update by themselves.
+3. Mention other lessons as plain text ("lesson 2.4"): the build turns each mention into a link as soon as that lesson exists (`src/lib/lesson-links.ts`).
+4. Run `npm run dev` and open the lesson. Chapter pages, the course page and next/previous links update by themselves.
 
 ### The sorter
 
