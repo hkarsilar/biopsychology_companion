@@ -1,0 +1,19 @@
+---
+import { url } from '../../lib/url';
+
+interface Props {
+  id?: string;
+  preset?: string;
+  predict?: boolean;
+  present?: boolean;
+}
+const { id = 'conduction-sim', preset = 'ready', predict = false, present = false } = Astro.props;
+---
+
+<nc-conduction id={id} class="bleed" preset={preset} predict={predict ? '' : undefined} present={present ? '' : undefined} lab-href={url('/lab/conduction/')}>
+  <noscript><p class="callout">This simulation needs JavaScript. The lesson text still explains every step.</p></noscript>
+</nc-conduction>
+
+<script>
+  import '../../sims/conduction/element';
+</script>
