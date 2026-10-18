@@ -426,7 +426,7 @@ export class SynapseElement extends SimElement {
       <span><i style="background: var(--ion-ca); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%)"></i>Ca²⁺ (diamonds)</span>
       ${ionLegend[T.ion]}
       <span><i class="round" style="background: var(--accent)"></i>${T.name} (small dots)</span>`;
-    this.$('.subtitle').textContent = `${cap(aSynapse(T.name))} with ${/^(5|A)/.test(T.receptorName) ? 'an' : 'a'} ${T.receptorName}`;
+    this.$('.subtitle').textContent = `${cap(aSynapse(T.name))} with ${/^A/.test(T.receptorName) ? 'an' : 'a'} ${T.receptorName}`;
     this.updateTimescale();
   }
 

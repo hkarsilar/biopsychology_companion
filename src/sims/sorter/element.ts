@@ -190,7 +190,7 @@ export class SorterElement extends HTMLElement {
               <div class="bin-head">
                 <span class="bin-title">${esc(b.label)}</span>
                 <button type="button" class="place" data-key="b${esc(b.id)}" data-bin="${esc(b.id)}" ${this.picked === null ? 'disabled' : ''}
-                  aria-label="${this.picked === null ? `Pick a card first, then place it in ${esc(b.label)}` : `Place “${esc(pickedText)}” in ${esc(b.label)}`}">Place here</button>
+                  aria-label="${this.picked === null ? `Place here in ${esc(b.label)} (pick a card first)` : `Place here in ${esc(b.label)}: “${esc(pickedText)}”`}">Place here</button>
               </div>
               <ul>
                 ${inBin
@@ -289,15 +289,22 @@ export class SorterElement extends HTMLElement {
       const n = this.cfg.items.length;
       const right = inPlaceCount(this.order);
       this.draw();
-      this.setScore(right === n ? `All ${n} steps are in the right order. Well done!` : `${right} of ${n} steps are in the right place. Move the others and check again.`);
+      this.setScore(
+        right === n
+          ? `All ${n} steps are in the right order. Well done!`
+          : `${right} of ${n} steps ${right === 1 ? 'is' : 'are'} in the right place. Move the others and check again.`,
+      );
     } else {
       const r = checkCategories(this.cfg.items, this.placement);
       this.draw();
       const left = r.total - r.placed;
+      const next = r.right < r.placed ? 'Read the feedback, move the wrong ones and check again.' : 'Place the rest and check again.';
       this.setScore(
         r.right === r.total
           ? `All ${r.total} cards are in the right place. Well done!`
-          : `${r.right} of ${r.placed} placed cards are right${left ? `, and ${left} still to place` : ''}. Read the feedback, move the wrong ones and check again.`,
+          : r.placed === 0
+            ? 'Place some cards first, then press Check.'
+            : `You have ${r.right} of ${r.placed} placed ${r.placed === 1 ? 'card' : 'cards'} right${left ? `, with ${left} still to place` : ''}. ${next}`,
       );
     }
   }

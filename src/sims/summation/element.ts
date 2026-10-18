@@ -228,7 +228,7 @@ export class SummationElement extends SimElement {
             <div class="board-wrap">
               <canvas class="board" style="aspect-ratio: 1 / 0.95" role="img" aria-label="A neuron with a cell body, three dendrites and an axon. Circles mark places where synapses can sit."></canvas>
               <div class="sites" role="group" aria-label="Synapse sites on the neuron">
-                ${SITES.map((s, i) => `<button type="button" class="site" data-i="${i}"><span aria-hidden="true"></span></button>`).join('')}
+                ${SITES.map((_, i) => `<button type="button" class="site" data-i="${i}"><span aria-hidden="true"></span></button>`).join('')}
               </div>
             </div>
             <figcaption>
