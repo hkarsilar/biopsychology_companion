@@ -215,7 +215,6 @@ export function buildGeometry(w: number, h: number, measure: (text: string) => n
   const margin = Math.max(10, Math.min(w, h) * 0.035);
   const somaU = L * (vertical ? 0.36 : 0.27);
   const R = clamp(Math.min(L * (vertical ? 0.058 : 0.045), B * 0.1), 14, 46);
-  const dir = (a: number): Pt => ({ x: Math.cos(a), y: Math.sin(a) });
   let rand = rng(1);
 
   // ---------- Dendrites, in unit lengths, then scaled to fit ----------
