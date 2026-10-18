@@ -1,0 +1,242 @@
+---
+title: The synapse
+number: '2.5'
+chapter: neuron
+slug: synapse
+summary: How a spike at the end of an axon becomes a chemical message, crosses a tiny gap and changes the voltage of the next cell.
+objectives: [2]
+minutes: 30
+sims: [synapse]
+readings:
+  - book: Introduction to Biological Psychology (Hall, ed.)
+    section: Neuronal communication
+    url: https://openpress.sussex.ac.uk/introductiontobiologicalpsychology/
+  - book: Introduction to Neuroscience (Hedges)
+    section: 11. Synapse Structure, 12. Steps in Synaptic Signaling, and 13. Ionotropic Receptors versus Metabotropic Receptors
+    url: https://openbooks.lib.msu.edu/introneuroscience1/
+updated: 2026-10-17
+---
+
+import Hook from '../../../components/lesson/Hook.astro';
+import Notice from '../../../components/lesson/Notice.astro';
+import FinePrint from '../../../components/lesson/FinePrint.astro';
+import UnderTheHood from '../../../components/lesson/UnderTheHood.astro';
+import Faq from '../../../components/lesson/Faq.astro';
+import Math from '../../../components/lesson/Math.astro';
+import Term from '../../../components/lesson/Term.astro';
+import Predict from '../../../components/lesson/Predict.astro';
+import CheckYourself from '../../../components/lesson/CheckYourself.astro';
+import TryIt from '../../../components/lesson/TryIt.astro';
+import Sorter from '../../../components/lesson/Sorter.astro';
+import Synapse from '../../../components/sims/Synapse.astro';
+import { url as siteUrl } from '../../../lib/url';
+
+<Hook title="An experiment that came in a dream">
+In 1921 the pharmacologist Otto Loewi woke in the night with an idea for an experiment. He scribbled it down and went back to sleep. In the morning he could not read his own handwriting. The next night the idea came back, and this time he went straight to his lab. He took two frog hearts, still beating in salt solution. He stimulated the nerve to the first heart, and it slowed down. Then he moved some of the fluid around the first heart to the second heart. The second heart slowed down too. The nerve had released a chemical. That chemical, later identified as acetylcholine, won Loewi a Nobel Prize in 1936.
+</Hook>
+
+## Sparks or soup?
+
+At the start of the twentieth century, scientists argued about how one nerve cell talks to the next. One camp said the electric signal simply jumps across ("sparks"). The other said the nerve releases a chemical ("soup"). Loewi's frog hearts settled it for that synapse: the message was chemical.
+
+A <Term id="synapse">synapse</Term> is the junction where a neuron passes its signal to another cell. Most synapses in your brain are chemical. In <a href={siteUrl('/chapters/neuron/action-potential/')}>lesson 2.3</a>, the action potential travelled to the end of the axon. This lesson follows it across the gap.
+
+## The parts of a chemical synapse
+
+- The **<Term id="presynaptic">presynaptic</Term> terminal** (or terminal button) is the swollen end of an axon branch. It is the sending side.
+- Inside it are hundreds of <Term id="synaptic-vesicle">synaptic vesicles</Term>, tiny bubbles of membrane, each packed with thousands of molecules of <Term id="neurotransmitter">neurotransmitter</Term>. A few vesicles are docked at the membrane, ready to go.
+- The <Term id="synaptic-cleft">synaptic cleft</Term> is the gap between the cells. It is only 20 to 40 nanometres wide, about a thousandth of the width of a hair.
+- The **<Term id="postsynaptic">postsynaptic</Term> membrane** on the receiving side is studded with **receptors**: proteins that recognise the transmitter.
+- Around many synapses, an **astrocyte** wraps the junction. It helps to clean up transmitter that escapes.
+
+<Predict
+  question="Eight vesicles are docked and ready when one spike arrives at the terminal. How many of them will release their transmitter?"
+  options={['All eight, every time.', 'Some of them, a few at random.', 'None. It takes several spikes to release anything.']}
+  answer={1}
+  explain="Each docked vesicle has a chance of fusing when calcium rushes in. In this model about a third of them go, so a single spike releases two or three vesicles. Real synapses vary a lot: some release almost nothing on most spikes, others release several vesicles every time."
+  sim="synapse-sim"
+/>
+
+## Try it: one spike, one step at a time
+
+Press **Send a spike** to watch the whole sequence in slow motion, or **Next step** to stop after each event and read what happened. The left panel shows the synapse. The right panel shows three traces: the voltage of the terminal with its calcium level, the amount of transmitter in the cleft, and the voltage of the postsynaptic cell. The time scale shows how much the simulation is slowed down. Most of the action happens within two milliseconds.
+
+<Synapse id="synapse-sim" />
+
+<Notice>
+
+1. **Calcium is the trigger.** The spike opens voltage-gated calcium channels in the terminal. Ca²⁺ rushes in, and only then do vesicles fuse with the membrane and spill their contents into the cleft. This is called <Term id="exocytosis">exocytosis</Term>.
+2. **The whole crossing takes under a millisecond.** From the spike arriving to transmitter binding is the *synaptic delay*. Slowed down 2,000 times, it takes about two seconds.
+3. **Only some vesicles fuse.** Watch *Docked and ready* drop after a spike, then slowly recover.
+4. **The response is small.** One glutamate spike lifts the postsynaptic voltage by a few millivolts: an <Term id="epsp">EPSP</Term>, or excitatory postsynaptic potential. That is far below threshold. Lesson 2.6 shows how many of them add up.
+5. **The cleft is cleaned up fast.** Within a few milliseconds the transmitter is gone, taken up by transporters, broken down or drifted away. That keeps each message short.
+
+</Notice>
+
+<Sorter
+  id="synapse-order"
+  mode="order"
+  title="Put the steps in order"
+  items={[
+    { text: 'An action potential arrives at the presynaptic terminal.' },
+    { text: 'Voltage-gated calcium channels open.' },
+    { text: 'Calcium ions flow into the terminal.' },
+    { text: 'Vesicles fuse with the membrane and release transmitter into the cleft.', explain: 'Exocytosis. Without calcium, this step does not happen.' },
+    { text: 'Transmitter crosses the cleft and binds to receptors.' },
+    { text: 'Ion channels open and a postsynaptic potential begins.' },
+    { text: 'Transmitter is cleared from the cleft.', explain: 'By reuptake, by an enzyme, or by drifting away.' },
+    { text: 'Vesicles are refilled and docked again.', explain: 'This takes far longer than release, which is why a fast burst runs the terminal low.' },
+  ]}
+/>
+
+## Excitatory and inhibitory synapses
+
+What a synapse does to the next cell depends on which ions its receptors let through. Remember the equilibrium potentials from lesson 2.3: each ion pulls the membrane towards its own target voltage.
+
+- **Glutamate** opens receptors that let Na⁺ in. Sodium's target is far above rest, so the membrane depolarises a little. That is an EPSP, and it makes the cell *more* likely to fire.
+- **GABA** opens receptors that let Cl⁻ in. Chloride's target, about −80 millivolts in this model, is below rest, so the membrane hyperpolarises a little. That is an <Term id="ipsp">IPSP</Term>, or inhibitory postsynaptic potential, and it makes the cell *less* likely to fire.
+
+Excitatory and inhibitory are words about the *receptor and its ions*, not about how strong a synapse is. Lesson 2.7 shows that the same transmitter can do either, depending on the receptor it lands on.
+
+## Fast receptors and slow receptors
+
+There are two families of receptors, and the simulation has both.
+
+- An <Term id="ionotropic-receptor">ionotropic receptor</Term> is itself an ion channel. When transmitter binds, the channel opens within a fraction of a millisecond. The glutamate, GABA and acetylcholine synapses in the simulation use this kind.
+- A <Term id="metabotropic-receptor">metabotropic receptor</Term> is not a channel. Transmitter binding switches on a *G protein* inside the cell, which drifts along the membrane and opens or closes channels nearby. That takes tens of milliseconds and lasts much longer. The serotonin synapse in the simulation has a metabotropic receptor that opens K⁺ channels, so it makes a slow IPSP.
+
+Fast receptors are for fast messages, such as a sound or a touch. Slow receptors are better at setting a mood: they change how a cell responds to everything else for a while.
+
+## Cleaning up
+
+A message is only useful if it ends. There are three ways to clear the cleft:
+
+1. **<Term id="reuptake">Reuptake</Term>.** Transporter proteins carry the transmitter back into the terminal, or into a nearby astrocyte. Glutamate, GABA, serotonin and dopamine are cleared this way.
+2. **An enzyme in the cleft.** Acetylcholine is broken down by acetylcholinesterase, one of the fastest enzymes known. The terminal then takes back the leftover choline to make new acetylcholine.
+3. **Diffusion.** Some transmitter simply drifts out of the cleft.
+
+The terminal also listens to itself. <Term id="autoreceptor">Autoreceptors</Term> on the terminal detect the transmitter it has just released, and when there is a lot about, they turn release down. Meanwhile, emptied vesicles are pulled back in, refilled and docked again.
+
+## Five experiments
+
+Each card sets up the simulation for you and scrolls to it. Predict first, then press the button.
+
+<TryIt sim="synapse-sim" preset="step" title="1. One event at a time">
+A spike is on its way. Press **Next step** again and again. After each step, say out loud what will happen next before you press again.
+</TryIt>
+
+<TryIt sim="synapse-sim" preset="gaba" title="2. An inhibitory synapse">
+Now the synapse releases GABA. Which ion flows, and in which direction does the postsynaptic voltage go?
+</TryIt>
+
+<TryIt sim="synapse-sim" preset="ach" title="3. Acetylcholine and its enzyme">
+Watch the small enzyme molecules in the cleft. How does acetylcholine leave the cleft, compared with glutamate?
+</TryIt>
+
+<TryIt sim="synapse-sim" preset="metabotropic" title="4. A slow receptor">
+Serotonin acts on a metabotropic receptor here. The time axis now spans 400 milliseconds. How long does the IPSP take to peak, compared with the GABA one?
+</TryIt>
+
+<TryIt sim="synapse-sim" preset="burst" title="5. A burst of five spikes">
+Five spikes arrive 20 milliseconds apart. Watch *Docked and ready* and the cleft trace. Do the later spikes release as much as the first?
+</TryIt>
+
+<UnderTheHood title="Under the hood: the synapse model">
+
+Each part of the simulation is a small equation, solved in steps of 5 microseconds.
+
+**Calcium and release.** The spike opens calcium channels. Release grows with the fourth power of the calcium level, because a vesicle's calcium sensor needs several calcium ions bound before it fuses. Bernard Katz and his colleagues found this steep relationship in the 1960s. With *D* docked vesicles and calcium level *c*:
+
+<Math display label="Release rate" tex="r = k \, D \, \frac{c^4}{c^4 + K^4}" />
+
+**The cleft.** Each vesicle adds a fixed amount of transmitter, and three routes take it away at their own rates: uptake, enzyme and diffusion.
+
+<Math display label="Transmitter in the cleft" tex="\frac{dT}{dt} = q\,r - (k_{\text{uptake}} + k_{\text{enzyme}} + k_{\text{diffusion}})\,T" />
+
+**Receptors.** The fraction of receptors with transmitter bound depends on how much transmitter there is, compared with the receptor's affinity *K*<sub>d</sub>. A competitive blocker *A* takes a share of the receptors without opening them, which is what the drug bench in lesson 2.7 uses:
+
+<Math display label="Receptor occupancy" tex="O = \frac{T/K_d}{1 + T/K_d + A/K_A}" />
+
+Ionotropic channels follow occupancy within about a millisecond. Metabotropic receptors pass through two slower steps, a G protein and then the channel, which is why their response rises and falls so slowly.
+
+**The postsynaptic cell.** Open channels pull the voltage towards their ion's equilibrium potential *E*, against a leak back to rest:
+
+<Math display label="Postsynaptic voltage" tex="\tau_m \frac{dV}{dt} = -(V - V_{\text{rest}}) - g\,(V - E)" />
+
+The dashed control traces come from a second copy of the same synapse that runs alongside, without the drug.
+
+</UnderTheHood>
+
+<FinePrint>
+
+- **The numbers are illustrative.** Real synapses differ a lot in how many vesicles they release, how big their PSPs are, and how fast they recover. The simulation is set so that each step is easy to see.
+- **The muscle synapse is different.** At the junction between a motor neuron and a muscle fibre, one spike releases enough acetylcholine to fire the muscle every time. The acetylcholine synapse here behaves more like one between two neurons, with a small EPSP.
+- **Electrical synapses exist too.** At some synapses, channels called gap junctions connect the two cells directly, and current flows across with almost no delay. They are less common in the adult mammalian brain than chemical synapses.
+- **Not every inhibitory synapse hyperpolarises.** If chloride's equilibrium potential is close to rest, opening chloride channels barely moves the voltage. It still inhibits, by holding the voltage near rest and short-circuiting nearby excitation. Lesson 2.6 shows this.
+- **Molecules are drawn, not counted.** The dots in the cleft follow the model's transmitter level. A real vesicle holds thousands of molecules.
+
+</FinePrint>
+
+## Check yourself
+
+<CheckYourself
+  questions={[
+    {
+      q: 'What directly triggers the vesicles in the terminal to release their transmitter?',
+      options: ['Sodium ions flowing into the terminal.', 'Calcium ions flowing into the terminal.', 'The transmitter binding to receptors on the next cell.'],
+      answer: 1,
+      explain: 'The spike opens voltage-gated calcium channels. Calcium entry is the signal for docked vesicles to fuse with the membrane.',
+      objective: 2,
+    },
+    {
+      q: 'Why does opening GABA-A receptors usually make a neuron less likely to fire?',
+      options: [
+        'Cl⁻ flows in and pulls the membrane towards chloride’s equilibrium potential, which is at or below rest.',
+        'GABA blocks the sodium channels that make action potentials.',
+        'GABA stops the neuron releasing its own transmitter.',
+      ],
+      answer: 0,
+      explain: 'GABA-A receptors are chloride channels. Chloride pulls the voltage towards about −70 to −80 millivolts, away from threshold. That is an IPSP.',
+      objective: 2,
+    },
+    {
+      q: 'A transmitter acts on a receptor that is not an ion channel but switches on a G protein inside the cell. What kind of response do you expect?',
+      options: ['A fast response that is over within a few milliseconds.', 'A slower response that lasts much longer.', 'No response, because only channels can change the voltage.'],
+      answer: 1,
+      explain: 'That is a metabotropic receptor. The G protein has to reach and open (or close) channels, which takes tens of milliseconds, and the effect lasts longer.',
+      objective: 2,
+    },
+    {
+      q: 'Acetylcholine is not taken back up into the terminal. How is it cleared from the cleft?',
+      options: ['An enzyme in the cleft breaks it down.', 'It stays bound to its receptors until the next spike.', 'Astrocytes take it all up.'],
+      answer: 0,
+      explain: 'Acetylcholinesterase breaks acetylcholine into choline and acetate within milliseconds. The terminal then takes the choline back up to make new acetylcholine.',
+      objective: 2,
+    },
+    {
+      q: 'During a fast burst of spikes, each spike releases less transmitter than the one before. What is the most likely reason?',
+      options: ['The receptors are worn out.', 'Docked vesicles are used up faster than they can be refilled.', 'The spikes get smaller during a burst.'],
+      answer: 1,
+      explain: 'Refilling and docking take far longer than release. Experiment 5 shows the docked count falling during a burst.',
+      objective: 2,
+    },
+  ]}
+/>
+
+## Common questions
+
+<Faq q="Does one spike always release the same amount of transmitter?">
+No. In a real synapse, release is a matter of chance: each docked vesicle may or may not fuse, so the amount varies from spike to spike. The simulation shows the average, about a third of the docked vesicles. The brain can turn that average up or down, which is one way synapses get stronger or weaker with learning.
+</Faq>
+
+<Faq q="If the postsynaptic potential is so small, how does a neuron ever fire?">
+A typical neuron in the cortex receives thousands of synapses. Its axon hillock adds up all their EPSPs and IPSPs, and fires when the total reaches threshold. That adding up is the topic of lesson 2.6.
+</Faq>
+
+<Faq q="Is the gap really necessary? Wouldn't a direct wire be faster?">
+Electrical synapses are faster, and some circuits use them where speed or synchrony matters. But a chemical synapse can do more. It can amplify, switch sign from excitation to inhibition, change its strength with learning, and be tuned by drugs and hormones. Those features are worth a delay of under a millisecond.
+</Faq>
+
+<Faq q="Why is the transmitter cleared so quickly?">
+So that each spike sends a separate message. If transmitter lingered, the next cell could not tell one spike from the next. Drugs that slow clearance, such as many antidepressants, make each message last longer. Lesson 2.7 explores what that does.
+</Faq>

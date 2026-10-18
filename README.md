@@ -37,6 +37,24 @@ npm run test:e2e   # browser tests against a built site (Playwright + axe)
 2. Copy the structure of `src/content/lessons/neuron/action-potential.mdx`.
 3. Run `npm run dev` and open the lesson. Chapter pages, the course page and next/previous links update by themselves.
 
+### The sorter
+
+`<Sorter>` (`src/components/lesson/Sorter.astro`) is a sorting activity that works with buttons only, so it is usable with a keyboard and a screen reader and fits a phone screen. Nothing is stored or sent.
+
+| Prop | What it does |
+| --- | --- |
+| `id` | Unique id on the page |
+| `mode` | `"categories"` (sort cards into boxes) or `"order"` (put steps in order) |
+| `title`, `prompt` | Optional heading and instructions. Each mode has a sensible default prompt |
+| `bins` | Categories mode only: `[{ id, label }]`, at least two |
+| `items` | `[{ text, bin?, explain? }]`. In categories mode, `bin` is the right box. In order mode, list the items in the right order; the sorter shuffles them. `explain` is shown after checking |
+| `seed` | Optional number for a fixed shuffle, mainly for tests |
+
+```mdx
+<Sorter id="steps" mode="order" title="Put the steps in order"
+  items={[{ text: 'First step' }, { text: 'Second step', explain: 'Why it comes second' }, { text: 'Third step' }]} />
+```
+
 ## Deploying
 
 Every push to `main` builds the site and publishes it to GitHub Pages

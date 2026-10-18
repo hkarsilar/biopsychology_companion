@@ -1,0 +1,245 @@
+---
+title: Integration and summation
+number: '2.6'
+chapter: neuron
+slug: summation
+summary: How a neuron adds up thousands of small excitatory and inhibitory inputs, and why where and when they arrive matters as much as how many there are.
+objectives: [2]
+minutes: 30
+sims: [summation]
+readings:
+  - book: Introduction to Biological Psychology (Hall, ed.)
+    section: Neuronal communication
+    url: https://openpress.sussex.ac.uk/introductiontobiologicalpsychology/
+  - book: Introduction to Neuroscience (Hedges)
+    section: 8. Electrical Activity in Neurons
+    url: https://openbooks.lib.msu.edu/introneuroscience1/
+  - book: Interdisciplinary Explorations of Neuroscience (May)
+    section: 2. Neural Networks
+    url: https://opentextbooks.rug.nl/interdisciplinaryexplorationsofneuroscience/
+updated: 2026-10-17
+---
+
+import Hook from '../../../components/lesson/Hook.astro';
+import Notice from '../../../components/lesson/Notice.astro';
+import FinePrint from '../../../components/lesson/FinePrint.astro';
+import UnderTheHood from '../../../components/lesson/UnderTheHood.astro';
+import Faq from '../../../components/lesson/Faq.astro';
+import Math from '../../../components/lesson/Math.astro';
+import Term from '../../../components/lesson/Term.astro';
+import Predict from '../../../components/lesson/Predict.astro';
+import CheckYourself from '../../../components/lesson/CheckYourself.astro';
+import TryIt from '../../../components/lesson/TryIt.astro';
+import Sorter from '../../../components/lesson/Sorter.astro';
+import Summation from '../../../components/sims/Summation.astro';
+import { url as siteUrl } from '../../../lib/url';
+
+<Hook title="Holding still for the needle">
+A nurse slides a needle into your arm. A reflex circuit in your spinal cord says *pull away*: pain signals excite, through a few interneurons, the motor neurons for the muscles that would yank your arm back. Yet most adults keep their arm perfectly still. At the same moment, signals from your brain arrive at those same motor neurons and inhibit them. Each motor neuron adds up the "go" and the "stop" it receives, and the stop wins. This lesson is about that adding up.
+</Hook>
+
+## One neuron, thousands of voices
+
+In <a href={siteUrl('/chapters/neuron/synapse/')}>lesson 2.5</a>, one spike at one synapse made a postsynaptic potential of a few millivolts. A neuron in your cortex receives thousands of synapses, some excitatory and some inhibitory. To fire, its voltage has to climb from rest to threshold, about 15 millivolts in this lesson's model. No single <Term id="epsp">EPSP</Term> gets there.
+
+The decision is made at the <Term id="axon-hillock">axon hillock</Term>, where the axon leaves the cell body. It has many voltage-gated sodium channels, so it has the lowest threshold in the cell. Whatever voltage reaches the hillock decides whether an action potential starts, just as in <a href={siteUrl('/chapters/neuron/action-potential/')}>lesson 2.3</a>.
+
+Postsynaptic potentials are not like action potentials. They are *graded*: their size depends on how much transmitter arrived. And they are *passive*: nothing rebuilds them as they spread. So they shrink in two ways:
+
+- **With distance.** A PSP leaks away as it spreads along a dendrite towards the cell body. The <Term id="length-constant">length constant</Term>, λ, is the distance over which it shrinks to about a third of its size.
+- **With time.** A PSP fades after it peaks. The <Term id="time-constant">time constant</Term>, τ, sets how fast.
+
+<Predict
+  question="Two synapses each lift the hillock by about 8 millivolts. Threshold is 15 millivolts above rest. What happens if both fire at the same moment?"
+  options={['Nothing. Each one is below threshold, so the cell ignores them.', 'They add up and the cell fires.', 'The second one is blocked by the first.']}
+  answer={1}
+  explain="The two EPSPs arrive at the hillock together and add up to about 16 millivolts, which is just past threshold. That is spatial summation. Check it in the simulation with the Fire pattern button."
+  sim="summation-sim"
+/>
+
+## Try it: the summation board
+
+The neuron on the left has a cell body, three dendrites and an axon. The circles mark places where a synapse can sit, at different distances from the cell body. The rings are 100 micrometres apart. The trace on the right shows the voltage at the axon hillock, against the threshold line. Thin lines show what each input would do on its own; the bold line is the sum.
+
+To change a synapse, choose what a click should do (*Make it excitatory*, *Make it inhibitory* or *Remove it*), then click circles. To fire, choose *Fire it* and click a synapse, or press **Fire pattern** to fire them all together, once or several times.
+
+<Summation id="summation-sim" />
+
+<Notice>
+
+1. **One EPSP is not enough.** Even a synapse right on the cell body lifts the hillock by about 12 millivolts, short of the 15 needed.
+2. **Inputs at the same time add up.** This is <Term id="spatial-summation">spatial summation</Term>: inputs from different places, summed at the hillock.
+3. **Inputs close together in time add up.** This is <Term id="temporal-summation">temporal summation</Term>: a second EPSP that arrives before the first has faded starts from higher up.
+4. **Distance matters.** A synapse 400 micrometres out on a dendrite makes an EPSP at the hillock that is several times smaller, later and more spread out than one on the cell body.
+5. **Inhibition near the cell body is powerful.** One IPSP on the cell body can cancel two EPSPs that would otherwise fire the cell. The same inhibitory synapse far out on a dendrite hardly matters.
+
+</Notice>
+
+## Spatial summation
+
+Each synapse injects a little current. At the hillock, the voltage changes add: two EPSPs of 8 millivolts make roughly 16. An excitatory and an inhibitory input partly cancel. A neuron fires when the sum of everything arriving at the hillock reaches threshold. With thousands of inputs, the neuron is constantly adding and subtracting.
+
+## Temporal summation
+
+An EPSP does not vanish at once. It decays over tens of milliseconds, at a speed set by the membrane's time constant. If the same synapse fires again before the first EPSP has gone, the second one starts from a higher level. Fire fast enough and the EPSPs pile up past threshold.
+
+This is how a single, very active input can drive a neuron on its own, and how timing carries information. A neuron with a long time constant adds up inputs over a wide window. One with a short time constant only responds to inputs that arrive almost together.
+
+## Where a synapse sits matters
+
+A PSP that starts far out on a thin dendrite leaks out through the membrane on its way to the cell body. The further it travels, the smaller it gets. A long length constant means less is lost.
+
+Inhibition follows the same rule, even more strongly. An inhibitory synapse opens chloride channels. Near the cell body, those open channels hold the hillock close to rest and short-circuit the excitatory current flowing in from the dendrites. Far out on a dendrite, their effect stays mostly local. This is why many inhibitory neurons in the cortex make their synapses on the cell body, or even on the start of the axon: that is where a "stop" is hardest to ignore.
+
+<Sorter
+  id="summation-kind"
+  mode="categories"
+  title="Spatial or temporal?"
+  bins={[
+    { id: 'spatial', label: 'Spatial summation' },
+    { id: 'temporal', label: 'Temporal summation' },
+  ]}
+  items={[
+    { text: 'Two synapses on different dendrites fire at the same moment, and the cell fires.', bin: 'spatial' },
+    { text: 'One synapse fires three times in ten milliseconds, and the cell fires.', bin: 'temporal', explain: 'The same input, repeated before the earlier EPSPs had faded.' },
+    { text: 'A cell fires only when its left and its right input are both active.', bin: 'spatial', explain: 'Two different inputs, added together at the same time.' },
+    { text: 'A cell fires when one input fires quickly, but not when the same input fires slowly.', bin: 'temporal' },
+    { text: 'An IPSP on the cell body arrives together with two EPSPs, and the cell stays quiet.', bin: 'spatial', explain: 'Inputs from different places, added together. One of them happens to be negative.' },
+    { text: 'With a longer time constant, a slow train of EPSPs from one synapse now reaches threshold.', bin: 'temporal' },
+  ]}
+/>
+
+## Seven experiments
+
+Each card sets up the board and fires it. Predict first: will the cell fire?
+
+<TryIt sim="summation-sim" preset="spatial" title="1. Two at once">
+Two synapses on different dendrites fire together. Compare the bold sum with the two thin lines.
+</TryIt>
+
+<TryIt sim="summation-sim" preset="temporal" title="2. One synapse, three times, 5 milliseconds apart">
+Then make the gap longer with the slider and press **Fire pattern** again. What is the longest gap that still works?
+</TryIt>
+
+<TryIt sim="summation-sim" preset="distance" title="3. Near and far">
+The same synapse strength, first on the cell body and then 400 micrometres out. How much smaller is the far EPSP at the hillock?
+</TryIt>
+
+<TryIt sim="summation-sim" preset="veto" title="4. The veto">
+Two EPSPs that would fire the cell, plus one IPSP on the cell body.
+</TryIt>
+
+<TryIt sim="summation-sim" preset="far-inhibition" title="5. Inhibition from afar">
+The same inhibitory synapse, moved 400 micrometres out on a dendrite.
+</TryIt>
+
+<TryIt sim="summation-sim" preset="length-constant" title="6. A longer length constant">
+Three distant synapses fire with λ = 800 micrometres. Then drag λ down to 300 and fire again.
+</TryIt>
+
+<TryIt sim="summation-sim" preset="time-constant" title="7. A shorter time constant">
+Three EPSPs, 8 milliseconds apart, with τ = 5 milliseconds. Then drag τ up to 30 and fire again.
+</TryIt>
+
+## A neuron makes decisions
+
+Put these ideas together and a neuron starts to look like a tiny decision-maker. Each input has a *weight*: how much it moves the hillock, which depends on the synapse's strength, its sign (excitatory or inhibitory) and its distance. The neuron adds up the weighted inputs and fires if the total passes a threshold.
+
+Try the AND gate below. Neither input can fire the cell alone, but both together can. Make each input strong enough to fire the cell on its own and you would have an OR gate instead. Chapter 3 builds whole networks from exactly this idea.
+
+<TryIt sim="summation-sim" preset="and-gate" title="One more: an AND gate">
+Choose *Fire it*. Click A1 on its own, then B1 on its own, then press **Fire pattern** to fire both together. Only both together reach threshold.
+</TryIt>
+
+<UnderTheHood title="Under the hood: a leaky integrate-and-fire neuron">
+
+The board uses one of the oldest and most useful models in neuroscience: a *leaky integrate-and-fire* neuron. The voltage at the hillock, *V*, leaks back to rest with time constant τ<sub>m</sub>, is pushed up by excitatory current, and is pulled towards chloride's equilibrium potential by inhibitory conductance:
+
+<Math display label="Hillock voltage" tex="\frac{dV}{dt} = -\frac{V - V_{\text{rest}}}{\tau_m} + I_{\text{exc}}(t) - g_{\text{inh}}(t)\,(V - E_{\text{Cl}})" />
+
+When *V* reaches −55 millivolts, the model records a spike, resets the voltage to −75 millivolts and holds it there for 3 milliseconds. Rest is −70 millivolts and E<sub>Cl</sub> is −80.
+
+Each input reaches the hillock as a smooth bump in current or conductance. Its size shrinks with distance *x* from the cell body, as it would along a passive cable:
+
+<Math display label="Attenuation with distance" tex="w = e^{-x/\lambda}" />
+
+Distant inputs also arrive a little later and more spread out in time. Inhibition uses a length constant half as long, because a conductance far away changes the hillock voltage much less than one close by. Real dendrites need many coupled equations to describe properly; this shortcut keeps the parts you can see on the board.
+
+</UnderTheHood>
+
+<FinePrint>
+
+- **Real dendrites are not passive.** Many have voltage-gated channels that boost distant inputs or even fire small dendritic spikes of their own. So a distant synapse can matter more than this model suggests.
+- **The numbers are chosen to be easy to see.** A real EPSP from one synapse is often well under a millivolt by the time it reaches the cell body, and a neuron may need dozens of them at once. Here, two or three are enough.
+- **The spike is drawn, not modelled.** The model does not have sodium and potassium channels. It simply records a spike at threshold and resets.
+- **Threshold is not fixed.** In real neurons it varies with recent activity, as lesson 2.3 showed.
+
+</FinePrint>
+
+## Check yourself
+
+<CheckYourself
+  questions={[
+    {
+      q: 'Two synapses on different dendrites each make an EPSP below threshold. When they fire together, the neuron fires. What is this called?',
+      options: ['Temporal summation.', 'Spatial summation.', 'The all-or-none law.'],
+      answer: 1,
+      explain: 'Inputs from different places that arrive together add up at the axon hillock: spatial summation.',
+      objective: 2,
+    },
+    {
+      q: 'A single synapse fires five times in a row. With 4 milliseconds between spikes the neuron fires; with 40 milliseconds it does not. Why?',
+      options: [
+        'With short gaps, each EPSP starts before the last one has faded, so they pile up.',
+        'With long gaps, the synapse runs out of transmitter.',
+        'The axon hillock can only count up to five.',
+      ],
+      answer: 0,
+      explain: 'Temporal summation depends on EPSPs overlapping in time. With a 40-millisecond gap, each one has mostly decayed before the next arrives.',
+      objective: 2,
+    },
+    {
+      q: 'Where would an inhibitory synapse have the strongest effect on whether the neuron fires?',
+      options: ['Far out at the tip of a dendrite.', 'On the cell body, close to the axon hillock.', 'On the presynaptic terminal of the same neuron.'],
+      answer: 1,
+      explain: 'Near the hillock, inhibition can directly hold the voltage down and short-circuit excitation coming from the dendrites. Far away, its effect fades before it reaches the hillock.',
+      objective: 2,
+    },
+    {
+      q: 'What would a longer length constant (λ) do?',
+      options: ['Make distant synapses count for more at the hillock.', 'Make every EPSP last longer.', 'Raise the threshold of the neuron.'],
+      answer: 0,
+      explain: 'The length constant sets how far a PSP spreads before it shrinks. A longer one means less is lost on the way. Making PSPs last longer is the job of the time constant.',
+      objective: 2,
+    },
+    {
+      q: 'Which statement about postsynaptic potentials is true?',
+      options: [
+        'They are all-or-none, like action potentials.',
+        'They are graded and fade with distance and time.',
+        'They always travel to the end of the axon without shrinking.',
+      ],
+      answer: 1,
+      explain: 'PSPs are graded: bigger input, bigger PSP. They spread passively and fade. Only the action potential is rebuilt as it travels.',
+      objective: 2,
+    },
+  ]}
+/>
+
+## Common questions
+
+<Faq q="Does the axon hillock really add things up, like a calculator?">
+Not by counting. The currents from all the open synapses flow through the cell and change the voltage together, and voltage changes simply combine. The result at the hillock is roughly the sum, which is why "adding up" is a good description.
+</Faq>
+
+<Faq q="If one EPSP is so small, why have so many synapses?">
+Because the neuron is meant to respond to patterns, not to single events. A cell that fires only when many of its inputs agree is a reliable detector. A cell that fired on any one input would be easily fooled by noise.
+</Faq>
+
+<Faq q="Is a neuron really a logic gate?">
+It can act like one, as the AND gate experiment shows. But a real neuron is richer: its inputs have different weights, its dendrites do some processing of their own, and timing matters. Chapter 3 starts from the simple version and shows how far it can go.
+</Faq>
+
+<Faq q="What sets a neuron's time constant?">
+The membrane's resistance and capacitance. A membrane with few open channels holds charge for longer and has a longer time constant. Open many channels, for example during strong inhibition, and the time constant gets shorter.
+</Faq>

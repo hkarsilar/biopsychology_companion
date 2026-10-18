@@ -1,0 +1,243 @@
+---
+title: Drugs at the synapse
+number: '2.7'
+chapter: neuron
+slug: drugs
+summary: Medicines, poisons and recreational drugs all work by changing a step of synaptic transmission. Learn the steps and you can predict what a drug will do.
+objectives: [2]
+minutes: 35
+sims: [synapse]
+readings:
+  - book: Introduction to Biological Psychology (Hall, ed.)
+    section: Neuronal communication
+    url: https://openpress.sussex.ac.uk/introductiontobiologicalpsychology/
+  - book: Introduction to Neuroscience (Hedges)
+    section: 14 to 19, the chapters on neurotransmitters, and 20. Drug and Toxin Effects
+    url: https://openbooks.lib.msu.edu/introneuroscience1/
+updated: 2026-10-17
+---
+
+import Hook from '../../../components/lesson/Hook.astro';
+import Notice from '../../../components/lesson/Notice.astro';
+import FinePrint from '../../../components/lesson/FinePrint.astro';
+import UnderTheHood from '../../../components/lesson/UnderTheHood.astro';
+import Faq from '../../../components/lesson/Faq.astro';
+import Term from '../../../components/lesson/Term.astro';
+import Predict from '../../../components/lesson/Predict.astro';
+import CheckYourself from '../../../components/lesson/CheckYourself.astro';
+import TryIt from '../../../components/lesson/TryIt.astro';
+import Sorter from '../../../components/lesson/Sorter.astro';
+import TransmitterCards from '../../../components/lesson/TransmitterCards.astro';
+import Synapse from '../../../components/sims/Synapse.astro';
+import { url as siteUrl } from '../../../lib/url';
+
+<Hook title="Limp or locked">
+Two poisons, one synapse. Botulinum toxin, made by a bacterium that can grow in badly canned food, makes muscles go limp. In tiny doses it is sold as Botox, to relax wrinkles and treat migraine. The venom of the black widow spider does the opposite: painful cramps that can last for days. Both act at the same place, the synapse between a motor neuron and a muscle, where the transmitter is acetylcholine. By the end of this lesson you will be able to say exactly which step each one breaks.
+</Hook>
+
+## Every step is a target
+
+In <a href={siteUrl('/chapters/neuron/synapse/')}>lesson 2.5</a> you followed one spike across a synapse. Each step in that chain is a place where a drug can act:
+
+1. **Making the transmitter.** Give more of the raw material and the terminal can make more. L-DOPA, a treatment for Parkinson's disease, works this way.
+2. **Filling the vesicles.** Reserpine stops vesicles filling with monoamines, so there is little left to release.
+3. **Release.** Botulinum toxin stops vesicles fusing. Black widow venom forces them to fuse all at once.
+4. **Receptors.** A drug can sit on the receptor and switch it on, like nicotine, or sit there and block it, like curare.
+5. **Reuptake.** Blocking the transporters keeps transmitter in the cleft for longer. Cocaine and antidepressants such as fluoxetine (Prozac) do this.
+6. **Breakdown.** Blocking the enzyme that destroys a transmitter makes it last longer. Nerve agents block acetylcholinesterase.
+7. **Autoreceptors.** Blocking the terminal's own brake can increase release.
+
+## Agonists and antagonists
+
+Two words cover most drugs:
+
+- An <Term id="agonist">agonist</Term> boosts the effect of a transmitter.
+- An <Term id="antagonist">antagonist</Term> weakens or blocks it.
+
+In this course we use the words broadly: a drug that blocks reuptake is an agonist, because it makes the transmitter work harder, even though it never touches the receptor. Pharmacologists often use the words more narrowly, for drugs that bind the receptor itself. In that narrow sense, an agonist binds and activates the receptor, and a *competitive* antagonist binds the same spot without activating it, so less transmitter can get on.
+
+<Predict
+  question="An SSRI antidepressant blocks the transporters that take serotonin back up. What will it do to the postsynaptic response to a single spike?"
+  options={['Make it bigger or longer.', 'Make it smaller.', 'Nothing. The drug does not touch the receptors.']}
+  answer={0}
+  explain="With reuptake blocked, serotonin stays in the cleft for longer and keeps activating receptors. The slow IPSP that follows one spike becomes much larger and longer. Try it below: choose Serotonin, then Reuptake blocker."
+  sim="drug-sim"
+/>
+
+## Try it: the drug bench
+
+The simulation is the synapse from lesson 2.5, with a drug bench. Choose a synapse and a drug, predict, then press **Send a spike**. The dashed lines on the right show the same synapse without the drug, so you can compare. A ring on the left marks where the drug acts. *Predict, then watch* is on, so the simulation will ask you first.
+
+<Synapse id="drug-sim" preset="bench" predict />
+
+<Notice>
+
+1. **Each drug acts at one step.** The warning ring shows where: the receptors, the transporters, the enzyme, or the vesicles.
+2. **Receptor blockers leave release alone.** With curare, the terminal releases as much acetylcholine as before. The postsynaptic response shrinks because fewer receptors can be reached.
+3. **Clearance drugs stretch the message.** Blocking reuptake or the enzyme keeps transmitter in the cleft, so the PSP grows and lasts longer.
+4. **A drug with no target does nothing.** Acetylcholine is not taken back up, so a reuptake blocker has no effect at that synapse.
+5. **Some drugs act without any spike.** An agonist or an MDMA-like drug changes the postsynaptic voltage before you send a single spike. Look at the starting voltage.
+
+</Notice>
+
+## Experiments with real drugs
+
+Each card loads one synapse and one drug, and sends a spike. Predict first.
+
+<TryIt sim="drug-sim" preset="curare" title="1. Curare at an acetylcholine synapse">
+Arrow poison used by hunters in South America. Compare the released vesicles with the dashed control. What changed, and what did not?
+</TryIt>
+
+<TryIt sim="drug-sim" preset="nerve-agent" title="2. A nerve agent">
+Nerve agents such as sarin block acetylcholinesterase. Watch the enzyme in the cleft and the postsynaptic trace. Why are these agents so dangerous?
+</TryIt>
+
+<TryIt sim="drug-sim" preset="botox" title="3. Botulinum toxin">
+The terminal gets the spike and the calcium, but what happens to the vesicles?
+</TryIt>
+
+<TryIt sim="drug-sim" preset="black-widow" title="4. Black widow venom">
+Release is boosted. Send a few more spikes. What happens to the docked vesicles?
+</TryIt>
+
+<TryIt sim="drug-sim" preset="nicotine" title="5. Nicotine">
+Look at the postsynaptic voltage before and after the spike. Why is the EPSP a little smaller than without nicotine?
+</TryIt>
+
+<TryIt sim="drug-sim" preset="ssri" title="6. An SSRI at a serotonin synapse">
+Compare the cleft trace and the slow IPSP with the dashed control.
+</TryIt>
+
+<TryIt sim="drug-sim" preset="mdma" title="7. MDMA">
+MDMA makes the serotonin transporters run backwards. Look at the cleft before you send any spike.
+</TryIt>
+
+<TryIt sim="drug-sim" preset="ach-reuptake" title="8. The wrong drug">
+A reuptake blocker at an acetylcholine synapse. Predict, then check.
+</TryIt>
+
+<Sorter
+  id="drug-sort"
+  mode="categories"
+  title="Agonist or antagonist?"
+  prompt="Use the broad meaning: does the drug boost or weaken the transmitter's effect? Pick a card, then press Place here on the box it belongs in."
+  bins={[
+    { id: 'ag', label: 'Agonist (boosts)' },
+    { id: 'ant', label: 'Antagonist (weakens)' },
+  ]}
+  items={[
+    { text: 'Nicotine, which activates nicotinic acetylcholine receptors', bin: 'ag' },
+    { text: 'Curare, which sits on nicotinic receptors without opening them', bin: 'ant' },
+    { text: 'Fluoxetine, which blocks serotonin reuptake', bin: 'ag', explain: 'It never touches the receptor, but it keeps serotonin working for longer.' },
+    { text: 'Botulinum toxin, which stops acetylcholine release', bin: 'ant' },
+    { text: 'Donepezil, which blocks acetylcholinesterase', bin: 'ag', explain: 'Less breakdown means more acetylcholine for longer. That is why it is used in Alzheimer’s disease.' },
+    { text: 'Naloxone, which blocks opioid receptors', bin: 'ant' },
+    { text: 'L-DOPA, which the brain turns into dopamine', bin: 'ag' },
+    { text: 'Reserpine, which stops vesicles filling', bin: 'ant', explain: 'Empty vesicles still fuse, but they release almost nothing.' },
+  ]}
+/>
+
+## One transmitter, opposite effects
+
+Here is the key idea of this lesson. A transmitter is not excitatory or inhibitory by itself. **The receptor decides.**
+
+Remember Loewi's frog heart from lesson 2.5. Acetylcholine *slowed* the heart. Yet at the synapse between a motor neuron and a skeletal muscle, acetylcholine makes the muscle *contract*. Same molecule, opposite effects. The muscle has nicotinic receptors, which are channels that let Na⁺ in. The heart has muscarinic receptors, which work through a G protein to open K⁺ channels and slow the beat.
+
+So drugs can be very selective. Atropine blocks muscarinic receptors but not nicotinic ones: it speeds up the heart and widens the pupils, but leaves your muscles working. Curare does the reverse.
+
+Use the cards to explore. Filter by effect, then turn a card over to see its receptors and the drugs that act on them.
+
+<TransmitterCards id="tx-cards" title="Nine transmitters" />
+
+<UnderTheHood title="Under the hood: how the drug bench works">
+
+The drug bench changes one number in the synapse model from lesson 2.5, and a second copy of the model runs alongside without the drug, to draw the dashed lines.
+
+- **Agonist.** Adds a steady amount of receptor activation, as if a drug were always bound to some receptors. That is why the postsynaptic voltage moves before any spike.
+- **Receptor blocker.** Competes with the transmitter for the receptors. Lots of transmitter can still outcompete it, which is what *competitive* means.
+- **Reuptake blocker.** Cuts the transporters' clearance rate to a tenth.
+- **Enzyme blocker.** Cuts the enzyme's clearance rate to a twentieth. At a serotonin or GABA synapse, the enzyme sits inside the terminal instead, so blocking it lets each vesicle hold more transmitter.
+- **Release blocker.** Cuts the chance that a docked vesicle fuses to a twenty-fifth. For serotonin, the example is reserpine, so the vesicles still fuse but are nearly empty.
+- **Release booster.** Multiplies the chance of fusion by about two and a half. For serotonin, the example is MDMA, so transmitter leaks out through the transporters, even without spikes.
+
+If a synapse has nothing for the drug to act on, the bench says so and the model is unchanged.
+
+</UnderTheHood>
+
+<FinePrint>
+
+- **Real drugs are messier.** Most act at more than one site. Cocaine blocks the transporters for dopamine, noradrenaline and serotonin. Alcohol affects GABA, glutamate and several other receptors.
+- **Some drugs change how well a receptor works.** Benzodiazepines such as diazepam bind to their own site on the GABA-A receptor. They do nothing alone, but make the receptor respond more strongly when GABA binds. They are agonists in the broad sense, not the narrow one.
+- **The brain adapts.** Antidepressants block reuptake within hours, but their effect on mood usually takes weeks. With repeated use of many drugs, the brain changes its receptors and release to compensate. That is part of tolerance and withdrawal.
+- **Doses matter.** The bench uses one strong dose of each drug. In reality, a little botulinum toxin relaxes one muscle and a lot can stop breathing.
+- **The muscle junction is simplified.** In the simulation the acetylcholine synapse makes a small EPSP. At a real nerve and muscle junction, the response is much larger.
+
+</FinePrint>
+
+## Check yourself
+
+<CheckYourself
+  questions={[
+    {
+      q: 'A drug binds to a receptor without activating it, so that less transmitter can bind. What is it?',
+      options: ['An agonist.', 'A competitive antagonist.', 'A reuptake blocker.'],
+      answer: 1,
+      explain: 'It competes with the transmitter for the same site and blocks the effect. Curare at nicotinic receptors is the classic example.',
+      objective: 2,
+    },
+    {
+      q: 'Why does blocking acetylcholinesterase make acetylcholine’s effects stronger?',
+      options: [
+        'Acetylcholine stays in the cleft for longer and keeps activating receptors.',
+        'The terminal releases more vesicles per spike.',
+        'Acetylcholine binds to more types of receptor.',
+      ],
+      answer: 0,
+      explain: 'The enzyme normally clears acetylcholine within milliseconds. Without it, each release lasts much longer. That is how nerve agents and the Alzheimer’s drug donepezil work, at very different doses.',
+      objective: 2,
+    },
+    {
+      q: 'Acetylcholine makes skeletal muscle contract but slows the heart. How is that possible?',
+      options: [
+        'The heart and the muscles receive different amounts.',
+        'The two tissues have different receptors: nicotinic in muscle, muscarinic in the heart.',
+        'In the heart, acetylcholine is broken down into an inhibitory transmitter.',
+      ],
+      answer: 1,
+      explain: 'The receptor decides. Nicotinic receptors are cation channels that excite. Muscarinic M2 receptors in the heart open K⁺ channels through a G protein and slow it down.',
+      objective: 2,
+    },
+    {
+      q: 'You add a reuptake blocker to a synapse that uses acetylcholine. What happens?',
+      options: ['The response gets bigger.', 'The response gets smaller.', 'Almost nothing, because acetylcholine is cleared by an enzyme, not by reuptake.'],
+      answer: 2,
+      explain: 'A drug needs a target. Acetylcholine is broken down in the cleft; only the choline left over is taken back up.',
+      objective: 2,
+    },
+    {
+      q: 'Which drug would you expect to make Parkinson’s symptoms worse, because it blocks dopamine D2 receptors?',
+      options: ['L-DOPA.', 'Haloperidol, an antipsychotic.', 'Cocaine.'],
+      answer: 1,
+      explain: 'Blocking D2 receptors weakens dopamine signalling, which is already low in Parkinson’s disease. Stiffness and slow movement are known side effects of older antipsychotics.',
+      objective: 2,
+    },
+  ]}
+/>
+
+## Common questions
+
+<Faq q="Why do antidepressants take weeks to work if they block reuptake in hours?">
+Nobody knows the full answer yet. Blocking reuptake is only the first step. Over the following weeks, autoreceptors become less sensitive, receptor numbers change, and new connections may form. The slower changes seem to matter for mood.
+</Faq>
+
+<Faq q="Is caffeine a drug at the synapse?">
+Yes. Caffeine blocks receptors for adenosine, a chemical that builds up while you are awake and makes you feel sleepy. Blocking a calming signal makes you feel more alert. So caffeine is an antagonist that has a stimulating effect.
+</Faq>
+
+<Faq q="If Parkinson's disease is a lack of dopamine, why not just give dopamine?">
+Dopamine in the blood cannot cross the blood-brain barrier into the brain. Its building block, L-DOPA, can. Neurons then turn L-DOPA into dopamine themselves.
+</Faq>
+
+<Faq q="Can a drug be an agonist at one receptor and an antagonist at another?">
+Yes, and many are. Some antipsychotics, for example, block certain dopamine receptors and several serotonin receptors at the same time. That is one reason drugs have side effects.
+</Faq>
