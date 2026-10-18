@@ -1,0 +1,232 @@
+---
+import Mascot from './Mascot.astro';
+import { url } from '../lib/url';
+
+const path = Astro.url.pathname;
+const links = [
+  { href: url('/course/'), label: 'Course' },
+  { href: url('/chapters/'), label: 'Chapters' },
+  { href: url('/lab/'), label: 'Lab' },
+  { href: url('/toolbox/'), label: 'Toolbox' },
+  { href: url('/about/'), label: 'About' },
+];
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={url('/')}>
+      <Mascot pose="head" size={36} title="" />
+      <span class="word">Neuro<span>Capybara</span></span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} aria-current={path.startsWith(l.href) ? 'page' : undefined}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <button class="display-btn" type="button" popovertarget="display-panel" aria-label="Display settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 0 18V3Zm0-2a11 11 0 1 1 0 22 11 11 0 0 1 0-22Z" /></svg>
+      <span>Display</span>
+    </button>
+    <div id="display-panel" class="a11y-bar" popover>
+      <h2 class="panel-title">Display</h2>
+      <fieldset>
+        <legend>Theme</legend>
+        <label><input type="radio" name="theme" value="dark" /> Night</label>
+        <label><input type="radio" name="theme" value="light" /> Paper</label>
+      </fieldset>
+      <fieldset>
+        <legend>Text size</legend>
+        <label><input type="radio" name="text" value="normal" /> Normal</label>
+        <label><input type="radio" name="text" value="large" /> Large</label>
+        <label><input type="radio" name="text" value="larger" /> Larger</label>
+      </fieldset>
+      <fieldset>
+        <legend>Motion</legend>
+        <label><input type="radio" name="motion" value="system" /> Follow my device</label>
+        <label><input type="radio" name="motion" value="reduce" /> Reduce</label>
+        <label><input type="radio" name="motion" value="full" /> Full</label>
+      </fieldset>
+      <fieldset>
+        <legend>Sound</legend>
+        <label><input type="checkbox" name="sound" /> Spike clicks and tones</label>
+      </fieldset>
+      <button class="close" type="button" popovertarget="display-panel" popovertargetaction="hide">Done</button>
+    </div>
+  </div>
+</header>
+
+<script>
+  import { getSettings, setSetting, type SiteSettings } from '../sims/shared/settings';
+  const panel = document.getElementById('display-panel');
+  if (panel) {
+    const sync = () => {
+      const s = getSettings();
+      for (const key of ['theme', 'text', 'motion'] as const) {
+        const input = panel.querySelector<HTMLInputElement>(`input[name="${key}"][value="${s[key]}"]`);
+        if (input) input.checked = true;
+      }
+      const sound = panel.querySelector<HTMLInputElement>('input[name="sound"]');
+      if (sound) sound.checked = s.sound;
+    };
+    sync();
+    panel.addEventListener('change', (e) => {
+      const t = e.target as HTMLInputElement;
+      if (t.name === 'sound') setSetting('sound', t.checked);
+      else setSetting(t.name as keyof SiteSettings, t.value as never);
+    });
+    document.addEventListener('nc:settings', sync);
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 3.75rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+    flex: none;
+  }
+  .brand .word span {
+    color: var(--accent);
+  }
+  nav {
+    flex: 1;
+    overflow-x: auto;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+  }
+  nav li + li {
+    margin: 0;
+  }
+  nav a {
+    display: block;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .display-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font: inherit;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    flex: none;
+  }
+  .a11y-bar {
+    position: fixed;
+    inset: 4.25rem 1rem auto auto;
+    margin: 0;
+    width: min(22rem, calc(100vw - 2rem));
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+  }
+  .panel-title {
+    font-size: var(--step-1);
+    margin: 0 0 0.5rem;
+  }
+  .a11y-bar fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0 0 0.8rem;
+  }
+  .a11y-bar legend {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .a11y-bar label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-right: 0.9rem;
+    min-height: 2rem;
+    cursor: pointer;
+  }
+  .a11y-bar input {
+    accent-color: var(--accent);
+  }
+  .close {
+    font: inherit;
+    font-weight: 700;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: 0;
+    border-radius: 999px;
+    padding: 0.45rem 1.1rem;
+    cursor: pointer;
+  }
+  @media (max-width: 640px) {
+    .bar {
+      flex-wrap: wrap;
+      padding-block: 0.5rem;
+      gap: 0.5rem;
+    }
+    nav {
+      order: 3;
+      flex-basis: 100%;
+    }
+    nav ul {
+      gap: 0;
+      justify-content: space-between;
+    }
+    nav a {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.45rem;
+    }
+    .display-btn {
+      margin-left: auto;
+    }
+    .display-btn span {
+      display: none;
+    }
+  }
+</style>

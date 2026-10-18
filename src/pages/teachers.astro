@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import { readySims } from '../data/sims';
+import { url } from '../lib/url';
+
+const example = new URL(url('/lab/action-potential/'), Astro.site).toString();
+---
+
+<Base title="For teachers" description="Use NeuroCapybara simulations in your own teaching: presenter mode, embedding, shareable settings and reuse.">
+  <div class="container page prose">
+    <p class="eyebrow">For teachers</p>
+    <h1>Use it in your own teaching</h1>
+    <p class="lede">Everything here is free to use in class, embed in a course page, or adapt. You do not need to ask, just credit the site.</p>
+
+    <h2>On the projector</h2>
+    <p>
+      Every simulation in the <a href={url('/lab/')}>lab</a> has a <strong>presenter mode</strong>: add <code>?present=1</code> to its address, or use the button on its page. The menus disappear and everything gets bigger. Keyboard shortcuts let you run a demo without the mouse.
+    </p>
+
+    <h2>Share an exact set-up</h2>
+    <p>
+      Set a simulation up the way you want it, then press <strong>Copy link</strong>. The link opens the lab with the same settings, for example the action potential with TTX already added. Students can open it on their own laptops.
+    </p>
+
+    <h2>Embed on Brightspace or any page</h2>
+    <p>Each lab page has an embed code. It shows only the simulation, with no site menus:</p>
+    <pre class="embed"><code>{`<iframe src="${example}?embed=1" width="100%" height="900" style="border:0" title="Action potential lab" loading="lazy"></iframe>`}</code></pre>
+
+    <h2>Ready now</h2>
+    <ul>
+      {
+        readySims.map((s) => (
+          <li>
+            <a href={url(`/lab/${s.slug}/`)}>{s.title}</a>: {s.blurb}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Reuse and adapt</h2>
+    <p>
+      Text and figures are CC BY 4.0 and the code is MIT licensed (<a href={url('/licence/')}>details</a>). The <a href="https://github.com/hkarsilar/biopsychology_companion">source code</a> is open, so you can build your own version.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .embed {
+    white-space: pre-wrap;
+    word-break: break-all;
+    background: var(--surface-2);
+    border-radius: var(--radius-s);
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+</style>

@@ -1,0 +1,20 @@
+---
+import { url } from '../../lib/url';
+
+interface Props {
+  id?: string;
+  preset?: string;
+  mode?: 'strip' | 'image';
+  predict?: boolean;
+  present?: boolean;
+}
+const { id = 'li-sim', preset = 'edge', mode, predict = false, present = false } = Astro.props;
+---
+
+<nc-lateral-inhibition id={id} preset={preset} mode={mode} predict={predict ? '' : undefined} present={present ? '' : undefined} lab-href={url('/lab/lateral-inhibition/')}>
+  <noscript><p class="callout">This simulation needs JavaScript. The lesson text still explains every step.</p></noscript>
+</nc-lateral-inhibition>
+
+<script>
+  import '../../sims/lateral-inhibition/element';
+</script>

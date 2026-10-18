@@ -1,0 +1,238 @@
+---
+title: Cells of the nervous system
+number: '2.1'
+chapter: neuron
+slug: cells
+summary: Meet the neuron and the glial cells that look after it, then follow one signal from a synapse on a dendrite all the way to a muscle.
+objectives: [2]
+minutes: 25
+sims: [cell-explorer]
+readings:
+  - book: Introduction to Biological Psychology (Hall, ed.)
+    section: 'the chapter “Under the microscope: cells of the nervous system”'
+    url: https://openpress.sussex.ac.uk/introductiontobiologicalpsychology/
+  - book: Introduction to Neuroscience (Hedges)
+    section: 'the chapters “The Neuron” and “Glia”'
+    url: https://openbooks.lib.msu.edu/introneuroscience1/
+updated: 2026-10-17
+---
+
+import Hook from '../../../components/lesson/Hook.astro';
+import Notice from '../../../components/lesson/Notice.astro';
+import FinePrint from '../../../components/lesson/FinePrint.astro';
+import UnderTheHood from '../../../components/lesson/UnderTheHood.astro';
+import Faq from '../../../components/lesson/Faq.astro';
+import Math from '../../../components/lesson/Math.astro';
+import Term from '../../../components/lesson/Term.astro';
+import Predict from '../../../components/lesson/Predict.astro';
+import CheckYourself from '../../../components/lesson/CheckYourself.astro';
+import TryIt from '../../../components/lesson/TryIt.astro';
+import CellExplorer from '../../../components/sims/CellExplorer.astro';
+
+<Hook title="Brain soup">
+For decades, textbooks said that glial cells outnumber neurons ten to one. Nobody had actually counted. In 2009, a team in Brazil led by Suzana Herculano-Houzel dissolved whole human brains into a soup of free-floating cell nuclei, stained them, and counted. They found about 86 billion neurons and about 85 billion other cells, most of them glia. Roughly one to one. In this lesson you will meet both kinds of cell, and see why each one matters.
+</Hook>
+
+## Two kinds of cell
+
+Your nervous system is built from two kinds of cell.
+
+- <Term id="neuron">Neurons</Term> carry signals. They receive messages from other cells, combine them, and decide whether to send a message of their own.
+- <Term id="glia">Glia</Term> look after the neurons. They insulate axons, feed and clean the space around neurons, and defend the brain against damage and infection.
+
+Both live in two big regions. The <Term id="central-nervous-system">central nervous system</Term> (CNS) is the brain and the spinal cord. The <Term id="peripheral-nervous-system">peripheral nervous system</Term> (PNS) is all the nerves that link the CNS to the rest of the body. A nerve is a bundle of many axons, wrapped together like the wires in a cable.
+
+The simulation below shows one neuron that crosses both regions: a motor neuron. Its cell body sits in your spinal cord, and its axon runs out through a nerve to a muscle. Around it are the four main kinds of glia.
+
+<Predict
+  question="The motor neuron that moves your big toe has its cell body in the lower part of your spinal cord. Roughly how long is its axon?"
+  options={['About a millimetre.', 'About ten centimetres.', 'About a metre.']}
+  answer={2}
+  explain="Its axon runs all the way from your lower back down your leg to your foot, so it can be about a metre long. That makes it one of the longest cells in your body, even though its cell body is only about a tenth of a millimetre across."
+  sim="cell-explorer-sim"
+/>
+
+## Try it: meet the cells
+
+Click or tap any part of the drawing to find out what it does, or pick a part from the lists under it. Then press **Follow the signal** to watch one message travel from a synapse on a dendrite to the muscle. On a phone, the drawing zooms in on the part you choose.
+
+<CellExplorer id="cell-explorer-sim" />
+
+<Notice>
+
+1. **Signals flow one way through a neuron.** Follow the signal: in at a synapse on a <Term id="dendrite">dendrite</Term>, through the <Term id="soma">cell body</Term>, out along the <Term id="axon">axon</Term>, and on to the <Term id="terminal-button">terminal buttons</Term>.
+2. **The decision is made at the start of the axon.** At step 4 the glow stops at the <Term id="axon-hillock">axon hillock</Term>. Only there does the summed input either trigger an action potential or not.
+3. **The myelin is not part of the neuron.** Pick the <Term id="oligodendrocyte">oligodendrocyte</Term>: its arms light up myelin on three different axons. Now pick the <Term id="schwann-cell">Schwann cell</Term>: in the nerve, each Schwann cell wraps just one segment.
+4. **There are gaps in the myelin.** The small orange dots at each <Term id="node-of-ranvier">node of Ranvier</Term> are sodium channels. At step 5 the signal jumps from node to node.
+5. **Astrocytes touch both blood and synapses.** Pick the <Term id="astrocyte">astrocyte</Term>: its end-feet sit on the capillary, and one arm is wrapped round the synapse.
+
+</Notice>
+
+## The neuron, part by part
+
+Most neurons share the same basic plan. Think of it as a path that information follows.
+
+1. **Dendrites** are the input branches. Other neurons make contact with them at synapses, often on tiny knobs called <Term id="dendritic-spine">dendritic spines</Term>. One neuron can receive thousands of synapses.
+2. **The cell body**, or soma, holds the nucleus with the cell's DNA. It builds the proteins the whole neuron needs, right out to the tips of its axon. Small voltage changes from the dendrites meet here and add up.
+3. **The axon hillock** is the cone where the axon leaves the cell body. It is packed with voltage-gated sodium channels, which makes it the easiest place to start an action potential (lesson 2.3).
+4. **The axon** carries the action potential away from the cell body. Most neurons have one axon, although it can branch.
+5. **Myelin** is a fatty wrapping made by glia. It speeds the signal up a lot (lesson 2.4).
+6. **Terminal buttons** sit at the ends of the axon's branches. When an action potential arrives, they release a chemical messenger, a neurotransmitter, onto the next cell. That junction is a synapse (lesson 2.5).
+
+## Three shapes, three jobs
+
+Neurons come in several shapes. One way to sort them is by how many branches leave the cell body. Open the **Neuron shapes** tab in the simulation to see all three.
+
+<div class="table-scroll">
+
+| Shape | What it looks like | Where you find it |
+| --- | --- | --- |
+| <Term id="multipolar-neuron">Multipolar</Term> | One axon, many dendrites | Motor neurons, and most neurons in the brain |
+| <Term id="bipolar-neuron">Bipolar</Term> | One dendrite and one axon, on opposite sides | Smell neurons in the nose; relay cells in the retina |
+| <Term id="unipolar-neuron">Unipolar</Term> (or pseudo-unipolar) | One stalk that splits in two | Touch and pain neurons, with cell bodies just outside the spinal cord |
+
+</div>
+
+Another way to sort neurons is by their job. <Term id="sensory-neuron">Sensory neurons</Term> carry information from the senses into the CNS. <Term id="motor-neuron">Motor neurons</Term> carry commands out to muscles and glands. <Term id="interneuron">Interneurons</Term> connect neurons to each other inside the CNS, and they are by far the most common kind. Shape and job go together: a touch neuron's split stalk lets the signal run straight from your skin to your spinal cord without a detour through the cell body.
+
+## Glia: much more than glue
+
+The word glia comes from the Greek for glue. Nineteenth-century scientists thought these cells simply held the neurons together. We now know they do a lot more.
+
+<div class="table-scroll">
+
+| Glial cell | Where | Main jobs |
+| --- | --- | --- |
+| Astrocyte | Brain and spinal cord | Links neurons to blood vessels; clears spare potassium and neurotransmitter; keeps the fluid around neurons right; wraps synapses; holds neurons in place |
+| Oligodendrocyte | Brain and spinal cord | Makes myelin; one cell wraps segments of many axons |
+| Schwann cell | Nerves of the body | Makes myelin; one cell wraps one segment of one axon; guides axons that regrow after injury |
+| <Term id="microglia">Microglia</Term> | Brain and spinal cord | Immune defence; swallow debris and microbes; start inflammation after damage; prune unused synapses |
+
+</div>
+
+The Schwann cell's role in repair has a big practical consequence. If you cut a nerve in your finger, the Schwann cells clear away the broken part of the axon and line up to form a tube. The axon can regrow along that tube, slowly, about a millimetre a day. In the brain and spinal cord, oligodendrocytes do not do this, and the scar left by other glia blocks regrowth. That is one reason why spinal cord injuries are so hard to heal.
+
+## Five things to explore
+
+Each card sets up the simulation for you and scrolls to it.
+
+<TryIt sim="cell-explorer-sim" preset="follow" title="1. Follow one signal">
+Watch a message travel from a synapse to the muscle. Use the step button to pause at each stage and read what happens there.
+</TryIt>
+
+<TryIt sim="cell-explorer-sim" preset="oligodendrocyte" title="2. One cell, many axons">
+The oligodendrocyte is highlighted. Count the axons it wraps. Then compare it with a Schwann cell.
+</TryIt>
+
+<TryIt sim="cell-explorer-sim" preset="astrocyte" title="3. The astrocyte's two contacts">
+What does the astrocyte touch? Why would one cell need to touch both of those things?
+</TryIt>
+
+<TryIt sim="cell-explorer-sim" preset="microglia" title="4. The brain's own immune cells">
+Find the microglia and the debris next to it. What will it do with the debris?
+</TryIt>
+
+<TryIt sim="cell-explorer-sim" preset="shapes" title="5. Shapes of neurons">
+Compare the three shapes. For each one, follow the yellow arrows and say where the signal comes in and where it goes out.
+</TryIt>
+
+<UnderTheHood title="Under the hood: how do you count 86 billion cells?">
+
+You cannot count cells one by one in a slice of brain and multiply up, because the density of cells varies hugely between brain regions. Herculano-Houzel's team used a method called the *isotropic fractionator*. They turned each part of the brain into a liquid in which every cell nucleus floats free, so the nuclei are spread evenly. Then they only had to count the nuclei in a few small drops and scale up by volume:
+
+<Math display label="Scaling up from a sample" tex="N_{\text{total}} = \frac{n_{\text{counted}}}{V_{\text{sample}}} \times V_{\text{suspension}}" />
+
+To tell neurons from other cells, they stained the nuclei with an antibody against NeuN, a protein found only in neuron nuclei. The rest were counted as non-neuronal cells.
+
+The result surprised many people. In the cerebral cortex there are about three to four other cells for every neuron. In the cerebellum, which is packed with tiny neurons, there are far more neurons than glia. Across the whole brain, it comes out at roughly one to one.
+
+</UnderTheHood>
+
+<FinePrint>
+
+- **The drawing is not to scale.** A real motor axon is thousands of times longer than the cell body is wide. Real myelin segments are about 100 times as long as the axon is thick, and a real oligodendrocyte can wrap dozens of axons, not three.
+- **Spinal motor neurons have few spines.** We drew spines on this one because spines are where most excitatory synapses land on neurons in the brain, such as the pyramidal cells of the cortex.
+- **One motor neuron, thousands of synapses.** The drawing shows a single incoming synapse. A real motor neuron receives thousands, and many of them are inhibitory (lesson 2.6).
+- **The non-neuronal count is not only glia.** About 85 billion non-neuronal cells includes the cells of the blood vessels as well as glia, so the ratio of glia to neurons is close to, or a little under, one to one.
+- **Other glia exist.** For example, ependymal cells line the fluid-filled ventricles of the brain, and the satellite cells around sensory cell bodies are glia of the PNS.
+
+</FinePrint>
+
+## Check yourself
+
+<CheckYourself
+  questions={[
+    {
+      q: 'In which order does a signal usually pass through the parts of a neuron?',
+      options: [
+        'Axon → cell body → dendrites → terminal buttons.',
+        'Dendrites → cell body → axon hillock → axon → terminal buttons.',
+        'Terminal buttons → axon → cell body → dendrites.',
+      ],
+      answer: 1,
+      explain: 'Dendrites collect input, the cell body adds it up, the axon hillock decides whether to fire, and the axon carries the action potential to the terminal buttons.',
+      objective: 2,
+    },
+    {
+      q: 'Which cell makes the myelin around axons in the spinal cord?',
+      options: ['Schwann cells.', 'Oligodendrocytes.', 'Astrocytes.'],
+      answer: 1,
+      explain: 'Oligodendrocytes make myelin in the brain and spinal cord. Schwann cells do the same job in the nerves of the body.',
+      objective: 2,
+    },
+    {
+      q: 'A nerve in your arm is cut and slowly recovers, but a similar injury in the spinal cord does not. Which glial cells help explain the difference?',
+      options: [
+        'Schwann cells, which clear the damage and guide the regrowing axon in the nerves of the body.',
+        'Microglia, which are found only in the arm.',
+        'Astrocytes, which make the axon grow faster in the spinal cord.',
+      ],
+      answer: 0,
+      explain: 'Schwann cells form tubes that guide regrowing axons in peripheral nerves. In the CNS, oligodendrocytes do not do this and glial scars block regrowth. Microglia live in the brain and spinal cord, not the arm.',
+      objective: 2,
+    },
+    {
+      q: 'Roughly how many glial cells are there for every neuron in the whole human brain?',
+      options: ['About one.', 'About ten.', 'About a hundred.'],
+      answer: 0,
+      explain: 'Careful counts find about 86 billion neurons and about 85 billion other cells, most of them glia. The ten-to-one figure was repeated for decades but never measured.',
+      objective: 2,
+    },
+    {
+      q: 'A touch neuron has its cell body in a ganglion just outside the spinal cord, and one stalk that splits into a branch to the skin and a branch into the cord. What is it?',
+      options: ['A bipolar motor neuron.', 'A multipolar interneuron.', 'A unipolar sensory neuron.'],
+      answer: 2,
+      explain: 'One stalk that splits in two is the unipolar (pseudo-unipolar) shape, and a neuron that brings information from the skin into the CNS is a sensory neuron.',
+      objective: 2,
+    },
+    {
+      q: 'After a small stroke, cells move into the damaged area and swallow the dead tissue. Which cells are these?',
+      options: ['Oligodendrocytes.', 'Microglia.', 'Interneurons.'],
+      answer: 1,
+      explain: 'Microglia are the immune cells of the brain. They clear debris by phagocytosis and drive the inflammatory response to damage.',
+      objective: 2,
+    },
+  ]}
+/>
+
+## Common questions
+
+<Faq q="Is it true that there are ten times more glia than neurons?">
+No. It was repeated in textbooks for decades, but careful counting finds roughly one glial cell per neuron across the whole brain. The ratio does vary between regions: the cortex has more glia than neurons, the cerebellum far fewer.
+</Faq>
+
+<Faq q="Are glia just support cells that don't do anything interesting?">
+Far from it. Without myelin from glia, signals would be too slow for you to walk. Astrocytes control the fluid around neurons and help clear neurotransmitter, so they shape how synapses work. Microglia prune synapses during development. Many brain diseases, from multiple sclerosis to some forms of dementia, involve glia.
+</Faq>
+
+<Faq q="Is myelin part of the neuron?">
+No. Myelin is made by glia: each myelin segment is a flattened arm of an oligodendrocyte or a whole Schwann cell, wrapped many times round the axon. That is why diseases that attack glia can stop neurons from working, even when the neurons themselves are healthy at first.
+</Faq>
+
+<Faq q="Does every neuron have an axon and dendrites?">
+Almost every neuron has one axon, which can branch many times at its end. The number of dendrites varies with the shape: many in a multipolar neuron, one in a bipolar neuron. In a unipolar touch neuron, the branch from the skin behaves like an axon even though it brings information in.
+</Faq>
+
+<Faq q="Do adults make new neurons?">
+Very few. Most neurons you have now were made before birth, and they cannot divide. Adults may add some new neurons in a few places, such as the hippocampus, but how many is still debated. Glial cells, on the other hand, can divide throughout life.
+</Faq>

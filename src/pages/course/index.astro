@@ -1,0 +1,198 @@
+---
+import Base from '../../layouts/Base.astro';
+import { course, schedule } from '../../data/schedule';
+import { objectives } from '../../data/objectives';
+import { chapterBySlug } from '../../data/chapters';
+import { lessonLinks } from '../../lib/lessons';
+import { url } from '../../lib/url';
+
+const links = await lessonLinks();
+const byNumber = new Map(links.map((l) => [l.n, l]));
+---
+
+<Base title="Course" description={`Schedule, learning objectives and readings for ${course.code} ${course.name}.`}>
+  <div class="container page">
+    <p class="eyebrow">{course.code} · {course.institution}</p>
+    <h1>The course, class by class</h1>
+    <p class="lede">What each class covers, which lessons prepare you for it, and when the assignments start. The course has no textbook: the readings are free, open textbooks.</p>
+    {
+      !course.datesConfirmed && (
+        <p class="callout notice">
+          <span class="callout-title">Dates follow soon</span>
+          The {course.year} timetable is not confirmed yet. Brightspace and the course guide always have the official dates and rooms.
+        </p>
+      )
+    }
+
+    <h2 id="schedule">Schedule</h2>
+    <ol class="timeline">
+      {
+        schedule.map((c) => {
+          const chapter = c.chapter ? chapterBySlug(c.chapter) : undefined;
+          return (
+            <li class:list={['entry', c.kind ?? 'class']}>
+              <div class="when">
+                {c.n !== null ? <span class="cn">Class {c.n}</span> : <span class="cn">Exam</span>}
+                {c.week && <span class="wk">Week {c.week}</span>}
+                {c.date && <span class="wk">{c.date}</span>}
+              </div>
+              <div class="what">
+                <h3 class="ct">{c.title}</h3>
+                {chapter && (
+                  <p class="ch">
+                    <a href={url(`/chapters/${chapter.slug}/`)}>
+                      {chapter.n ? `Chapter ${chapter.n}: ` : ''}
+                      {chapter.title}
+                    </a>
+                  </p>
+                )}
+                {c.lessons && (
+                  <ul class="ls" aria-label="Lessons">
+                    {c.lessons.map((n) => {
+                      const l = byNumber.get(n);
+                      if (!l) return null;
+                      return <li>{l.ready ? <a class="chip ready" href={l.href}>{n} {l.title}</a> : <span class="chip">{n} {l.title}</span>}</li>;
+                    })}
+                  </ul>
+                )}
+                {c.assignment && (
+                  <p class="as">
+                    <span aria-hidden="true">📝</span> Assignment: {c.assignment}
+                  </p>
+                )}
+                {c.note && <p class="nt muted">{c.note}</p>}
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    <h2 id="objectives">Learning objectives</h2>
+    <p>By the end of the course you should be able to:</p>
+    <ol class="objectives">
+      {
+        Object.entries(objectives).map(([n, text]) => (
+          <li>
+            <span class="on">Objective {n}</span> {text}
+          </li>
+        ))
+      }
+    </ol>
+    <p class="muted">Every lesson and practice question on this site is tagged with the objective it serves.</p>
+
+    <h2 id="readings">Readings</h2>
+    <p>The course uses free, open textbooks instead of a paid book. Each lesson links to the matching sections under <em>Go further</em>.</p>
+    <ul>
+      <li><a href="https://openpress.sussex.ac.uk/introductiontobiologicalpsychology/" rel="noopener">Introduction to Biological Psychology</a>, edited by Catherine N. Hall (University of Sussex)</li>
+      <li><a href="https://openbooks.lib.msu.edu/introneuroscience1/" rel="noopener">Introduction to Neuroscience</a>, Valerie Hedges (Michigan State University)</li>
+      <li><a href="https://opentextbooks.rug.nl/interdisciplinaryexplorationsofneuroscience/" rel="noopener">Interdisciplinary Explorations of Neuroscience</a>, Christopher May (University of Groningen)</li>
+    </ul>
+    <p class="muted">The course guide on Brightspace has the definitive reading list for each class.</p>
+
+    <h2 id="portfolio">Assignments and portfolio</h2>
+    <p>The assignments build your portfolio, which is due in the last week of the course. Instructions and deadlines live on Brightspace. The practice tools on this site use different examples from the assignments, so they help you prepare without doing the work for you.</p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 2px solid var(--border-strong);
+    margin-left: 0.5rem;
+  }
+  .entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1rem;
+    padding: 0.9rem 0 0.9rem 1.5rem;
+    margin: 0;
+  }
+  .entry::before {
+    content: '';
+    position: absolute;
+    left: -0.45rem;
+    top: 1.35rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .entry.exam::before {
+    background: var(--warn);
+    border-radius: 2px;
+  }
+  .entry.self-study::before {
+    background: var(--surface-3);
+    border-color: var(--accent);
+  }
+  .when {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding-top: 0.3rem;
+  }
+  .cn {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .wk {
+    color: var(--text-faint);
+  }
+  .ct {
+    margin: 0 0 0.25rem;
+    font-size: var(--step-1);
+  }
+  .ch {
+    margin: 0 0 0.5rem;
+  }
+  .ls {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0 0 0.5rem;
+  }
+  .ls li {
+    margin: 0;
+  }
+  .ls .chip {
+    white-space: normal;
+    text-decoration: none;
+  }
+  .as,
+  .nt {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+  }
+  .objectives {
+    list-style: none;
+    padding: 0;
+  }
+  .objectives li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    margin: 0;
+  }
+  .on {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-right: 0.5rem;
+  }
+  @media (max-width: 560px) {
+    .entry {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

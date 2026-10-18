@@ -1,0 +1,287 @@
+---
+title: The resting potential
+number: '2.2'
+chapter: neuron
+slug: resting-potential
+summary: Why the inside of a resting neuron is about 70 millivolts negative, built from two forces, a few leaky channels and a pump.
+objectives: [2]
+minutes: 35
+sims: [resting-potential, resting-builder]
+readings:
+  - book: Introduction to Biological Psychology (Hall, ed.)
+    section: 'the chapter “Electrophysiology: electrical signalling in the body”'
+    url: https://openpress.sussex.ac.uk/introductiontobiologicalpsychology/
+  - book: Introduction to Neuroscience (Hedges)
+    section: 'the chapters “Ion Movement”, “Membrane Potential” and “The Membrane at Rest”'
+    url: https://openbooks.lib.msu.edu/introneuroscience1/
+updated: 2026-10-17
+---
+
+import Hook from '../../../components/lesson/Hook.astro';
+import Notice from '../../../components/lesson/Notice.astro';
+import FinePrint from '../../../components/lesson/FinePrint.astro';
+import UnderTheHood from '../../../components/lesson/UnderTheHood.astro';
+import Faq from '../../../components/lesson/Faq.astro';
+import Math from '../../../components/lesson/Math.astro';
+import Term from '../../../components/lesson/Term.astro';
+import Predict from '../../../components/lesson/Predict.astro';
+import CheckYourself from '../../../components/lesson/CheckYourself.astro';
+import TryIt from '../../../components/lesson/TryIt.astro';
+import RestingPotential from '../../../components/sims/RestingPotential.astro';
+import RestingBuilder from '../../../components/sims/RestingBuilder.astro';
+
+<Hook title="A small number that can stop a heart">
+Healthy blood contains about 4 millimoles of potassium per litre. When the kidneys fail, that number can creep up to 7 or 8. It sounds like a tiny change, and the patient may feel nothing more than a little weak. Yet doctors treat it as an emergency, because it can make the heart stop beating. Why should a few extra potassium ions outside the cells matter so much? The answer is the resting potential, and by the end of this lesson you will be able to predict the danger yourself.
+</Hook>
+
+## A battery in every cell
+
+Put one fine electrode inside a neuron and another in the fluid outside, and you measure a voltage: the <Term id="membrane-potential">membrane potential</Term>. In a neuron that is not being stimulated, the inside is about 70 millivolts more negative than the outside. That is the <Term id="resting-potential">resting potential</Term>, written as −70 mV.
+
+The voltage comes from <Term id="ion">ions</Term>, atoms with an electric charge, which are spread unevenly across the membrane:
+
+<div class="table-scroll">
+
+| Ion | Inside the cell | Outside the cell | Where it is crowded |
+| --- | --- | --- | --- |
+| Potassium, K⁺ | about 140 mM | about 5 mM | inside |
+| Sodium, Na⁺ | about 12 mM | about 145 mM | outside |
+| Chloride, Cl⁻ | about 10 mM | about 110 mM | outside |
+| Large proteins, A⁻ | many | almost none | inside, and too big to leave |
+
+</div>
+
+(mM means millimoles per litre, a measure of how crowded an ion is.)
+
+Two forces act on every ion:
+
+- **<Term id="diffusion">Diffusion</Term>.** Ions jiggle about at random, so they spread from where they are crowded to where they are scarce. A <Term id="concentration-gradient">concentration gradient</Term> pushes them across.
+- **<Term id="electrostatic-pressure">Electrostatic pressure</Term>.** Opposite charges attract and like charges repel. A negative inside pulls positive ions in and pushes negative ions out.
+
+The resting potential is what happens when these two forces meet.
+
+<Predict
+  question="Potassium channels open and K⁺ starts to leak out of a cell, leaving the inside negative. How much of the cell’s K⁺ has to leave to make the inside about −90 mV?"
+  options={['About half of it.', 'About one ion in ten.', 'A tiny fraction, less than one ion in ten thousand.']}
+  answer={2}
+  explain="Only a thin layer of charge on each face of the membrane is needed, so a tiny fraction of the ions is enough: in a typical neuron about one K⁺ in every 100,000. The concentrations stay almost exactly the same."
+  sim="resting-potential-sim"
+/>
+
+## Try it: the ion tug-of-war
+
+The simulation starts with a cell whose only channels are for potassium, all closed. Both sides are electrically neutral, so the voltage is 0 mV. Press **Play** to open the channels. The left panel shows the membrane, with the outside at the top. The two arrows on its right show the forces on a K⁺ ion: the *push* from the concentration gradient and the *pull* from the voltage. The right panel plots the voltage over time.
+
+<RestingPotential id="resting-potential-sim" predict />
+
+<Notice>
+
+1. **Each K⁺ that leaves makes the inside a little more negative.** Positive charge leaves, and a negative protein (A⁻) is left behind. The charge builds up as a thin layer on each face of the membrane.
+2. **The pull grows, the push does not.** As the inside becomes negative, the *pull* arrow grows. The coloured *push* arrow stays the same, because the concentrations hardly change.
+3. **The voltage levels off at −89 mV.** That is where pull equals push: potassium's <Term id="equilibrium-potential">equilibrium potential</Term>, E<sub>K</sub>, the dashed line on the plot.
+4. **Ions still cross at equilibrium.** Look at the bars under the plot: K⁺ keeps crossing both ways, but equally often. The balance is dynamic, not frozen.
+5. **Very few ions are needed.** The readout under the plot says how many ions a real cell needs: millions, but about 0.001 percent of the K⁺ inside.
+
+</Notice>
+
+## The Nernst equation
+
+Each ion has its own equilibrium potential, set only by its concentrations on the two sides and its charge. The <Term id="nernst-equation">Nernst equation</Term> gives it. At body temperature, for an ion with one positive charge, it simplifies to:
+
+<Math display tex="E_{\text{ion}} = 61.5\ \text{mV} \times \log_{10}\frac{[\text{ion}]_{\text{out}}}{[\text{ion}]_{\text{in}}}" />
+
+For potassium, 61.5 × log<sub>10</sub>(5 / 140) gives −89 mV. Every tenfold difference in concentration is worth about 61.5 millivolts. For sodium you get about +67 mV, because sodium is crowded outside. Chloride is crowded outside too, but it is negative, so its equilibrium potential is negative: about −64 mV.
+
+## Five experiments with one ion
+
+<TryIt sim="resting-potential-sim" preset="sodium" title="1. Swap potassium for sodium">
+Only sodium channels now. Na⁺ is crowded outside. Which way will the voltage go?
+</TryIt>
+
+<TryIt sim="resting-potential-sim" preset="chloride" title="2. Try chloride">
+Cl⁻ is crowded outside, like sodium, but its charge is negative. Predict the sign of the voltage before you watch.
+</TryIt>
+
+<TryIt sim="resting-potential-sim" preset="equal" title="3. No gradient">
+The same amount of K⁺ on both sides. Will any voltage build up?
+</TryIt>
+
+<TryIt sim="resting-potential-sim" preset="more-outside" title="4. More potassium outside">
+K⁺ outside is raised from 5 to 20 mM. The push gets weaker. Where does the voltage settle now?
+</TryIt>
+
+<TryIt sim="resting-potential-sim" preset="cold" title="5. A cold cell">
+At 5 °C, ions jiggle less. Does the cell need a bigger or a smaller voltage to hold K⁺ back?
+</TryIt>
+
+## Real membranes leak more than one ion
+
+A real neuron at rest is not −89 mV. It is closer to −70 mV. That is because its membrane has <Term id="leak-channel">leak channels</Term> for several ions at once. Each ion pulls the voltage towards its own equilibrium potential, like teams in a tug-of-war. How hard each team pulls depends on how easily its ion can cross: its <Term id="permeability">permeability</Term>.
+
+At rest, the membrane is most permeable to K⁺, a lot less to Cl⁻, and only slightly to Na⁺. The <Term id="goldman-equation">Goldman equation</Term> combines them.
+
+<Predict
+  question="At rest, the membrane lets through K⁺ easily, Cl⁻ moderately and Na⁺ only a little. Where will the resting potential settle?"
+  options={[
+    'Exactly at E_K, −89 mV, because potassium is the main leak.',
+    'A bit less negative than E_K, around −70 mV.',
+    'Halfway between E_K and E_Na, around −10 mV.',
+  ]}
+  answer={1}
+  explain="Potassium pulls hardest, so the voltage sits near E_K. The small sodium leak pulls it up towards E_Na, but only a little. The result is close to −70 mV."
+  sim="resting-builder-sim"
+/>
+
+<RestingBuilder id="resting-builder-sim" />
+
+<Notice>
+
+1. **The voltage sits closest to the ion that pulls hardest.** In the left panel, the voltage is the knot. Potassium's rope is the thickest, so the knot sits near E<sub>K</sub>.
+2. **A small sodium leak moves the voltage up.** It cannot win, but it drags the voltage from −89 mV up to around −70 mV.
+3. **Permeability changes the voltage at once.** Drag the Na⁺ slider to the right and the voltage jumps towards E<sub>Na</sub>. That is exactly what happens during an action potential (lesson 2.3).
+4. **At rest, ions keep leaking.** The arrows across the membrane in the right panel show K⁺ leaking out and Na⁺ leaking in. Something has to put them back.
+5. **The pump adds only a few millivolts directly.** Look at the *Pump* lane: its own contribution is about −4 mV. Its real job is slower.
+
+</Notice>
+
+## What the pump really does
+
+The <Term id="sodium-potassium-pump">sodium-potassium pump</Term> is a protein that uses energy from ATP to move 3 Na⁺ out of the cell and 2 K⁺ in. It puts back exactly what the leak channels let through. The pump and the leaks keep running all the time, which is why your brain uses so much energy even when you are resting.
+
+Because the pump moves three positive charges out for every two it brings in, it makes the inside slightly more negative by itself, by a few millivolts. But its main job is to keep the concentration gradients. If it stops, the voltage does not collapse at once. The leaks slowly wear the gradients down: K⁺ leaks out, Na⁺ leaks in, and over hours the resting potential runs down towards 0 mV.
+
+## Five experiments with three ions
+
+<TryIt sim="resting-builder-sim" preset="only-k" title="1. Only potassium leaks">
+Close the sodium and chloride leaks. The membrane goes all the way to E<sub>K</sub>. This is the tug-of-war simulation again.
+</TryIt>
+
+<TryIt sim="resting-builder-sim" preset="spike-peak" title="2. The peak of a spike">
+Sodium permeability jumps to 15 times that of potassium, as it does for a moment during an action potential. Where does the voltage go?
+</TryIt>
+
+<TryIt sim="resting-builder-sim" preset="hyperkalaemia" title="3. Too much potassium outside">
+This is the patient from the start of the lesson, with K⁺ outside raised from 5 to 12 mM. How far does the resting potential move?
+</TryIt>
+
+<TryIt sim="resting-builder-sim" preset="squid" title="4. The squid giant axon">
+Classic textbook values for the squid giant axon at 20 °C, with the permeability ratio that Hodgkin and Katz measured in 1949. Squid blood is like seawater, so every ion is more concentrated than in your body. The resting potential still comes out close to −65 mV.
+</TryIt>
+
+<TryIt sim="resting-builder-sim" preset="pump-off" title="5. Switch off the pump">
+The clock runs in hours. Watch the concentrations inside the cell and the resting potential. Then switch the pump back on.
+</TryIt>
+
+## Back to the patient
+
+Now you can explain the emergency. Extra potassium outside the cell makes the concentration gradient for K⁺ smaller. A smaller gradient means a weaker push, so E<sub>K</sub> moves up, and the resting potential moves up with it. In experiment 3, raising K⁺ outside from 5 to 12 mM moves the resting potential from about −72 to −59 mV.
+
+A cell that rests closer to threshold might sound easier to fire. But a membrane that stays depolarised keeps its sodium channels inactivated (lesson 2.3), so heart muscle cells stop firing properly. The heart's rhythm breaks down. That is why potassium levels in the blood are watched so closely.
+
+<UnderTheHood title="Under the hood: Nernst, Goldman and the two simulations">
+
+**The full Nernst equation.** For an ion with charge *z*:
+
+<Math display label="Nernst equation" tex="E_{\text{ion}} = \frac{RT}{zF}\,\ln\frac{[\text{ion}]_{\text{out}}}{[\text{ion}]_{\text{in}}}" />
+
+Here *R* is the gas constant, *T* the temperature in kelvin and *F* Faraday's constant. At 37 °C, *RT/F* is 26.7 mV. Multiply by ln(10) ≈ 2.303 to get the 61.5 mV per tenfold change used above. The equation comes from setting the energy an ion gains by moving down its concentration gradient equal to the electrical energy it must spend to cross the voltage.
+
+**The Goldman equation.** For K⁺, Na⁺ and Cl⁻ with permeabilities *P*:
+
+<Math display label="Goldman–Hodgkin–Katz equation" tex="V_{\text{rest}} = \frac{RT}{F}\,\ln\frac{P_{\text{K}}[\text{K}^+]_{\text{out}} + P_{\text{Na}}[\text{Na}^+]_{\text{out}} + P_{\text{Cl}}[\text{Cl}^-]_{\text{in}}}{P_{\text{K}}[\text{K}^+]_{\text{in}} + P_{\text{Na}}[\text{Na}^+]_{\text{in}} + P_{\text{Cl}}[\text{Cl}^-]_{\text{out}}}" />
+
+Chloride's inside and outside are swapped because its charge is negative. With *P*<sub>K</sub> : *P*<sub>Na</sub> : *P*<sub>Cl</sub> = 1 : 0.04 : 0.45 and the concentrations in the table, the numerator is 15.3 and the denominator 190.0, so V<sub>rest</sub> = 26.7 × ln(15.3 / 190.0) = −67.3 mV. With only one ion permeable, the equation becomes that ion's Nernst equation.
+
+**The pump.** With the pump running, the builder uses the Mullins–Noda form, in which the potassium terms are multiplied by the pump's ratio, 3/2. That adds about −4 mV, which is why the typical neuron shows −71.7 mV.
+
+**How the tug-of-war works.** Each drawn ion that crosses changes the voltage by 3 mV. Ions cross at random, with a rate in each direction proportional to the concentration they start from, times a factor e<sup>±zFV/2RT</sup> for the voltage. When the two rates are equal, the voltage is exactly the Nernst potential, so the simulation settles there and keeps flickering around it.
+
+**How thick is each rope?** In the builder, each ion's share of the pull is its *chord conductance*: the current it would carry divided by how far the voltage is from its equilibrium potential. The resting potential is then exactly the share-weighted average of the three equilibrium potentials.
+
+</UnderTheHood>
+
+<FinePrint>
+
+- **Concentrations vary.** The values here are typical for a mammalian neuron. Different cells and textbooks use slightly different numbers, so resting potentials between −60 and −80 mV are all normal.
+- **Chloride is often near balance.** In many neurons chloride simply settles where the other ions put the voltage, so E<sub>Cl</sub> is close to the resting potential. Some neurons pump chloride to set it differently.
+- **The bulk stays neutral.** The tug-of-war draws the extra charge as a thin layer on each face of the membrane. Everywhere else, inside and outside, positive and negative charges still balance.
+- **The run-down is simplified.** The builder keeps the fluid outside fixed and lets only the inside change. A real cell without a pump also swells, as water follows the ions in. How fast the gradients run down depends on the cell's size.
+- **The Goldman equation is an approximation.** It assumes that ions cross independently of each other. It works well for the resting potential.
+
+</FinePrint>
+
+## Check yourself
+
+<CheckYourself
+  questions={[
+    {
+      q: 'Why does the inside of a cell become negative when only its potassium channels are open?',
+      options: [
+        'K⁺ diffuses out and carries positive charge with it, leaving negative proteins behind.',
+        'Negative chloride ions flow into the cell.',
+        'The sodium-potassium pump moves negative charge in.',
+      ],
+      answer: 0,
+      explain: 'K⁺ is crowded inside, so it leaks out down its gradient. Each K⁺ that leaves takes a positive charge with it, and the large negative proteins cannot follow.',
+      objective: 2,
+    },
+    {
+      q: 'At potassium’s equilibrium potential, what is happening to K⁺?',
+      options: [
+        'No K⁺ crosses the membrane any more.',
+        'K⁺ crosses both ways, equally often, so there is no net flow.',
+        'K⁺ keeps flowing out until the concentrations are equal.',
+      ],
+      answer: 1,
+      explain: 'Equilibrium is dynamic. The push from the gradient and the pull from the voltage balance, so the flows in and out are equal.',
+      objective: 2,
+    },
+    {
+      q: 'The resting potential of a typical neuron is about −70 mV, not −89 mV (E_K). What is the main reason?',
+      options: [
+        'The membrane also leaks a little sodium, which pulls the voltage up towards E_Na.',
+        'The pump makes the inside more positive.',
+        'There is not enough potassium inside the cell.',
+      ],
+      answer: 0,
+      explain: 'The small sodium leak pulls the voltage up from E_K. The pump actually makes the inside slightly more negative, not more positive.',
+      objective: 2,
+    },
+    {
+      q: 'Potassium outside the cells rises from 5 to 12 mM. What happens to the resting potential?',
+      options: ['It becomes more negative.', 'It becomes less negative (depolarised).', 'Nothing changes.'],
+      answer: 1,
+      explain: 'A smaller gradient means a weaker push on K⁺, so E_K and the resting potential both move up, from about −72 to about −59 mV in the builder.',
+      objective: 2,
+    },
+    {
+      q: 'A drug stops the sodium-potassium pump. What happens to the resting potential in the first minute?',
+      options: [
+        'It jumps to 0 mV at once.',
+        'It changes by only a few millivolts, then runs down slowly over a long time.',
+        'It becomes much more negative.',
+      ],
+      answer: 1,
+      explain: 'The pump’s direct contribution is only a few millivolts. The gradients it maintains run down slowly, so the resting potential fades over minutes to hours, depending on the size of the cell.',
+      objective: 2,
+    },
+  ]}
+/>
+
+## Common questions
+
+<Faq q="Doesn't the sodium-potassium pump create the resting potential?">
+Only indirectly. The voltage is made by ions leaking through channels, mostly K⁺. The pump's job is to keep the concentration gradients that those leaks need. Its own direct effect is a few millivolts. Stop the pump, and the resting potential only fades slowly as the gradients run down.
+</Faq>
+
+<Faq q="If K⁺ keeps leaking out, won't the cell run out of potassium?">
+No. Only a tiny fraction of the K⁺ has to leave to set up the voltage, and once the voltage is there, the leak in each direction balances. The small steady leak that remains, together with the sodium leak, is undone by the pump.
+</Faq>
+
+<Faq q="The cell is full of positive K⁺. How can the inside be negative?">
+Because the K⁺ inside is balanced by negative ions, mostly large proteins. The voltage comes from a tiny imbalance in a thin layer right at the membrane: a few positive ions too many on the outside face, and a few negative ones too many on the inside face. The rest of the cell stays neutral.
+</Faq>
+
+<Faq q="Is the resting potential always −70 mV?">
+No. It is usually between about −60 and −80 mV, and it differs between types of neuron. Glial cells, which leak almost only potassium, often rest closer to −85 mV. And every time the membrane's permeability changes, as it does during an action potential, the voltage changes with it.
+</Faq>

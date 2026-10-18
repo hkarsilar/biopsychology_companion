@@ -1,0 +1,48 @@
+---
+import { getTerm } from '../../data/glossary';
+
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const entry = getTerm(id);
+if (!entry) throw new Error(`Glossary term "${id}" not found`);
+const popId = `term-${id}-${Math.random().toString(36).slice(2, 7)}`;
+---
+
+<span class="term"><button type="button" class="term-btn" popovertarget={popId}><slot /></button><span id={popId} popover class="term-pop" role="note"><strong>{entry.term}</strong>: {entry.definition}{entry.roots && <em class="roots"> Word roots: {entry.roots}</em>}</span></span>
+
+<style>
+  .term-btn {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    border-bottom: 1px dashed var(--accent);
+    cursor: help;
+  }
+  .term-btn:hover {
+    color: var(--accent-strong);
+  }
+  .term-pop {
+    margin: auto;
+    max-width: min(26rem, 90vw);
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 0.9rem 1rem;
+    box-shadow: var(--shadow);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .term-pop::backdrop {
+    background: rgba(0, 0, 0, 0.25);
+  }
+  .roots {
+    display: block;
+    margin-top: 0.4rem;
+    color: var(--text-muted);
+  }
+</style>

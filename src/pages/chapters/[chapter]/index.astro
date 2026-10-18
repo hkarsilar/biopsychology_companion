@@ -1,0 +1,163 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { chapters, type Chapter } from '../../../data/chapters';
+import { schedule } from '../../../data/schedule';
+import { readySims } from '../../../data/sims';
+import { lessonLinks } from '../../../lib/lessons';
+import { url } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return chapters.map((chapter) => ({ params: { chapter: chapter.slug }, props: { chapter } }));
+}
+
+const { chapter } = Astro.props as { chapter: Chapter };
+const lessons = (await lessonLinks()).filter((l) => l.chapter.slug === chapter.slug);
+const ready = lessons.filter((l) => l.ready).length;
+const classes = schedule.filter((c) => c.chapter === chapter.slug);
+const sims = readySims.filter((s) => s.chapter === chapter.slug);
+const i = chapters.indexOf(chapter);
+const prev = chapters[i - 1];
+const next = chapters[i + 1];
+---
+
+<Base title={chapter.title} description={chapter.blurb}>
+  <div class="container page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href={url('/chapters/')}>Chapters</a></nav>
+    <p class="eyebrow">{chapter.extension ? 'Extension chapter' : `Chapter ${chapter.n}`} · {chapter.classes}</p>
+    <h1>{chapter.title}</h1>
+    <p class="lede">{chapter.blurb}</p>
+    {chapter.extension && <p class="callout">This chapter is not part of the course or its exams. It is here because it is too interesting to leave out.</p>}
+
+    <div class="layout">
+      <section aria-labelledby="lessons-h">
+        <h2 id="lessons-h">Lessons <span class="count">{ready} of {lessons.length} ready</span></h2>
+        <ol class="lessons">
+          {
+            lessons.map((l) => (
+              <li class:list={['lesson', { ready: l.ready }]}>
+                <span class="num">{l.n}</span>
+                {l.ready ? <a href={l.href}>{l.title}</a> : <span class="title">{l.title}</span>}
+                {l.ready ? <span class="chip ready">Ready</span> : <span class="chip">Coming</span>}
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+      <aside class="side">
+        {
+          classes.length > 0 && (
+            <div class="card">
+              <h2 class="side-h">In class</h2>
+              <ul>
+                {classes.map((c) => (
+                  <li>
+                    <strong>Class {c.n}</strong>: {c.title}
+                    {c.assignment && <span class="muted"> · {c.assignment}</span>}
+                  </li>
+                ))}
+              </ul>
+              <a href={url('/course/')}>See the whole schedule</a>
+            </div>
+          )
+        }
+        {
+          sims.length > 0 && (
+            <div class="card">
+              <h2 class="side-h">In the lab</h2>
+              <ul>
+                {sims.map((s) => (
+                  <li>
+                    <a href={url(`/lab/${s.slug}/`)}>{s.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </aside>
+    </div>
+
+    <nav class="chapter-nav" aria-label="Other chapters">
+      {prev ? <a href={url(`/chapters/${prev.slug}/`)}>← {prev.title}</a> : <span />}
+      {next && <a href={url(`/chapters/${next.slug}/`)}>{next.title} →</a>}
+    </nav>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .crumbs {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+  .crumbs a {
+    color: var(--text-muted);
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  .count {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-left: 0.5rem;
+  }
+  .lessons {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+  .lesson {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.8rem 0.25rem;
+    border-bottom: 1px solid var(--border);
+    margin: 0;
+  }
+  .num {
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+  }
+  .lesson .title {
+    color: var(--text-muted);
+  }
+  .lesson.ready a {
+    font-weight: 700;
+    font-size: var(--step-1);
+  }
+  .side {
+    display: grid;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+  .side-h {
+    font-size: var(--step-1);
+    margin: 0 0 0.6rem;
+  }
+  .side ul {
+    padding-left: 1.1rem;
+  }
+  .chapter-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    font-weight: 700;
+  }
+  @media (max-width: 860px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      margin-top: 0;
+    }
+  }
+</style>

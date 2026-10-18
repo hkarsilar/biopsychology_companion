@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Mascot from '../components/Mascot.astro';
+import { url } from '../lib/url';
+---
+
+<Base title="Page not found">
+  <div class="container page">
+    <Mascot size={220} />
+    <p class="eyebrow">Error 404</p>
+    <h1>This signal never reached its synapse.</h1>
+    <p class="lede">The page you were looking for does not exist, or it has not been written yet. Many lessons are still on their way.</p>
+    <p class="cta">
+      <a class="button" href={url('/')}>Go to the home page</a>
+      <a class="button secondary" href={url('/chapters/')}>See all chapters</a>
+    </p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 3rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .page :global(svg) {
+    color: var(--text);
+  }
+  .cta {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+</style>

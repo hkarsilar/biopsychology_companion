@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+
+const home = new URL(url('/'), Astro.site).toString();
+---
+
+<Base title="Licence" description="Reuse NeuroCapybara: text and figures under CC BY 4.0, code under the MIT licence.">
+  <div class="container page prose">
+    <p class="eyebrow">Licence</p>
+    <h1>Reuse anything, with credit</h1>
+    <p class="lede">You may copy, adapt and share the material on this site, including in your own teaching, as long as you credit it.</p>
+
+    <h2>Text, figures and simulations as teaching material</h2>
+    <p>
+      The lessons, figures, questions and the Neurocapy mascot are licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International licence (CC BY 4.0)</a>.
+    </p>
+    <p>A suggested credit line:</p>
+    <blockquote class="callout">
+      <p>“Lesson title”, NeuroCapybara by Hakan Karsilar, {home}, CC BY 4.0.</p>
+    </blockquote>
+    <p>Saved simulation images (the Save PNG button) carry this credit already.</p>
+
+    <h2>Code</h2>
+    <p>
+      The source code, including the simulations, is released under the <a href="https://github.com/hkarsilar/biopsychology_companion/blob/main/LICENSE">MIT licence</a>.
+    </p>
+
+    <h2>Things that are not ours</h2>
+    <p>
+      Fonts are used under the SIL Open Font Licence (Bricolage Grotesque, Atkinson Hyperlegible Next, IBM Plex Mono). Mathematical notation is rendered with KaTeX (MIT licence). Links to the open textbooks point to their publishers; their licences are stated in each book.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  blockquote {
+    margin-inline: 0;
+  }
+</style>

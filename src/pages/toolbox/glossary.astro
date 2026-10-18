@@ -1,0 +1,148 @@
+---
+import Base from '../../layouts/Base.astro';
+import { glossary } from '../../data/glossary';
+import { lessonLinks } from '../../lib/lessons';
+import { url } from '../../lib/url';
+
+const entries = [...glossary].sort((a, b) => a.term.localeCompare(b.term, 'en'));
+const letters = [...new Set(entries.map((e) => e.term[0].toUpperCase()))];
+const links = new Map((await lessonLinks()).map((l) => [l.n, l]));
+---
+
+<Base title="Glossary" description="Plain-language definitions of Biopsychology terms, with word roots and the lessons that use them.">
+  <div class="container page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href={url('/toolbox/')}>Toolbox</a></nav>
+    <h1>Glossary</h1>
+    <p class="lede">Every term in the lessons, in plain language. Where a word's roots help you remember it, they are here too.</p>
+
+    <div class="filter">
+      <label for="g-filter">Find a term</label>
+      <input id="g-filter" type="search" autocomplete="off" placeholder="Start typing, e.g. threshold" />
+    </div>
+    <nav class="letters" aria-label="Jump to letter">
+      {letters.map((l) => <a href={`#letter-${l}`}>{l}</a>)}
+    </nav>
+
+    <dl class="gloss">
+      {
+        entries.map((e, i) => {
+          const letter = e.term[0].toUpperCase();
+          const first = i === 0 || entries[i - 1].term[0].toUpperCase() !== letter;
+          return (
+            <div class="g" id={e.id} data-text={`${e.term} ${e.definition}`.toLowerCase()}>
+              <dt id={first ? `letter-${letter}` : undefined}>{e.term}</dt>
+              <dd>
+                <p>{e.definition}</p>
+                {e.roots && <p class="roots">Word roots: {e.roots}</p>}
+                {e.lessons && e.lessons.length > 0 && (
+                  <p class="in">
+                    In lesson{' '}
+                    {e.lessons.map((n, k) => {
+                      const l = links.get(n);
+                      return (
+                        <>
+                          {k > 0 && ', '}
+                          {l?.ready ? <a href={l.href}>{n}</a> : <span>{n}</span>}
+                        </>
+                      );
+                    })}
+                  </p>
+                )}
+              </dd>
+            </div>
+          );
+        })
+      }
+    </dl>
+    <p class="none muted" hidden>No terms match. Try a shorter word.</p>
+  </div>
+</Base>
+
+<script>
+  const input = document.getElementById('g-filter') as HTMLInputElement | null;
+  const items = [...document.querySelectorAll<HTMLElement>('.g')];
+  const none = document.querySelector<HTMLElement>('.none');
+  input?.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const it of items) {
+      const hit = !q || (it.dataset.text ?? '').includes(q);
+      it.hidden = !hit;
+      if (hit) shown++;
+    }
+    if (none) none.hidden = shown > 0;
+  });
+</script>
+
+<style>
+  .page {
+    padding-top: 2rem;
+    max-width: 52rem;
+  }
+  .crumbs {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+  .crumbs a {
+    color: var(--text-muted);
+  }
+  .filter {
+    display: grid;
+    gap: 0.3rem;
+    margin: 1.5rem 0 1rem;
+    max-width: 26rem;
+  }
+  .filter label {
+    font-weight: 700;
+  }
+  .filter input {
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-s);
+    padding: 0.55rem 0.75rem;
+  }
+  .letters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .letters a {
+    font-family: var(--font-mono);
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-s);
+    text-decoration: none;
+  }
+  .gloss {
+    margin: 0;
+  }
+  .g {
+    position: relative;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .g:target {
+    background: var(--accent-soft);
+    border-radius: var(--radius-s);
+    padding-inline: 0.75rem;
+  }
+  dt {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-1);
+  }
+  dd {
+    margin: 0.25rem 0 0;
+  }
+  dd p {
+    margin: 0 0 0.35rem;
+  }
+  .roots,
+  .in {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+</style>

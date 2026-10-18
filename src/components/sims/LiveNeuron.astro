@@ -1,0 +1,63 @@
+---
+/**
+ * The home page's live neuron: poke the dendrites, watch inputs add up and a spike leap
+ * along the myelinated axon. `compact` hides the voltage trace.
+ */
+interface Props {
+  id?: string;
+  compact?: boolean;
+}
+const { id = 'live-neuron', compact = false } = Astro.props;
+---
+
+<nc-live-neuron id={id} compact={compact ? '' : undefined}>
+  <noscript>
+    <figure class="ln-fallback">
+      <svg viewBox="0 0 640 260" role="img" aria-label="A neuron: dendrites on the left, a cell body, and a myelinated axon ending in terminals.">
+        <g stroke="var(--membrane-edge)" stroke-linecap="round" fill="none">
+          <path d="M170 130 L110 80 L60 50 M110 80 L70 100 M170 130 L100 150 L50 170 M100 150 L60 135 M170 130 L120 210 L80 235 M120 210 L140 245 M170 130 L130 40 L120 15 M130 40 L160 20" stroke-width="6" />
+        </g>
+        <g stroke="var(--membrane)" stroke-linecap="round" fill="none">
+          <path d="M170 130 L110 80 L60 50 M110 80 L70 100 M170 130 L100 150 L50 170 M100 150 L60 135 M170 130 L120 210 L80 235 M120 210 L140 245 M170 130 L130 40 L120 15 M130 40 L160 20" stroke-width="3.5" />
+          <path d="M200 130 C 300 160, 400 100, 520 130" stroke-width="4" />
+          <path d="M520 130 L570 95 M520 130 L580 130 M520 130 L570 165" stroke-width="3" />
+        </g>
+        <g stroke="var(--text-muted)" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.8">
+          <path d="M228 136 L 268 141" />
+          <path d="M284 141 L 330 136" />
+          <path d="M346 132 L 392 124" />
+          <path d="M408 121 L 452 121" />
+          <path d="M468 123 L 505 128" />
+        </g>
+        <circle cx="170" cy="130" r="32" fill="var(--membrane)" stroke="var(--membrane-edge)" stroke-width="2.5" />
+        <circle cx="166" cy="132" r="12" fill="var(--membrane-edge)" opacity="0.5" />
+        <g fill="var(--membrane)" stroke="var(--membrane-edge)" stroke-width="2">
+          <circle cx="572" cy="94" r="7" /><circle cx="584" cy="130" r="7" /><circle cx="572" cy="166" r="7" />
+        </g>
+      </svg>
+      <figcaption>A neuron: dendrites collect inputs, the cell body adds them up, and the axon carries spikes to the terminals. Turn on JavaScript to poke it.</figcaption>
+    </figure>
+  </noscript>
+</nc-live-neuron>
+
+<script>
+  import '../../sims/live-neuron/element';
+</script>
+
+<style>
+  nc-live-neuron {
+    display: block;
+  }
+  .ln-fallback {
+    margin: 0;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+  }
+  .ln-fallback figcaption {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+import { url } from '../../lib/url';
+
+interface Props {
+  id?: string;
+  preset?: string;
+  transmitter?: 'glutamate' | 'gaba' | 'ach' | 'serotonin';
+  drug?: string;
+  predict?: boolean;
+  present?: boolean;
+}
+const { id = 'synapse-sim', preset = 'idle', transmitter, drug, predict = false, present = false } = Astro.props;
+---
+
+<nc-synapse
+  id={id}
+  class="bleed"
+  preset={preset}
+  transmitter={transmitter}
+  drug={drug}
+  predict={predict ? '' : undefined}
+  present={present ? '' : undefined}
+  lab-href={url('/lab/synapse/')}
+>
+  <noscript><p class="callout">This simulation needs JavaScript. The lesson text still explains every step.</p></noscript>
+</nc-synapse>
+
+<script>
+  import '../../sims/synapse/element';
+</script>

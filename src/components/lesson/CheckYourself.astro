@@ -1,0 +1,129 @@
+---
+/**
+ * "Check yourself": a short quiz with instant feedback. Nothing is recorded or sent anywhere;
+ * the score lives only in this page.
+ */
+export interface Question {
+  q: string;
+  options: string[];
+  answer: number;
+  explain: string;
+  /** Learning objective number, 1–6 */
+  objective?: number;
+}
+interface Props {
+  questions: Question[];
+}
+const { questions } = Astro.props;
+---
+
+<section class="check" aria-label="Check yourself">
+  <ol>
+    {
+      questions.map((item, qi) => (
+        <li class="cq" data-answer={item.answer}>
+          <fieldset>
+            <legend><span class="qn">Question {qi + 1}</span>{item.q}</legend>
+            {item.options.map((o, i) => (
+              <label class="co">
+                <input type="radio" name={`cq-${qi}`} value={i} />
+                <span>{o}</span>
+              </label>
+            ))}
+          </fieldset>
+          <p class="cfb" hidden aria-live="polite" data-explain={item.explain} />
+        </li>
+      ))
+    }
+  </ol>
+  <p class="score" aria-live="polite"></p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.check').forEach((quiz) => {
+    const items = [...quiz.querySelectorAll<HTMLElement>('.cq')];
+    const score = quiz.querySelector<HTMLElement>('.score')!;
+    const update = () => {
+      const answered = items.filter((it) => it.dataset.done);
+      const right = answered.filter((it) => it.dataset.done === 'right');
+      score.textContent = answered.length ? `${right.length} of ${answered.length} right so far (${items.length} questions).` : '';
+    };
+    items.forEach((it) => {
+      const answer = Number(it.dataset.answer);
+      const fb = it.querySelector<HTMLElement>('.cfb')!;
+      it.addEventListener('change', (e) => {
+        const v = Number((e.target as HTMLInputElement).value);
+        const ok = v === answer;
+        it.dataset.done = ok ? 'right' : 'wrong';
+        fb.hidden = false;
+        fb.className = `cfb ${ok ? 'ok' : 'no'}`;
+        fb.textContent = (ok ? 'Right. ' : 'Not quite. ') + (fb.dataset.explain ?? '');
+        update();
+      });
+    });
+  });
+</script>
+
+<style>
+  .check ol {
+    list-style: none;
+    padding: 0;
+  }
+  .cq {
+    margin: 0 0 1rem;
+    padding: 1rem 1.1rem 0.9rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .qn {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.2rem;
+  }
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  legend {
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .co {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding: 0.35rem 0.5rem;
+    border-radius: var(--radius-s);
+    cursor: pointer;
+  }
+  .co:hover {
+    background: var(--surface-2);
+  }
+  .co input {
+    margin-top: 0.35rem;
+    accent-color: var(--accent);
+  }
+  .cfb {
+    margin: 0.4rem 0 0;
+    padding: 0.55rem 0.8rem;
+    border-radius: var(--radius-s);
+    background: var(--surface-2);
+    border-left: 4px solid var(--border-strong);
+  }
+  .cfb.ok {
+    border-left-color: var(--good);
+  }
+  .cfb.no {
+    border-left-color: var(--bad);
+  }
+  .score {
+    font-weight: 700;
+  }
+</style>
