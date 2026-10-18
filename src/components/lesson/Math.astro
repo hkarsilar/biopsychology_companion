@@ -11,4 +11,4 @@ const { tex, display = false, label } = Astro.props;
 const html = katex.renderToString(tex, { displayMode: display, throwOnError: true, output: 'htmlAndMathml' });
 ---
 
-{display ? <div class="math-block" aria-label={label} set:html={html} /> : <span set:html={html} />}
+{display ? <div class="math-block" role={label ? 'group' : undefined} aria-label={label} set:html={html} /> : <span set:html={html} />}
